@@ -1,5 +1,6 @@
 import {message, notification} from 'antd';
-import type {PityResponse} from '@/services/user';
+// import type {PityResponse} from '@/services/user';
+import type {PityResponse} from '@/services/auth';
 import {NotificationPlacement} from "antd/es/notification/interface";
 import {listUsers} from "@/services/user";
 import {RequestOptions} from "@@/plugin-request/request";

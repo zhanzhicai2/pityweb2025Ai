@@ -70,6 +70,51 @@ export default [
   },
   {
     path: '/apiTest',
+    name: 'UI测试',
+    icon: 'api',
+    routes: [
+      {
+        path: '/apiTest/uitest',
+        name: '元素管理',
+        component: './ApiTest/TestCaseDirectory',
+      },
+      {
+        path: '/apiTest/testcase',
+        name: '场景管理',
+        component: './ApiTest/TestCaseDirectory',
+      },
+      {
+        path: '/apiTest/record',
+        name: '用例录制',
+        hideInMenu: true,
+        component: './ApiTest/TestCaseRecorder',
+      },
+      {
+        path: '/apiTest/testcase/:directory/add',
+        name: '添加用例',
+        hideInMenu: true,
+        component: './ApiTest/TestCaseComponent',
+      },
+      {
+        path: '/apiTest/testcase/:directory/:case_id',
+        name: '编辑用例',
+        hideInMenu: true,
+        component: './ApiTest/TestCaseComponent',
+      },
+      {
+        path: '/apiTest/testplan',
+        name: '计划管理',
+        component: './ApiTest/TestPlan',
+      },
+      {
+        path: '/apiTest/testplan',
+        name: '测试报告',
+        component: './ApiTest/TestPlan',
+      },
+    ],
+  },
+  {
+    path: '/apiTest',
     name: '接口测试',
     icon: 'api',
     routes: [

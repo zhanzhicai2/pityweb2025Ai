@@ -8,11 +8,12 @@ import defaultSettings from "../../config/defaultSettings";
 // const dev = isDev()
 
 // 配合defaultSettings.backend使用
+
 const getApiUrl = () => {
-  if(defaultSettings.backend) {
+  if (defaultSettings.backend) {
     return window.location.host
   }
-  return defaultSettings.backend;
+  return defaultSettings.apiUrl
 }
 
 const getUrl = () => {

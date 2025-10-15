@@ -9,7 +9,7 @@ const Settings: LayoutSettings & {
   logo?: string;
   apiUrl?: string;
   wssUrl?: string;
-  // backend?: boolean;
+  backend?: boolean;
 } = {
   navTheme: 'light',
   // 拂晓蓝
@@ -26,7 +26,7 @@ const Settings: LayoutSettings & {
   apiUrl: '127.0.0.1:7777',
   wssUrl: 'ws://127.0.0.1:7777',
   https: false,
-  // backend: true,
+  backend: true,
 };
 
 export default Settings;

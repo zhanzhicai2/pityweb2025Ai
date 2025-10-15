@@ -230,9 +230,7 @@ $ python pity.py
 
 ![](http://oss.pity.fun/picture/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220513224054.jpg)
 
-## 🎨 微信交流群
-
-二维码会经常过期，可以加我个人微信: `wuranxu`，我拉你到群聊。
+## 今天2025年10月15 全面今日AI编程
 
 ![](https://static.pity.fun/picture/2022-1-2/1641097484952-ddff5bf23bdccaaf23fa227aa2e9957.jpg)
 ## 修复问题：package.json添加代码
