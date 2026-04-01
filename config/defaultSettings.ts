@@ -1,4 +1,4 @@
-import {Settings as LayoutSettings} from '@ant-design/pro-components';
+import { Settings as LayoutSettings } from '@ant-design/pro-components';
 
 /**
  * @name
@@ -23,8 +23,8 @@ const Settings: LayoutSettings & {
   pwa: false,
   logo: '/logo.svg',
   iconfontUrl: '//at.alicdn.com/t/font_915840_kom9s5w2t6k.js',
-  apiUrl: '127.0.0.1:7777',
-  wssUrl: 'ws://127.0.0.1:7777',
+  apiUrl: 'localhost:8000',
+  wssUrl: 'ws://localhost:8000',
   https: false,
   backend: true,
 };

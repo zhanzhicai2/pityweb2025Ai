@@ -11,13 +11,52 @@
  */
 export default {
   dev: {
-    // '/api/': {
-    //   target: 'https://proapi.azurewebsites.net/',
-    //   changeOrigin: true,
-    //   pathRewrite: {
-    //     '^': '',
-    //   },
-    // },
+    '/api/': {
+      target: 'http://0.0.0.0:7778',
+      changeOrigin: true,
+      pathRewrite: { '^': '' },
+    },
+    // 代理所有后端API请求
+    '/auth/': {
+      target: 'http://0.0.0.0:7778',
+      changeOrigin: true,
+    },
+    '/testcase/': {
+      target: 'http://0.0.0.0:7778',
+      changeOrigin: true,
+    },
+    '/config/': {
+      target: 'http://0.0.0.0:7778',
+      changeOrigin: true,
+    },
+    '/operation/': {
+      target: 'http://0.0.0.0:7778',
+      changeOrigin: true,
+    },
+    '/workspace/': {
+      target: 'http://0.0.0.0:7778',
+      changeOrigin: true,
+    },
+    '/oss/': {
+      target: 'http://0.0.0.0:7778',
+      changeOrigin: true,
+    },
+    '/project/': {
+      target: 'http://0.0.0.0:7778',
+      changeOrigin: true,
+    },
+    '/notification/': {
+      target: 'http://0.0.0.0:7778',
+      changeOrigin: true,
+    },
+    '/online/': {
+      target: 'http://0.0.0.0:7778',
+      changeOrigin: true,
+    },
+    '/request/': {
+      target: 'http://0.0.0.0:7778',
+      changeOrigin: true,
+    },
   },
   /**
    * @name 详细的代理配置
