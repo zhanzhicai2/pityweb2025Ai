@@ -12,49 +12,49 @@
 export default {
   dev: {
     '/api/': {
-      target: 'http://0.0.0.0:7778',
+      target: 'http://0.0.0.0:7777',
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },
     // 代理所有后端API请求
     '/auth/': {
-      target: 'http://0.0.0.0:7778',
+      target: 'http://0.0.0.0:7777',
       changeOrigin: true,
     },
     '/testcase/': {
-      target: 'http://0.0.0.0:7778',
+      target: 'http://0.0.0.0:7777',
       changeOrigin: true,
     },
     '/config/': {
-      target: 'http://0.0.0.0:7778',
+      target: 'http://0.0.0.0:7777',
       changeOrigin: true,
     },
     '/operation/': {
-      target: 'http://0.0.0.0:7778',
+      target: 'http://0.0.0.0:7777',
       changeOrigin: true,
     },
     '/workspace/': {
-      target: 'http://0.0.0.0:7778',
+      target: 'http://0.0.0.0:7777',
       changeOrigin: true,
     },
     '/oss/': {
-      target: 'http://0.0.0.0:7778',
+      target: 'http://0.0.0.0:7777',
       changeOrigin: true,
     },
     '/project/': {
-      target: 'http://0.0.0.0:7778',
+      target: 'http://0.0.0.0:7777',
       changeOrigin: true,
     },
     '/notification/': {
-      target: 'http://0.0.0.0:7778',
+      target: 'http://0.0.0.0:7777',
       changeOrigin: true,
     },
     '/online/': {
-      target: 'http://0.0.0.0:7778',
+      target: 'http://0.0.0.0:7777',
       changeOrigin: true,
     },
     '/request/': {
-      target: 'http://0.0.0.0:7778',
+      target: 'http://0.0.0.0:7777',
       changeOrigin: true,
     },
   },

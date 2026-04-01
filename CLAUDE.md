@@ -9,7 +9,7 @@ Pity 前端 — Pity API 测试平台的 React 前端项目。基于 UmiJS v4 (`
 ## 开发命令
 
 ```bash
-npm run start:dev        # 启动开发服务器 (localhost:8000, 代理到后端 :7778)
+npm run start:dev        # 启动开发服务器 (localhost:8000, 代理到后端 :7777)
 npm run build            # 生产构建
 npm run lint             # 完整 lint (ESLint + Prettier + TypeScript 检查)
 npm run lint:fix         # 自动修复 ESLint 问题
@@ -63,7 +63,7 @@ npx tsc --noEmit         # 仅类型检查
 
 ### API 代理
 
-`config/proxy.ts` 在开发模式下将所有 API 前缀代理到 `http://0.0.0.0:7778`: `/api/`, `/auth/`, `/testcase/`, `/config/`, `/project/`, `/operation/`, `/workspace/`, `/oss/`, `/notification/`, `/online/`, `/request/`
+`config/proxy.ts` 在开发模式下将所有 API 前缀代理到 `http://0.0.0.0:7777`: `/api/`, `/auth/`, `/testcase/`, `/config/`, `/project/`, `/operation/`, `/workspace/`, `/oss/`, `/notification/`, `/online/`, `/request/`
 
 ### 关键配置文件
 
