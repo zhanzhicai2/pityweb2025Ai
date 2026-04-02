@@ -153,7 +153,9 @@ import { useState, useCallback } from 'react';
 
 export default function useNewFeature() {
   const [list, setList] = useState([]);
-  const fetchList = useCallback(async () => { ... }, []);
+  const fetchList = useCallback(async () => {
+    /* ... */
+  }, []);
   return { list, fetchList };
 }
 ```
