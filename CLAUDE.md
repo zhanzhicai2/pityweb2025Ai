@@ -59,7 +59,21 @@ npx tsc --noEmit         # 仅类型检查
 
 定义在 `config/routes.ts`。路由使用懒加载（字符串组件路径如 `'./ApiTest/TestCaseDirectory'`）。通过 `authority` 属性控制角色访问。详情/编辑页从菜单隐藏 (`hideInMenu: true`)。
 
-主要路由结构: | 路径 | 说明 | 权限 | |------|------|------| | `/user/login` | 登录 | 公开 | | `/dashboard/*` | 工作台、统计 | 已登录 | | `/project` | 项目管理 | 已登录 | | `/apiTest/*` | 接口用例、录制、测试计划 | 已登录 | | `/record/*` | 构建历史、测试报告 | 已登录 | | `/config/*` | 环境管理、全局变量、数据库等 | admin/superAdmin | | `/system/*` | 系统设置、用户管理 | superAdmin | | `/tool/*` | HTTP 测试、SQL 客户端、Redis 客户端 | 已登录 | | `/mock` | Mock 配置 | 已登录 | | `/ci` | 持续集成 | 已登录 | | `/datafactory` | 数据工厂 | 已登录 |
+主要路由结构:
+
+| 路径           | 说明                                | 权限             |
+| -------------- | ----------------------------------- | ---------------- |
+| `/user/login`  | 登录                                | 公开             |
+| `/dashboard/*` | 工作台、统计                        | 已登录           |
+| `/project`     | 项目管理                            | 已登录           |
+| `/apiTest/*`   | 接口用例、录制、测试计划            | 已登录           |
+| `/record/*`    | 构建历史、测试报告                  | 已登录           |
+| `/config/*`    | 环境管理、全局变量、数据库等        | admin/superAdmin |
+| `/system/*`    | 系统设置、用户管理                  | superAdmin       |
+| `/tool/*`      | HTTP 测试、SQL 客户端、Redis 客户端 | 已登录           |
+| `/mock`        | Mock 配置                           | 已登录           |
+| `/ci`          | 持续集成                            | 已登录           |
+| `/datafactory` | 数据工厂                            | 已登录           |
 
 ### API 代理
 
@@ -129,6 +143,23 @@ frontend/
 
 页面位于 `src/pages/`，镜像路由结构。标准 CRUD 界面使用 Ant Design Pro 组件 (ProTable, ProForm, ProList)。共享组件位于 `src/components/`。
 
+### 状态管理迁移策略
+
+项目现有 dva model（`namespace`/`reducers`/`effects`）继续保留，不做迁移。**新文件必须使用纯 hooks 风格**（`@umijs/plugin-model`），为 React 19 及后续版本做准备。
+
+```typescript
+// 新 model 示例: src/models/newFeature.ts
+import { useState, useCallback } from 'react';
+
+export default function useNewFeature() {
+  const [list, setList] = useState([]);
+  const fetchList = useCallback(async () => { ... }, []);
+  return { list, fetchList };
+}
+```
+
+两种风格通过 `useModel('name')` 统一消费，可共存无需配置改动。
+
 ### 语言
 
 项目混合使用 TypeScript (`.ts/.tsx`) 和 JavaScript (`.js/.jsx`)。**新文件应使用 TypeScript**。
@@ -160,4 +191,4 @@ frontend/
 1. **不要修改 2025-10-12 之前编写的代码** — 优先创建新文件。如需修改旧代码，需征得同意。
 2. 前端开发服务器运行在 `localhost:8000`，后端 API 运行在 `localhost:7777/7778`。
 3. `localStorage` 中的 `pityToken` 是 JWT token 的 key。
-4. 后端 FastAPI 应用的根目录在 `../` (即 `/Users/zhanzhicai/Desktop/py/pity/`)。
+4. 后端 FastAPI 应用的根目录在 `../backend/`。
