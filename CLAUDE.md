@@ -187,6 +187,7 @@ export default function useNewFeature() {
 - `2` — Redis 命令
 - `3` — Python 方法
 - `4` — HTTP 请求
+-
 
 ## 重要规则
 
@@ -194,3 +195,80 @@ export default function useNewFeature() {
 2. 前端开发服务器运行在 `localhost:8000`，后端 API 运行在 `localhost:7777/7778`。
 3. `localStorage` 中的 `pityToken` 是 JWT token 的 key。
 4. 后端 FastAPI 应用的根目录在 `../backend/`。
+
+## Phase 开发流程
+
+每个 Phase 开发遵循以下流程：
+
+### 开始 Phase
+
+1. 在 `/Users/zhanzhicai/Desktop/Obsidian_one/AI学习笔记/pity/frontend` 创建 Phase 计划文档
+2. 文档命名格式：`PhaseX_功能名称实施记录.md`
+
+### 开发过程中
+
+- 发现问题或遗漏功能时，**立即追加**到 Obsidian 计划文档的"后续工作"列表
+- 例如：发现"前端缺少 AI 生成按钮"，立即添加 `- [ ] 前端集成 AI 生成按钮`
+- 解决一个问题后，更新为 `- [x] 前端集成 AI 生成按钮`
+- 每次开发完成需要测试
+  - 语法检查：
+  - 启动验证服务正常：
+  - 核心功能手动测试
+
+### 结束 Phase
+
+1. **扫描遗漏内容**：
+   - 检查本次 Phase 是否有发现但未记录的问题/功能
+   - 检查"后续工作"列表中的待办是否都已完成
+   - 确认所有功能点都已测试
+2. 更新 Obsidian 计划文档：
+   - 标记完成状态
+   - 记录所有 commit
+   - 列出新增/修改文件
+   - 添加测试结果
+   - 记录遇到的问题和解决方案
+   - 更新后续工作清单
+3. 在 `frontend/CLAUDE.md` 更新开发阶段状态
+4. 在 `frontend/CLAUDE.md` 关键约定中添加本次 Phase 的关键架构说明
+5. 提交代码：`git add -A && git commit -m "feat: Phase X 功能名称"`
+   - 注意：推送由用户手动执行（网络问题导致推送失败的情况较多）
+
+### Obsidian 文档标准结构
+
+```markdown
+# Phase X：功能名称实施记录
+
+> 日期：YYYY-MM-DD 状态：进行中/已完成分支：feat/upgrade-plugin-system 最新 Commit：xxxxxx
+
+## 更新记录
+
+| 日期       | Commit | 更新内容 |
+| ---------- | ------ | -------- |
+| YYYY-MM-DD | xxxxxx | 描述     |
+
+## 完成情况
+
+- [x] 功能点 1
+- [ ] 功能点 2
+
+## API 端点
+
+（表格列出所有接口）
+
+## 测试结果
+
+（命令和响应）
+
+## 测试检查清单：核心功能手动测试
+
+(表格列出所有接口）
+
+## 修复的问题
+
+1. 问题描述 - 解决方案
+
+## 后续工作
+
+- [ ] 待办 1
+- [ ] 待办 2
+```

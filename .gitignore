@@ -46,3 +46,7 @@ dist.zip
 src/.umi
 
 src/.umi-production
+
+# OMC 会话和状态
+.omc/
+
