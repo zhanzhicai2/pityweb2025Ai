@@ -1,0 +1,58 @@
+import logo from '@/assets/logo.svg';
+import styles from '@/components/RightContent/index.less';
+import CONFIG from '@/consts/config';
+import { Avatar, Tooltip } from 'antd';
+
+interface User {
+  id: number;
+  name: string;
+  avatar?: string;
+  deleted_at?: string;
+}
+
+interface UserLinkProps {
+  user?: User;
+  size?: number;
+  marginLeft?: number;
+}
+
+export default ({ user, size = 24, marginLeft = 6 }: UserLinkProps) => {
+  if (user === undefined) {
+    return <Avatar size={size} src={logo} alt="avatar" />;
+  }
+  // 是否和左边有距离，有的话则为2
+  return (
+    <>
+      <Avatar
+        size={size}
+        className={styles.avatar}
+        src={user.avatar || CONFIG.AVATAR_URL}
+        alt="avatar"
+      />
+      <Tooltip title="点击可查看用户资料">
+        {user.deleted_at ? (
+          <del>
+            <a
+              style={{ marginLeft: marginLeft, fontSize: 13, color: '#ccc' }}
+              href={`/#/member/${user.id}`}
+              rel="noreferrer"
+            >
+              {user.name}
+            </a>
+          </del>
+        ) : (
+          <a
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            style={{ marginLeft: marginLeft, fontSize: 13, verticalAlign: 'middle' }}
+            href={`/#/member/${user.id}`}
+            rel="noreferrer"
+          >
+            {user.name}
+          </a>
+        )}
+      </Tooltip>
+    </>
+  );
+};
