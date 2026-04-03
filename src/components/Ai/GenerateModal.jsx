@@ -1,44 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Tabs, Input, Select, Switch, Spin, message } from 'antd';
-import { useModel } from 'umi';
+import useAi from '@/models/ai';
 import TaskStatus from './TaskStatus';
 
 const { TextArea } = Input;
 
-const inputTypeMap = {
-  text: '文本描述',
-  curl: 'cURL',
-  openapi: 'OpenAPI JSON',
-};
-
 export default function GenerateModal({ visible, onClose, onSuccess }) {
   const [inputType, setInputType] = useState('text');
   const [content, setContent] = useState('');
-  const [model, setModel] = useState('');
+  const [selectedModel, setSelectedModel] = useState('');
   const [asyncMode, setAsyncMode] = useState(false);
   const [result, setResult] = useState(null);
 
-  const { state, listModels, generate, generateAsync, parseCurl, pollTask, clearTask } =
-    useModel('ai');
+  const {
+    models,
+    defaultModel,
+    currentTaskId,
+    taskStatus,
+    taskResult,
+    loading,
+    listModels,
+    generate,
+    generateAsync,
+    parseCurl,
+    pollTask,
+    clearTask,
+  } = useAi();
 
   useEffect(() => {
-    if (visible && !state.models.length) {
+    if (visible && !models.length) {
       listModels();
     }
   }, [visible]);
 
   useEffect(() => {
-    if (state.models.length && !model) {
-      setModel(state.defaultModel || state.models[0]?.name);
+    if (models.length && !selectedModel) {
+      setSelectedModel(defaultModel || models[0]?.name);
     }
-  }, [state.models, model]);
+  }, [models, defaultModel, selectedModel]);
 
   const handleSubmit = async () => {
     if (!content.trim()) {
       message.warning('请输入内容');
       return;
     }
-    if (!model) {
+    if (!selectedModel) {
       message.warning('请选择模型');
       return;
     }
@@ -46,7 +52,7 @@ export default function GenerateModal({ visible, onClose, onSuccess }) {
     const data = {
       content,
       input_type: inputType,
-      model_name: model,
+      model_name: selectedModel,
       async: asyncMode,
     };
 
@@ -65,7 +71,7 @@ export default function GenerateModal({ visible, onClose, onSuccess }) {
           onSuccess?.(res.data);
         }
       }
-    } catch (error) {
+    } catch {
       message.error('操作失败');
     }
   };
@@ -123,8 +129,13 @@ export default function GenerateModal({ visible, onClose, onSuccess }) {
 
       <div style={{ marginBottom: 16 }}>
         <span style={{ marginRight: 8 }}>模型：</span>
-        <Select value={model} onChange={setModel} style={{ width: 200 }} placeholder="选择模型">
-          {state.models.map((m) => (
+        <Select
+          value={selectedModel}
+          onChange={setSelectedModel}
+          style={{ width: 200 }}
+          placeholder="选择模型"
+        >
+          {models.map((m) => (
             <Select.Option key={m.name} value={m.name}>
               {m.display_name}
             </Select.Option>
@@ -153,19 +164,19 @@ export default function GenerateModal({ visible, onClose, onSuccess }) {
         style={{ marginBottom: 16 }}
       />
 
-      {state.loading && <Spin tip="处理中..." />}
+      {loading && <Spin tip="处理中..." />}
 
-      {state.currentTaskId && (
+      {currentTaskId && (
         <TaskStatus
-          taskId={state.currentTaskId}
-          taskStatus={state.taskStatus}
-          taskResult={state.taskResult}
+          taskId={currentTaskId}
+          taskStatus={taskStatus}
+          taskResult={taskResult}
           onPoll={handlePoll}
           onClear={handleClear}
         />
       )}
 
-      {result && !state.currentTaskId && (
+      {result && !currentTaskId && (
         <div style={{ marginTop: 16 }}>
           <pre
             style={{

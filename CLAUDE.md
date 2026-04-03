@@ -6,6 +6,15 @@
 
 Pity 前端 — Pity API 测试平台的 React 前端项目。基于 UmiJS v4 (`@umijs/max`)、Ant Design v5、Ant Design Pro Components 构建。后端为 Python FastAPI 应用。
 
+## 开发阶段
+
+- [x] Phase 1: 依赖升级（Pydantic v1→v2, SQLAlchemy 1.4→2.0, FastAPI 0.75→0.111）
+- [x] Phase 2: 任务调度系统（APScheduler + MySQL 持久化）
+- [x] Phase 3: 测试套件管理系统（套件 CRUD + 执行）
+- [x] Phase 4: AI 测试用例生成（后端完成）
+- [x] Phase 5: Celery 异步任务（后端完成）
+- [x] Phase 6: 前端 AI 集成（已完成）
+
 ## 开发命令
 
 ```bash
@@ -77,7 +86,7 @@ npx tsc --noEmit         # 仅类型检查
 
 ### API 代理
 
-`config/proxy.ts` 在开发模式下将所有 API 前缀代理到 `http://0.0.0.0:7777`: `/api/`, `/auth/`, `/testcase/`, `/config/`, `/project/`, `/operation/`, `/workspace/`, `/oss/`, `/notification/`, `/online/`, `/request/`
+`config/proxy.ts` 在开发模式下将所有 API 前缀代理到 `http://0.0.0.0:7777`: `/api/`, `/auth/`, `/testcase/`, `/config/`, `/project/`, `/operation/`, `/workspace/`, `/oss/`, `/notification/`, `/online/`, `/request/`, `/task/`
 
 ### 关键配置文件
 
@@ -179,6 +188,23 @@ export default function useNewFeature() {
 - `OWNER (2)` — 负责人
 - `ADMIN (1)` — 组长
 - `MEMBER (0)` — 组员
+
+### 待集成 AI API（Phase 4/5 后端已完成）
+
+后端 AI 接口已就绪，前端需在 `src/services/` 中新增 service 并在对应页面集成：
+
+| 方法 | 路径                                | 功能                             |
+| ---- | ----------------------------------- | -------------------------------- |
+| POST | `/testcase/ai/generate`             | AI 生成测试用例（同步）          |
+| POST | `/testcase/ai/generate/async`       | AI 生成测试用例（异步，Celery）  |
+| POST | `/testcase/ai/enhance`              | AI 增强用例断言（同步）          |
+| POST | `/testcase/ai/enhance/async`        | AI 增强用例断言（异步，Celery）  |
+| POST | `/testcase/ai/batch-generate`       | 批量生成测试用例（同步）         |
+| POST | `/testcase/ai/batch-generate/async` | 批量生成测试用例（异步，Celery） |
+| POST | `/testcase/ai/parse-curl`           | 解析 cURL 生成用例               |
+| GET  | `/testcase/ai/models`               | 获取可用 AI 模型列表             |
+| GET  | `/task/{task_id}`                   | 查询 Celery 任务状态             |
+| GET  | `/task/{task_id}/result`            | 获取 Celery 任务结果             |
 
 ### 用例构造器类型
 

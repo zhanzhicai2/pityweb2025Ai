@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Input, Select, Switch, Button, message, Space, Alert } from 'antd';
-import { useModel } from 'umi';
+import useAi from '@/models/ai';
 import TaskStatus from '@/components/Ai/TaskStatus';
 
 const { TextArea } = Input;
@@ -8,34 +8,42 @@ const { TextArea } = Input;
 export default function EnhanceAsserts() {
   const [caseId] = useState<number | null>(null);
   const [response, setResponse] = useState('');
-  const [model, setModel] = useState('');
+  const [selectedModel, setSelectedModel] = useState('');
   const [asyncMode, setAsyncMode] = useState(false);
   const [result, setResult] = useState(null);
 
-  const { state, listModels, enhance, enhanceAsync, pollTask, clearTask } = useModel('ai');
+  const {
+    models,
+    defaultModel,
+    currentTaskId,
+    taskStatus,
+    taskResult,
+    loading,
+    listModels,
+    enhance,
+    enhanceAsync,
+    pollTask,
+    clearTask,
+  } = useAi();
 
   useEffect(() => {
-    if (!state.models.length) {
+    if (!models.length) {
       listModels();
     }
   }, []);
 
   useEffect(() => {
-    if (state.models.length && !model) {
-      setModel(state.defaultModel || state.models[0]?.name);
+    if (models.length && !selectedModel) {
+      setSelectedModel(defaultModel || models[0]?.name);
     }
-  }, [state.models, model]);
+  }, [models, defaultModel, selectedModel]);
 
   const handleSubmit = async () => {
-    if (!caseId) {
-      message.warning('请选择用例');
-      return;
-    }
     if (!response.trim()) {
       message.warning('请输入响应示例');
       return;
     }
-    if (!model) {
+    if (!selectedModel) {
       message.warning('请选择模型');
       return;
     }
@@ -43,7 +51,7 @@ export default function EnhanceAsserts() {
     const data = {
       case_id: caseId,
       response,
-      model_name: model,
+      model_name: selectedModel,
       async: asyncMode,
     };
 
@@ -61,12 +69,12 @@ export default function EnhanceAsserts() {
           message.success('增强成功');
         }
       }
-    } catch (error) {
+    } catch {
       message.error('操作失败');
     }
   };
 
-  const handlePoll = (taskId) => {
+  const handlePoll = (taskId: string) => {
     pollTask({
       taskId,
       callback: (status, data) => {
@@ -87,8 +95,13 @@ export default function EnhanceAsserts() {
       <Space direction="vertical" style={{ width: '100%' }} size="large">
         <Space>
           <span>模型：</span>
-          <Select value={model} onChange={setModel} style={{ width: 200 }} placeholder="选择模型">
-            {state.models.map((m) => (
+          <Select
+            value={selectedModel}
+            onChange={setSelectedModel}
+            style={{ width: 200 }}
+            placeholder="选择模型"
+          >
+            {models.map((m) => (
               <Select.Option key={m.name} value={m.name}>
                 {m.display_name}
               </Select.Option>
@@ -112,23 +125,23 @@ export default function EnhanceAsserts() {
         </div>
 
         <Space>
-          <Button type="primary" onClick={handleSubmit} loading={state.loading}>
+          <Button type="primary" onClick={handleSubmit} loading={loading}>
             增强断言
           </Button>
           <Button onClick={handleClear}>清除</Button>
         </Space>
 
-        {state.currentTaskId && (
+        {currentTaskId && (
           <TaskStatus
-            taskId={state.currentTaskId}
-            taskStatus={state.taskStatus}
-            taskResult={state.taskResult}
+            taskId={currentTaskId}
+            taskStatus={taskStatus}
+            taskResult={taskResult}
             onPoll={handlePoll}
             onClear={handleClear}
           />
         )}
 
-        {result && !state.currentTaskId && (
+        {result && !currentTaskId && (
           <>
             <Alert type="success" message="断言增强成功" />
             <pre

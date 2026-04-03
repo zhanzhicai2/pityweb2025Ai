@@ -1,3 +1,4 @@
+import { useState, useCallback } from 'react';
 import {
   generateTestCase,
   generateTestCaseAsync,
@@ -20,153 +21,104 @@ export interface AIModelInfo {
 
 export type TaskStatus = 'PENDING' | 'STARTED' | 'SUCCESS' | 'FAILURE' | 'RETRY' | 'REVOKED';
 
-export interface AiState {
-  models: AIModelInfo[];
-  defaultModel: string;
-  currentTaskId: string | null;
-  taskStatus: TaskStatus | null;
-  taskResult: any | null;
-  loading: boolean;
-  generateLoading: boolean;
-  enhanceLoading: boolean;
-  batchLoading: boolean;
-}
+export default function useAi() {
+  const [models, setModels] = useState<AIModelInfo[]>([]);
+  const [defaultModel, setDefaultModel] = useState('MiniMax-M2.7');
+  const [currentTaskId, setCurrentTaskId] = useState<string | null>(null);
+  const [taskStatus, setTaskStatus] = useState<TaskStatus | null>(null);
+  const [taskResult, setTaskResult] = useState<any | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [generateLoading, setGenerateLoading] = useState(false);
+  const [enhanceLoading, setEnhanceLoading] = useState(false);
+  const [batchLoading, setBatchLoading] = useState(false);
 
-export default {
-  namespace: 'ai',
-  state: {
-    models: [],
-    defaultModel: 'MiniMax-M2.7',
-    currentTaskId: null,
-    taskStatus: null,
-    taskResult: null,
-    loading: false,
-    generateLoading: false,
-    enhanceLoading: false,
-    batchLoading: false,
-  } as AiState,
-  reducers: {
-    save(state: AiState, { payload }: any) {
-      return { ...state, ...payload };
-    },
-    setLoading(state: AiState, { payload }: any) {
-      return { ...state, ...payload };
-    },
-    clearTask(state: AiState) {
-      return {
-        ...state,
-        currentTaskId: null,
-        taskStatus: null,
-        taskResult: null,
-      };
-    },
-  },
-  effects: {
-    *listModels({}, { call, put }: any) {
-      const res = yield call(listAiModels);
-      if (auth.response(res)) {
-        yield put({
-          type: 'save',
-          payload: {
-            models: res.data?.models || [],
-            defaultModel: res.data?.default_model || 'MiniMax-M2.7',
-          },
-        });
-      }
-    },
+  const listModels = useCallback(async () => {
+    setLoading(true);
+    const res = await listAiModels();
+    setLoading(false);
+    if (auth.response(res)) {
+      setModels(res.data?.models || []);
+      setDefaultModel(res.data?.default_model || 'MiniMax-M2.7');
+    }
+  }, []);
 
-    *generate({ payload }: any, { call, put }: any) {
-      yield put({ type: 'setLoading', payload: { generateLoading: true } });
-      const res = yield call(generateTestCase, payload);
-      yield put({ type: 'setLoading', payload: { generateLoading: false } });
-      return res;
-    },
+  const generate = useCallback(async (data: any) => {
+    setGenerateLoading(true);
+    const res = await generateTestCase(data);
+    setGenerateLoading(false);
+    return res;
+  }, []);
 
-    *generateAsync({ payload }: any, { call, put }: any) {
-      yield put({ type: 'setLoading', payload: { generateLoading: true } });
-      const res = yield call(generateTestCaseAsync, payload);
-      if (auth.response(res)) {
-        yield put({
-          type: 'save',
-          payload: {
-            currentTaskId: res.data?.task_id,
-            taskStatus: res.data?.status,
-          },
-        });
-      }
-      yield put({ type: 'setLoading', payload: { generateLoading: false } });
-      return res;
-    },
+  const generateAsync = useCallback(async (data: any) => {
+    setGenerateLoading(true);
+    const res = await generateTestCaseAsync(data);
+    setGenerateLoading(false);
+    if (auth.response(res)) {
+      setCurrentTaskId(res.data?.task_id);
+      setTaskStatus(res.data?.status);
+    }
+    return res;
+  }, []);
 
-    *enhance({ payload }: any, { call, put }: any) {
-      yield put({ type: 'setLoading', payload: { enhanceLoading: true } });
-      const res = yield call(enhanceAsserts, payload);
-      yield put({ type: 'setLoading', payload: { enhanceLoading: false } });
-      return res;
-    },
+  const enhance = useCallback(async (data: any) => {
+    setEnhanceLoading(true);
+    const res = await enhanceAsserts(data);
+    setEnhanceLoading(false);
+    return res;
+  }, []);
 
-    *enhanceAsync({ payload }: any, { call, put }: any) {
-      yield put({ type: 'setLoading', payload: { enhanceLoading: true } });
-      const res = yield call(enhanceAssertsAsync, payload);
-      if (auth.response(res)) {
-        yield put({
-          type: 'save',
-          payload: {
-            currentTaskId: res.data?.task_id,
-            taskStatus: res.data?.status,
-          },
-        });
-      }
-      yield put({ type: 'setLoading', payload: { enhanceLoading: false } });
-      return res;
-    },
+  const enhanceAsync = useCallback(async (data: any) => {
+    setEnhanceLoading(true);
+    const res = await enhanceAssertsAsync(data);
+    setEnhanceLoading(false);
+    if (auth.response(res)) {
+      setCurrentTaskId(res.data?.task_id);
+      setTaskStatus(res.data?.status);
+    }
+    return res;
+  }, []);
 
-    *batchGen({ payload }: any, { call, put }: any) {
-      yield put({ type: 'setLoading', payload: { batchLoading: true } });
-      const res = yield call(batchGenerate, payload);
-      yield put({ type: 'setLoading', payload: { batchLoading: false } });
-      return res;
-    },
+  const batchGen = useCallback(async (data: any) => {
+    setBatchLoading(true);
+    const res = await batchGenerate(data);
+    setBatchLoading(false);
+    return res;
+  }, []);
 
-    *batchGenAsync({ payload }: any, { call, put }: any) {
-      yield put({ type: 'setLoading', payload: { batchLoading: true } });
-      const res = yield call(batchGenerateAsync, payload);
-      if (auth.response(res)) {
-        yield put({
-          type: 'save',
-          payload: {
-            currentTaskId: res.data?.task_id,
-            taskStatus: res.data?.status,
-          },
-        });
-      }
-      yield put({ type: 'setLoading', payload: { batchLoading: false } });
-      return res;
-    },
+  const batchGenAsync = useCallback(async (data: any) => {
+    setBatchLoading(true);
+    const res = await batchGenerateAsync(data);
+    setBatchLoading(false);
+    if (auth.response(res)) {
+      setCurrentTaskId(res.data?.task_id);
+      setTaskStatus(res.data?.status);
+    }
+    return res;
+  }, []);
 
-    *parseCurl({ payload }: any, { call, put }: any) {
-      yield put({ type: 'setLoading', payload: { generateLoading: true } });
-      const res = yield call(parseCurl, payload);
-      yield put({ type: 'setLoading', payload: { generateLoading: false } });
-      return res;
-    },
+  const parseCurlFn = useCallback(async (data: any) => {
+    setGenerateLoading(true);
+    const res = await parseCurl(data);
+    setGenerateLoading(false);
+    return res;
+  }, []);
 
-    *pollTask({ payload }: any, { call, put }: any) {
-      const { taskId, callback } = payload;
-      const res = yield call(getTaskStatus, taskId);
+  const pollTask = useCallback(
+    async ({
+      taskId,
+      callback,
+    }: {
+      taskId: string;
+      callback?: (status: string, data: any) => void;
+    }) => {
+      const res = await getTaskStatus(taskId);
       if (auth.response(res)) {
         const status = res.data?.status || 'PENDING';
-        yield put({
-          type: 'save',
-          payload: { taskStatus: status },
-        });
+        setTaskStatus(status);
         if (status === 'SUCCESS' || status === 'FAILURE') {
-          const resultRes = yield call(getTaskResult, taskId);
+          const resultRes = await getTaskResult(taskId);
           if (auth.response(resultRes)) {
-            yield put({
-              type: 'save',
-              payload: { taskResult: resultRes.data },
-            });
+            setTaskResult(resultRes.data);
           }
         }
         if (callback) {
@@ -174,5 +126,34 @@ export default {
         }
       }
     },
-  },
-};
+    [],
+  );
+
+  const clearTask = useCallback(() => {
+    setCurrentTaskId(null);
+    setTaskStatus(null);
+    setTaskResult(null);
+  }, []);
+
+  return {
+    models,
+    defaultModel,
+    currentTaskId,
+    taskStatus,
+    taskResult,
+    loading,
+    generateLoading,
+    enhanceLoading,
+    batchLoading,
+    listModels,
+    generate,
+    generateAsync,
+    enhance,
+    enhanceAsync,
+    batchGen,
+    batchGenAsync,
+    parseCurl: parseCurlFn,
+    pollTask,
+    clearTask,
+  };
+}

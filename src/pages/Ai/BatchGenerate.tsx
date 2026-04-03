@@ -11,45 +11,57 @@ import {
   Space,
   Progress,
 } from 'antd';
-import { useModel } from 'umi';
+import useAi from '@/models/ai';
 import TaskStatus from '@/components/Ai/TaskStatus';
 
 const { TextArea } = Input;
 
 export default function BatchGenerate() {
   const [content, setContent] = useState('');
-  const [model, setModel] = useState('');
+  const [selectedModel, setSelectedModel] = useState('');
   const [maxCases, setMaxCases] = useState(10);
   const [asyncMode, setAsyncMode] = useState(false);
   const [result, setResult] = useState([]);
 
-  const { state, listModels, batchGen, batchGenAsync, pollTask, clearTask } = useModel('ai');
+  const {
+    models,
+    defaultModel,
+    currentTaskId,
+    taskStatus,
+    taskResult,
+    loading,
+    listModels,
+    batchGen,
+    batchGenAsync,
+    pollTask,
+    clearTask,
+  } = useAi();
 
   useEffect(() => {
-    if (!state.models.length) {
+    if (!models.length) {
       listModels();
     }
   }, []);
 
   useEffect(() => {
-    if (state.models.length && !model) {
-      setModel(state.defaultModel || state.models[0]?.name);
+    if (models.length && !selectedModel) {
+      setSelectedModel(defaultModel || models[0]?.name);
     }
-  }, [state.models, model]);
+  }, [models, defaultModel, selectedModel]);
 
   const handleSubmit = async () => {
     if (!content.trim()) {
       message.warning('请输入OpenAPI文档内容');
       return;
     }
-    if (!model) {
+    if (!selectedModel) {
       message.warning('请选择模型');
       return;
     }
 
     const data = {
       content,
-      model_name: model,
+      model_name: selectedModel,
       max_cases: maxCases,
       async: asyncMode,
     };
@@ -69,12 +81,12 @@ export default function BatchGenerate() {
           message.success(`生成成功，共 ${cases.length} 条用例`);
         }
       }
-    } catch (error) {
+    } catch {
       message.error('操作失败');
     }
   };
 
-  const handlePoll = (taskId) => {
+  const handlePoll = (taskId: string) => {
     pollTask({
       taskId,
       callback: (status, data) => {
@@ -103,8 +115,13 @@ export default function BatchGenerate() {
       <Space direction="vertical" style={{ width: '100%' }} size="large">
         <Space>
           <span>模型：</span>
-          <Select value={model} onChange={setModel} style={{ width: 200 }} placeholder="选择模型">
-            {state.models.map((m) => (
+          <Select
+            value={selectedModel}
+            onChange={setSelectedModel}
+            style={{ width: 200 }}
+            placeholder="选择模型"
+          >
+            {models.map((m) => (
               <Select.Option key={m.name} value={m.name}>
                 {m.display_name}
               </Select.Option>
@@ -130,17 +147,17 @@ export default function BatchGenerate() {
         />
 
         <Space>
-          <Button type="primary" onClick={handleSubmit} loading={state.loading}>
+          <Button type="primary" onClick={handleSubmit} loading={loading}>
             生成
           </Button>
           <Button onClick={handleClear}>清除</Button>
         </Space>
 
-        {state.currentTaskId && (
+        {currentTaskId && (
           <TaskStatus
-            taskId={state.currentTaskId}
-            taskStatus={state.taskStatus}
-            taskResult={state.taskResult}
+            taskId={currentTaskId}
+            taskStatus={taskStatus}
+            taskResult={taskResult}
             onPoll={handlePoll}
             onClear={handleClear}
           />

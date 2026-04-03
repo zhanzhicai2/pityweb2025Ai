@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Tabs, Input, Select, Switch, Button, Table, message, Space } from 'antd';
-import { useModel } from 'umi';
+import useAi from '@/models/ai';
 import TaskStatus from '@/components/Ai/TaskStatus';
 
 const { TextArea } = Input;
@@ -8,31 +8,43 @@ const { TextArea } = Input;
 export default function GenerateCase() {
   const [inputType, setInputType] = useState('text');
   const [content, setContent] = useState('');
-  const [model, setModel] = useState('');
+  const [selectedModel, setSelectedModel] = useState('');
   const [asyncMode, setAsyncMode] = useState(false);
   const [result, setResult] = useState([]);
 
-  const { state, listModels, generate, generateAsync, parseCurl, pollTask, clearTask } =
-    useModel('ai');
+  const {
+    models,
+    defaultModel,
+    currentTaskId,
+    taskStatus,
+    taskResult,
+    loading,
+    listModels,
+    generate,
+    generateAsync,
+    parseCurl,
+    pollTask,
+    clearTask,
+  } = useAi();
 
   useEffect(() => {
-    if (!state.models.length) {
+    if (!models.length) {
       listModels();
     }
   }, []);
 
   useEffect(() => {
-    if (state.models.length && !model) {
-      setModel(state.defaultModel || state.models[0]?.name);
+    if (models.length && !selectedModel) {
+      setSelectedModel(defaultModel || models[0]?.name);
     }
-  }, [state.models, model]);
+  }, [models, defaultModel, selectedModel]);
 
   const handleSubmit = async () => {
     if (!content.trim()) {
       message.warning('请输入内容');
       return;
     }
-    if (!model) {
+    if (!selectedModel) {
       message.warning('请选择模型');
       return;
     }
@@ -40,7 +52,7 @@ export default function GenerateCase() {
     const data = {
       content,
       input_type: inputType,
-      model_name: model,
+      model_name: selectedModel,
       async: asyncMode,
     };
 
@@ -59,7 +71,7 @@ export default function GenerateCase() {
           message.success(`生成成功，共 ${cases.length} 条用例`);
         }
       }
-    } catch (error) {
+    } catch {
       message.error('操作失败');
     }
   };
@@ -77,7 +89,7 @@ export default function GenerateCase() {
     }
   };
 
-  const handlePoll = (taskId) => {
+  const handlePoll = (taskId: string) => {
     pollTask({
       taskId,
       callback: (status, data) => {
@@ -116,8 +128,13 @@ export default function GenerateCase() {
 
         <Space>
           <span>模型：</span>
-          <Select value={model} onChange={setModel} style={{ width: 200 }} placeholder="选择模型">
-            {state.models.map((m) => (
+          <Select
+            value={selectedModel}
+            onChange={setSelectedModel}
+            style={{ width: 200 }}
+            placeholder="选择模型"
+          >
+            {models.map((m) => (
               <Select.Option key={m.name} value={m.name}>
                 {m.display_name}
               </Select.Option>
@@ -149,18 +166,18 @@ export default function GenerateCase() {
           <Button
             type="primary"
             onClick={inputType === 'curl' ? handleCurlParse : handleSubmit}
-            loading={state.loading}
+            loading={loading}
           >
             {inputType === 'curl' ? '解析' : '生成'}
           </Button>
           <Button onClick={handleClear}>清除</Button>
         </Space>
 
-        {state.currentTaskId && (
+        {currentTaskId && (
           <TaskStatus
-            taskId={state.currentTaskId}
-            taskStatus={state.taskStatus}
-            taskResult={state.taskResult}
+            taskId={currentTaskId}
+            taskStatus={taskStatus}
+            taskResult={taskResult}
             onPoll={handlePoll}
             onClear={handleClear}
           />
