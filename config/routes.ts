@@ -278,6 +278,29 @@ export default [
     component: './datafactory',
   },
   {
+    path: '/ai',
+    name: 'AI助手',
+    icon: 'Robot',
+    authority: ['superAdmin', 'admin'],
+    routes: [
+      {
+        path: '/ai/generate',
+        name: 'AI生成用例',
+        component: './Ai/GenerateCase',
+      },
+      {
+        path: '/ai/batch',
+        name: '批量生成',
+        component: './Ai/BatchGenerate',
+      },
+      {
+        path: '/ai/enhance',
+        name: '增强断言',
+        component: './Ai/EnhanceAsserts',
+      },
+    ],
+  },
+  {
     path: '*',
     layout: false,
     component: './404',
