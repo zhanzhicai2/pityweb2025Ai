@@ -10,10 +10,13 @@ import {
   Button,
   Card,
   Col,
+  Drawer,
   Empty,
   Form,
   Input,
   message,
+  Modal,
+  Progress,
   Row,
   Select,
   Space,
@@ -24,17 +27,41 @@ import { useEffect, useState } from 'react';
 
 const { Option } = Select;
 
+// 分类图标映射
+const categoryIcons = {
+  test_data: 'User',
+  json: 'FileText',
+  string: 'Edit',
+  encoding: 'Lock',
+  random: 'Reload',
+  encryption: 'Key',
+  crontab: 'Clock',
+};
+
+// 分类颜色映射
+const categoryColors = {
+  test_data: '#667eea',
+  json: '#f5576c',
+  string: '#4facfe',
+  encoding: '#43e97b',
+  random: '#fa709a',
+  encryption: '#a8edea',
+  crontab: '#ff9a9e',
+};
+
 export default () => {
   const [categories, setCategories] = useState([]);
-  const [selectedTool, setSelectedTool] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [toolList, setToolList] = useState([]);
+  const [selectedTool, setSelectedTool] = useState(null);
   const [loading, setLoading] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [result, setResult] = useState(null);
   const [records, setRecords] = useState([]);
   const [recordsLoading, setRecordsLoading] = useState(false);
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [toolDrawerVisible, setToolDrawerVisible] = useState(false);
+  const [historyDrawerVisible, setHistoryDrawerVisible] = useState(false);
+  const [statsModalVisible, setStatsModalVisible] = useState(false);
+  const [stats, setStats] = useState({});
   const [form] = Form.useForm();
   const [batchForm] = Form.useForm();
 
@@ -57,7 +84,7 @@ export default () => {
   const loadRecords = async () => {
     try {
       setRecordsLoading(true);
-      const res = await listRecords({ page: 1, size: 20 });
+      const res = await listRecords({ page: 1, size: 100 });
       if (res.code === 0) {
         setRecords(res.data?.list || []);
       }
@@ -68,42 +95,55 @@ export default () => {
     }
   };
 
+  // 计算统计数据
+  const calculateStats = () => {
+    const statsData = {
+      total: records.length,
+      byCategory: {},
+      byTool: {},
+    };
+
+    records.forEach((r) => {
+      statsData.byCategory[r.tool_category] = (statsData.byCategory[r.tool_category] || 0) + 1;
+      statsData.byTool[r.tool_name] = (statsData.byTool[r.tool_name] || 0) + 1;
+    });
+
+    setStats(statsData);
+  };
+
   useEffect(() => {
     loadTools();
     loadRecords();
   }, []);
+
+  useEffect(() => {
+    if (records.length > 0) {
+      calculateStats();
+    }
+  }, [records]);
 
   // 选择分类
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
     setSelectedTool(null);
     setResult(null);
-    if (category && category.tools) {
-      setToolList(category.tools);
-    } else {
-      // 显示所有工具
-      const allTools = [];
-      categories.forEach((cat) => {
-        if (cat.tools) {
-          allTools.push(...cat.tools);
-        }
-      });
-      setToolList(allTools);
-    }
+    setToolDrawerVisible(true);
   };
 
   // 选择工具
   const handleToolSelect = (tool) => {
     setSelectedTool(tool);
     setResult(null);
-    form.setFieldsValue({ tool_name: tool?.name });
+    form.setFieldsValue({ tool_name: tool.name });
+    batchForm.setFieldsValue({ tool_name: tool.name, count: 10 });
   };
 
   // 单条生成
   const handleGenerate = async (values) => {
     try {
       setGenerating(true);
-      const res = await generateData(values.tool_name, values.params || null);
+      const params = values.params ? JSON.parse(values.params) : null;
+      const res = await generateData(values.tool_name, params);
       if (res.code === 0) {
         setResult(res.data?.result);
         message.success('生成成功');
@@ -122,11 +162,8 @@ export default () => {
   const handleBatchGenerate = async (values) => {
     try {
       setGenerating(true);
-      const res = await batchGenerateData(
-        values.tool_name,
-        values.count || 10,
-        values.params || null,
-      );
+      const params = values.params ? JSON.parse(values.params) : null;
+      const res = await batchGenerateData(values.tool_name, values.count || 10, params);
       if (res.code === 0) {
         setResult(res.data);
         message.success(`成功生成 ${res.data?.length || 0} 条数据`);
@@ -184,6 +221,7 @@ export default () => {
       dataIndex: 'tool_category',
       key: 'tool_category',
       width: 100,
+      render: (cat) => <Tag color={categoryColors[cat] || 'blue'}>{cat}</Tag>,
     },
     {
       title: '生成结果',
@@ -225,44 +263,94 @@ export default () => {
 
   return (
     <div className="data-factory">
-      <Row gutter={16}>
-        {/* 左侧工具分类 */}
-        <Col span={6}>
-          <Card title="工具分类" size="small" style={{ marginBottom: 16 }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <Button
-                type={!selectedCategory ? 'primary' : 'default'}
-                onClick={() => handleCategorySelect(null)}
-                block
-              >
-                全部工具
-              </Button>
-              {categories.map((cat) => (
-                <Button
-                  key={cat.name}
-                  type={selectedCategory?.name === cat.name ? 'primary' : 'default'}
-                  onClick={() => handleCategorySelect(cat)}
-                  block
-                >
-                  {cat.name} ({cat.tools?.length || 0})
-                </Button>
-              ))}
-            </div>
-          </Card>
+      {/* 页面头部 */}
+      <Card size="small" style={{ marginBottom: 16 }}>
+        <div className="page-header">
+          <div className="header-left">
+            <h2 style={{ margin: 0, fontSize: 24 }}>数据池</h2>
+            <p style={{ margin: '8px 0 0', color: '#666' }}>
+              提供测试数据生成工具，助力测试数据准备
+            </p>
+          </div>
+          <div className="header-right">
+            <Button onClick={() => setHistoryDrawerVisible(true)}>使用记录</Button>
+            <Button type="primary" onClick={() => setStatsModalVisible(true)}>
+              统计信息
+            </Button>
+          </div>
+        </div>
+      </Card>
 
-          <Card title="工具列表" size="small">
-            {toolList.length > 0 ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {toolList.map((tool) => (
-                  <Card.Grid
-                    key={tool.name}
+      {/* 分类卡片 */}
+      <Row gutter={[16, 16]}>
+        {categories.map((cat) => (
+          <Col xs={24} sm={12} md={8} lg={6} key={cat.name}>
+            <Card
+              hoverable
+              onClick={() => handleCategorySelect(cat)}
+              style={{
+                borderLeft: `4px solid ${categoryColors[cat.name] || '#667eea'}`,
+              }}
+              bodyStyle={{ padding: 16 }}
+            >
+              <div className="category-content">
+                <div
+                  className="category-icon"
+                  style={{ background: categoryColors[cat.name] || '#667eea' }}
+                >
+                  {cat.name}
+                </div>
+                <div className="category-info">
+                  <h3 style={{ margin: 0, fontSize: 16 }}>{cat.name}</h3>
+                  <p style={{ margin: '4px 0 0', color: '#999', fontSize: 12 }}>
+                    {cat.tools?.length || 0} 个工具
+                  </p>
+                </div>
+              </div>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+
+      {/* 工具列表抽屉 */}
+      <Drawer
+        title={selectedCategory?.name || '工具列表'}
+        placement="right"
+        width={600}
+        open={toolDrawerVisible}
+        onClose={() => {
+          setToolDrawerVisible(false);
+          setSelectedTool(null);
+        }}
+      >
+        {selectedCategory && (
+          <div className="tool-list">
+            <Input.Search
+              placeholder="搜索工具..."
+              style={{ marginBottom: 16 }}
+              onSearch={(value) => {
+                // 简单过滤
+                const filtered = selectedCategory.tools?.filter((t) =>
+                  t.display_name.toLowerCase().includes(value.toLowerCase()),
+                );
+                if (filtered) {
+                  setSelectedCategory({ ...selectedCategory, tools: filtered });
+                }
+              }}
+            />
+
+            <Row gutter={[12, 12]}>
+              {(selectedCategory.tools || []).map((tool) => (
+                <Col span={12} key={tool.name}>
+                  <Card
+                    size="small"
+                    hoverable
+                    onClick={() => handleToolSelect(tool)}
                     style={{
-                      padding: 8,
-                      cursor: 'pointer',
-                      background: selectedTool?.name === tool.name ? '#e6f7ff' : '#fff',
+                      background: selectedTool?.name === tool.name ? '#e6f7ff' : '#fafafa',
                       borderColor: selectedTool?.name === tool.name ? '#1890ff' : '#f0f0f0',
                     }}
-                    onClick={() => handleToolSelect(tool)}
+                    bodyStyle={{ padding: 12 }}
                   >
                     <div
                       style={{ fontWeight: selectedTool?.name === tool.name ? 'bold' : 'normal' }}
@@ -270,118 +358,163 @@ export default () => {
                       {tool.display_name}
                     </div>
                     <div style={{ fontSize: 12, color: '#999' }}>{tool.name}</div>
-                  </Card.Grid>
-                ))}
-              </div>
-            ) : (
-              <Empty description="请选择分类" />
-            )}
-          </Card>
-        </Col>
-
-        {/* 右侧工具面板 */}
-        <Col span={18}>
-          <Card
-            title={selectedTool ? `工具: ${selectedTool.display_name}` : '请选择工具'}
-            size="small"
-          >
-            {selectedTool ? (
-              <Row gutter={16}>
-                {/* 单条生成 */}
-                <Col span={12}>
-                  <Card size="small" title="单条生成">
-                    <Form form={form} layout="vertical" onFinish={handleGenerate}>
-                      <Form.Item name="tool_name" hidden>
-                        <Input />
-                      </Form.Item>
-                      <Form.Item label="参数(可选)" name="params">
-                        <Input.TextArea placeholder='例如: {"gender": "male"}' rows={2} />
-                      </Form.Item>
-                      <Button
-                        type="primary"
-                        htmlType="submit"
-                        loading={generating}
-                        disabled={generating}
-                      >
-                        生成
-                      </Button>
-                    </Form>
                   </Card>
                 </Col>
+              ))}
+            </Row>
 
-                {/* 批量生成 */}
-                <Col span={12}>
-                  <Card size="small" title="批量生成">
-                    <Form form={batchForm} layout="vertical" onFinish={handleBatchGenerate}>
-                      <Form.Item name="tool_name" hidden>
-                        <Input />
-                      </Form.Item>
-                      <Form.Item label="数量" name="count" initialValue={10}>
-                        <Select>
-                          <Option value={5}>5条</Option>
-                          <Option value={10}>10条</Option>
-                          <Option value={20}>20条</Option>
-                          <Option value={50}>50条</Option>
-                        </Select>
-                      </Form.Item>
-                      <Form.Item label="参数(可选)" name="params">
-                        <Input.TextArea placeholder='例如: {"gender": "male"}' rows={2} />
-                      </Form.Item>
-                      <Button
-                        type="primary"
-                        htmlType="submit"
-                        loading={generating}
-                        disabled={generating}
-                      >
-                        批量生成
-                      </Button>
-                    </Form>
-                  </Card>
-                </Col>
+            {/* 工具执行面板 */}
+            {selectedTool && (
+              <Card
+                size="small"
+                style={{ marginTop: 16 }}
+                title={`工具: ${selectedTool.display_name}`}
+              >
+                <Row gutter={16}>
+                  {/* 单条生成 */}
+                  <Col span={12}>
+                    <Card size="small" title="单条生成">
+                      <Form form={form} layout="vertical" onFinish={handleGenerate}>
+                        <Form.Item name="tool_name" hidden>
+                          <Input />
+                        </Form.Item>
+                        <Form.Item label="参数(可选)" name="params">
+                          <Input.TextArea placeholder='例如: {"gender": "male"}' rows={2} />
+                        </Form.Item>
+                        <Button
+                          type="primary"
+                          htmlType="submit"
+                          loading={generating}
+                          disabled={generating}
+                          block
+                        >
+                          生成
+                        </Button>
+                      </Form>
+                    </Card>
+                  </Col>
+
+                  {/* 批量生成 */}
+                  <Col span={12}>
+                    <Card size="small" title="批量生成">
+                      <Form form={batchForm} layout="vertical" onFinish={handleBatchGenerate}>
+                        <Form.Item name="tool_name" hidden>
+                          <Input />
+                        </Form.Item>
+                        <Form.Item label="数量" name="count" initialValue={10}>
+                          <Select>
+                            <Option value={5}>5条</Option>
+                            <Option value={10}>10条</Option>
+                            <Option value={20}>20条</Option>
+                            <Option value={50}>50条</Option>
+                            <Option value={100}>100条</Option>
+                          </Select>
+                        </Form.Item>
+                        <Form.Item label="参数(可选)" name="params">
+                          <Input.TextArea placeholder='例如: {"gender": "male"}' rows={2} />
+                        </Form.Item>
+                        <Button
+                          type="primary"
+                          htmlType="submit"
+                          loading={generating}
+                          disabled={generating}
+                          block
+                        >
+                          批量生成
+                        </Button>
+                      </Form>
+                    </Card>
+                  </Col>
+                </Row>
 
                 {/* 结果展示 */}
-                <Col span={24} style={{ marginTop: 16 }}>
-                  <Card size="small" title="生成结果">
-                    {result ? (
-                      <pre
-                        style={{
-                          background: '#f5f5f5',
-                          padding: 16,
-                          borderRadius: 4,
-                          maxHeight: 300,
-                          overflow: 'auto',
-                        }}
-                      >
-                        {typeof result === 'object' ? JSON.stringify(result, null, 2) : result}
-                      </pre>
-                    ) : (
-                      <Empty description="暂无生成结果" />
-                    )}
-                  </Card>
-                </Col>
-              </Row>
-            ) : (
-              <Empty description="请从左侧选择一个工具" />
+                <div style={{ marginTop: 16 }}>
+                  <h4>生成结果</h4>
+                  {result ? (
+                    <pre
+                      style={{
+                        background: '#f5f5f5',
+                        padding: 12,
+                        borderRadius: 4,
+                        maxHeight: 300,
+                        overflow: 'auto',
+                        fontSize: 12,
+                      }}
+                    >
+                      {typeof result === 'object' ? JSON.stringify(result, null, 2) : result}
+                    </pre>
+                  ) : (
+                    <Empty description="暂无生成结果" image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                  )}
+                </div>
+              </Card>
             )}
+          </div>
+        )}
+      </Drawer>
+
+      {/* 使用记录抽屉 */}
+      <Drawer
+        title="使用记录"
+        placement="right"
+        width={800}
+        open={historyDrawerVisible}
+        onClose={() => setHistoryDrawerVisible(false)}
+      >
+        <Table
+          columns={columns}
+          dataSource={records}
+          rowKey="id"
+          loading={recordsLoading}
+          size="small"
+          pagination={{ pageSize: 10, showSizeChanger: false }}
+        />
+      </Drawer>
+
+      {/* 统计弹窗 */}
+      <Modal
+        title="使用统计"
+        open={statsModalVisible}
+        onCancel={() => setStatsModalVisible(false)}
+        footer={null}
+        width={600}
+      >
+        <div className="stats-content">
+          <Card size="small" style={{ marginBottom: 16 }}>
+            <h3>总使用次数</h3>
+            <Progress percent={100} format={() => stats.total || 0} />
           </Card>
 
-          {/* 使用记录 */}
-          <Card title="使用记录" size="small" style={{ marginTop: 16 }}>
-            <Table
-              columns={columns}
-              dataSource={records}
-              rowKey="id"
-              loading={recordsLoading}
-              size="small"
-              pagination={{
-                pageSize: 10,
-                showSizeChanger: false,
-                showQuickJumper: true,
-              }}
-            />
-          </Card>
-        </Col>
-      </Row>
+          <Row gutter={[16, 16]}>
+            <Col span={12}>
+              <Card size="small" title="按分类统计">
+                {Object.entries(stats.byCategory || {}).map(([cat, count]) => (
+                  <div key={cat} style={{ marginBottom: 8 }}>
+                    <Tag color={categoryColors[cat] || 'blue'}>{cat}</Tag>
+                    <span>{count} 次</span>
+                  </div>
+                ))}
+                {Object.keys(stats.byCategory || {}).length === 0 && (
+                  <Empty description="暂无数据" image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                )}
+              </Card>
+            </Col>
+            <Col span={12}>
+              <Card size="small" title="按工具统计">
+                {Object.entries(stats.byTool || {}).map(([tool, count]) => (
+                  <div key={tool} style={{ marginBottom: 8 }}>
+                    <span>{tool}</span>
+                    <span style={{ color: '#999', marginLeft: 8 }}>{count} 次</span>
+                  </div>
+                ))}
+                {Object.keys(stats.byTool || {}).length === 0 && (
+                  <Empty description="暂无数据" image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                )}
+              </Card>
+            </Col>
+          </Row>
+        </div>
+      </Modal>
     </div>
   );
 };
