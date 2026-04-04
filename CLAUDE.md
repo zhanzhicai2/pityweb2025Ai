@@ -25,6 +25,7 @@ Pity 前端 — Pity API 测试平台的 React 前端项目。基于 UmiJS v4 (`
 - [x] Phase 8: TypeScript 全面迁移（84 个类型错误修复，esbuild 配置优化）
 - [ ] Phase 9: antd 6 升级（暂缓，pro-components 3.x 稳定版未发布）
 - [x] Phase 10: TypeScript 全面迁移第二轮（62 个 JS/JSX → TS/TSX，构建成功）
+- [x] Phase 3: 知识库管理前端页面（RAG 文档上传、搜索、删除）
 
 ## 开发命令
 
