@@ -1,6 +1,5 @@
-import {Button, Result} from 'antd';
-import React from 'react';
-import {history} from 'umi';
+import { Button, Result } from 'antd';
+import { history } from 'umi';
 
 const Building = () => (
   <Result

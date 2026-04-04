@@ -1,0 +1,126 @@
+// @ts-nocheck
+// @ts-nocheck
+import ConstructorModal from '@/components/TestCase/ConstructorModal';
+import TestCaseEditor from '@/components/TestCase/TestCaseEditor';
+import TestResult from '@/components/TestCase/TestResult';
+import common from '@/utils/common';
+import { connect } from '@umijs/max';
+import { Col, Form, Row } from 'antd';
+import { useEffect, useState } from 'react';
+import './TestCaseComponent.less';
+
+interface AddTestCaseComponentProps {
+  dispatch: any;
+  testcase: any;
+  directory_id: any;
+  bodyType: any;
+  setBodyType: any;
+  formData: any;
+  setFormData: any;
+  body: any;
+  setBody: any;
+  headers: any;
+  setHeaders: any;
+  onSubmit: any;
+  form: any;
+}
+
+const AddTestCaseComponent: React.FC<AddTestCaseComponentProps> = ({
+  dispatch,
+  testcase,
+  directory_id,
+  bodyType,
+  setBodyType,
+  formData,
+  setFormData,
+  body,
+  setBody,
+  headers,
+  setHeaders,
+  onSubmit,
+  form,
+}) => {
+  const { caseInfo, editing, constructRecord, constructorModal } = testcase;
+  const [resultModal, setResultModal] = useState(false);
+  const [testResult] = useState<any>({});
+  const [constructorForm] = Form.useForm();
+  const [suffix, setSuffix] = useState(false);
+
+  useEffect(() => {
+    dispatch({
+      type: 'testcase/queryTestcaseDirectory',
+      payload: {
+        directory_id,
+      },
+    });
+
+    // 获取环境信息
+    dispatch({
+      type: 'gconfig/fetchEnvList',
+      payload: {
+        page: 1,
+        exactly: true, // 全部获取
+      },
+    });
+
+    dispatch({
+      type: 'user/fetchUserList',
+    });
+  }, []);
+
+  useEffect(() => {
+    setHeaders(common.parseHeaders(caseInfo.request_headers));
+    setBody(caseInfo.body);
+    setBodyType(caseInfo.body_type);
+  }, [caseInfo, editing]);
+
+  return (
+    <>
+      <TestResult
+        width={1000}
+        modal={resultModal}
+        setModal={setResultModal}
+        response={testResult}
+        caseName={caseInfo.name}
+        single={false}
+      />
+      <Row>
+        <Col span={24}>
+          <ConstructorModal
+            width={1050}
+            modal={constructorModal}
+            setModal={(e: any) => {
+              dispatch({ type: 'testcase/save', payload: { constructorModal: e } });
+            }}
+            form={constructorForm}
+            record={constructRecord}
+            createMode
+            suffix={suffix}
+          />
+          <TestCaseEditor
+            directoryId={directory_id}
+            form={form}
+            body={body}
+            setBody={setBody}
+            create={true}
+            formData={formData}
+            setFormData={setFormData}
+            bodyType={bodyType}
+            setBodyType={setBodyType}
+            setSuffix={setSuffix}
+            headers={headers}
+            setHeaders={setHeaders}
+            onSubmit={onSubmit}
+          />
+        </Col>
+      </Row>
+    </>
+  );
+};
+
+export default connect(({ user, testcase, loading, gconfig }: any) => ({
+  testcase,
+  user,
+  loading,
+  gconfig,
+}))(AddTestCaseComponent);

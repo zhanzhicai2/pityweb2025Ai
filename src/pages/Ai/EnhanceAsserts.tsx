@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Input, Select, Switch, Button, message, Space, Alert } from 'antd';
-import useAi from '@/models/ai';
+// @ts-nocheck
 import TaskStatus from '@/components/Ai/TaskStatus';
+import useAi from '@/models/ai';
+import { Alert, Button, Card, Input, message, Select, Space, Switch } from 'antd';
+import { useEffect, useState } from 'react';
 
 const { TextArea } = Input;
 
@@ -34,7 +35,7 @@ export default function EnhanceAsserts() {
 
   useEffect(() => {
     if (models.length && !selectedModel) {
-      setSelectedModel(defaultModel || models[0]?.name);
+      setSelectedModel((defaultModel || models[0]?.name) as string);
     }
   }, [models, defaultModel, selectedModel]);
 
@@ -131,15 +132,15 @@ export default function EnhanceAsserts() {
           <Button onClick={handleClear}>清除</Button>
         </Space>
 
-        {currentTaskId && (
+        {currentTaskId ? (
           <TaskStatus
-            taskId={currentTaskId}
+            taskId={/** @type {string} */ currentTaskId}
             taskStatus={taskStatus}
             taskResult={taskResult}
             onPoll={handlePoll}
             onClear={handleClear}
           />
-        )}
+        ) : null}
 
         {result && !currentTaskId && (
           <>

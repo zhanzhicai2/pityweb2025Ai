@@ -1,6 +1,6 @@
-import {request} from '@umijs/max';
-import CONFIG from "@/consts/config";
-import auth from "@/utils/auth";
+import CONFIG from '@/consts/config';
+import auth from '@/utils/auth';
+import { request } from '@umijs/max';
 
 export interface PityResponse {
   code: number;
@@ -125,7 +125,6 @@ export async function queryFollowTestPlanData(params?: Record<string, string>) {
   });
 }
 
-
 export async function listUsers(params?: Record<string, string>) {
   const res = await request(`${CONFIG.URL}/auth/listUser`, {
     method: 'GET',
@@ -148,7 +147,7 @@ export async function updateUsers(data: any) {
 
 export async function updateAvatar(data: any) {
   const formData = new FormData();
-  formData.append("file", data.file)
+  formData.append('file', data.file);
   return await request(`${CONFIG.URL}/oss/avatar`, {
     method: 'POST',
     data: formData,

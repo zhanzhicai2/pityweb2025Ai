@@ -1,5 +1,4 @@
 import { Avatar } from 'antd';
-import React from 'react';
 import moment from 'moment';
 import styles from './index.less';
 

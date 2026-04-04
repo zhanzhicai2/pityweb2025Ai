@@ -117,19 +117,15 @@ const NoticeIcon: React.FC<NoticeIconProps> = (props) => {
   return (
     <HeaderDropdown
       placement="bottomRight"
-      overlay={notificationBox}
       overlayClassName={styles.popover}
-      trigger={['click']}
       open={visible}
       onVisibleChange={setVisible}
     >
+      {notificationBox}
       {trigger}
     </HeaderDropdown>
   );
 };
 
-NoticeIcon.defaultProps = {
-  emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg',
-};
 (NoticeIcon as any).Tab = NoticeList;
 export default NoticeIcon;

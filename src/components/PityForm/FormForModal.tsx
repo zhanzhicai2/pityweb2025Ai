@@ -1,4 +1,4 @@
-import { Col, Form, FormItem, Modal } from 'antd';
+import { Col, Form, Modal } from 'antd';
 import React, { useEffect } from 'react';
 import getComponent from './index';
 
@@ -12,6 +12,7 @@ interface Field {
   valuePropName?: string;
   placeholder?: string;
   component?: React.ReactNode;
+  type?: string;
 }
 
 interface FormForModalProps {
@@ -94,7 +95,7 @@ const FormForModal: React.FC<FormForModalProps> = ({
       <Form form={form} {...layout} name={formName} initialValues={record} onFinish={onFinish}>
         {fields?.map((item, index) => (
           <Col span={item.span || 24} key={index}>
-            <FormItem
+            <Form.Item
               label={item.label}
               colon={item.colon || true}
               initialValue={item.valuePropName}
@@ -103,7 +104,7 @@ const FormForModal: React.FC<FormForModalProps> = ({
               valuePropName={item.valuePropName || 'value'}
             >
               {getComponent(item.type || 'input', item.placeholder, item.component)}
-            </FormItem>
+            </Form.Item>
           </Col>
         ))}
       </Form>

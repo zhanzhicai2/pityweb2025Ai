@@ -1,33 +1,19 @@
-import { PageContainer } from '@ant-design/pro-components';
+import emptyWork from '@/assets/emptyWork.svg';
+import noResult from '@/assets/NoData.svg';
+import GenerateModal from '@/components/Ai/GenerateModal';
+import UserLink from '@/components/Button/UserLink';
 import { REQUEST_TYPE } from '@/components/Common/global';
-import {
-  Avatar,
-  Badge,
-  Button,
-  Card,
-  Col,
-  Divider,
-  Drawer,
-  Dropdown,
-  Empty,
-  Form,
-  Input,
-  Menu as AMenu,
-  message,
-  Modal,
-  Result,
-  Row,
-  Select,
-  Spin,
-  Table,
-  Tag,
-  Tooltip,
-  TreeSelect,
-} from 'antd';
-import { connect, history } from '@umijs/max';
-import React, { memo, useEffect, useState } from 'react';
-import SplitPane from 'react-split-pane';
-import './TestCaseDirectory.less';
+import NoRecord from '@/components/NotFound/NoRecord';
+import FormForModal from '@/components/PityForm/FormForModal';
+import ScrollCard from '@/components/Scrollbar/ScrollCard';
+import RecorderDrawer from '@/components/TestCase/recorder/RecorderDrawer';
+import TestResult from '@/components/TestCase/TestResult';
+import SearchTree from '@/components/Tree/SearchTree';
+import UserSelect from '@/components/User/UserSelect';
+import CONFIG from '@/consts/config';
+import AddTestCaseComponent from '@/pages/ApiTest/AddTestCaseComponent';
+import auth from '@/utils/auth';
+import common from '@/utils/common';
 import {
   CameraTwoTone,
   DeleteOutlined,
@@ -39,28 +25,42 @@ import {
   PlusOutlined,
   QuestionCircleOutlined,
   ReloadOutlined,
+  RobotOutlined,
   RocketOutlined,
   SaveOutlined,
   SearchOutlined,
-  RobotOutlined,
 } from '@ant-design/icons';
-import 'react-contexify/dist/ReactContexify.css';
-import NoRecord from '@/components/NotFound/NoRecord';
-import FormForModal from '@/components/PityForm/FormForModal';
-import CONFIG from '@/consts/config';
-import auth from '@/utils/auth';
-import TestResult from '@/components/TestCase/TestResult';
-import UserLink from '@/components/Button/UserLink';
-import noResult from '@/assets/NoData.svg';
-import UserSelect from '@/components/User/UserSelect';
-import SearchTree from '@/components/Tree/SearchTree';
-import ScrollCard from '@/components/Scrollbar/ScrollCard';
-import emptyWork from '@/assets/emptyWork.svg';
-import AddTestCaseComponent from '@/pages/ApiTest/AddTestCaseComponent';
-import RecorderDrawer from '@/components/TestCase/recorder/RecorderDrawer';
-import GenerateModal from '@/components/Ai/GenerateModal';
+import { PageContainer } from '@ant-design/pro-components';
 import { Switch } from '@icon-park/react';
-import common from '@/utils/common';
+import { connect, history } from '@umijs/max';
+import {
+  Menu as AMenu,
+  Avatar,
+  Badge,
+  Button,
+  Card,
+  Col,
+  Divider,
+  Drawer,
+  Dropdown,
+  Empty,
+  Form,
+  Input,
+  message,
+  Modal,
+  Result,
+  Row,
+  Select,
+  Spin,
+  Table,
+  Tag,
+  Tooltip,
+  TreeSelect,
+} from 'antd';
+import { memo, useEffect, useState } from 'react';
+import 'react-contexify/dist/ReactContexify.css';
+import SplitPane from 'react-split-pane';
+import './TestCaseDirectory.less';
 
 const { Option } = Select;
 

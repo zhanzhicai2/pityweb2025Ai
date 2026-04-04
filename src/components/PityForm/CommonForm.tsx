@@ -6,7 +6,7 @@ const { Item: FormItem } = Form;
 
 interface Field {
   span?: number;
-  label?: string;
+  label?: React.ReactNode;
   colon?: boolean;
   required?: boolean;
   message?: string;

@@ -1,32 +1,35 @@
-import React from 'react';
-import {UploadOutlined} from '@ant-design/icons';
-import {Button, Form, Upload} from 'antd';
-import ProForm, {ProFormText,} from '@ant-design/pro-form';
-import {connect} from '@umijs/max';
+import CONFIG from '@/consts/config';
+import { UploadOutlined } from '@ant-design/icons';
+import ProForm, { ProFormText } from '@ant-design/pro-form';
+import { connect } from '@umijs/max';
+import { Button, Form, Upload } from 'antd';
 import styles from './BaseView.less';
-import CONFIG from "@/consts/config";
 
 const validatorPhone = (rule, value, callback) => {
   callback();
 }; // 头像组件 方便以后独立，增加裁剪之类的功能
 
-const AvatarView = ({avatar, dispatch}) => (
+const AvatarView = ({ avatar, dispatch }) => (
   <>
     <div className={styles.avatar_title}>头像</div>
     <div className={styles.avatar}>
-      <img src={avatar} alt="avatar"/>
+      <img src={avatar} alt="avatar" />
     </div>
-    <Upload showUploadList={false} customRequest={fileData => {
-      dispatch({
-        type: 'user/avatar',
-        payload: {
-          file: fileData.file,
-        }
-      })
-    }} fileList={[]}>
+    <Upload
+      showUploadList={false}
+      customRequest={(fileData) => {
+        dispatch({
+          type: 'user/avatar',
+          payload: {
+            file: fileData.file,
+          },
+        });
+      }}
+      fileList={[]}
+    >
       <div className={styles.button_view}>
         <Button>
-          <UploadOutlined/>
+          <UploadOutlined />
           更换头像
         </Button>
       </div>
@@ -34,8 +37,8 @@ const AvatarView = ({avatar, dispatch}) => (
   </>
 );
 
-const BaseView = ({user, loading, dispatch}) => {
-  const {currentUser} = user;
+const BaseView = ({ user, loading, dispatch }) => {
+  const { currentUser } = user;
   const [form] = Form.useForm();
 
   const getAvatarURL = () => {
@@ -57,10 +60,10 @@ const BaseView = ({user, loading, dispatch}) => {
         ...values,
         id: currentUser.id,
       },
-    })
+    });
     dispatch({
-      type: 'user/fetchCurrent'
-    })
+      type: 'user/fetchCurrent',
+    });
   };
 
   return (
@@ -82,7 +85,7 @@ const BaseView = ({user, loading, dispatch}) => {
                   children: '更新基本信息',
                 },
               }}
-              initialValues={{...currentUser, phone: currentUser?.phone}}
+              initialValues={{ ...currentUser, phone: currentUser?.phone }}
               hideRequiredMark
             >
               <ProFormText
@@ -125,7 +128,7 @@ const BaseView = ({user, loading, dispatch}) => {
             </ProForm>
           </div>
           <div className={styles.right}>
-            <AvatarView avatar={getAvatarURL()} dispatch={dispatch}/>
+            <AvatarView avatar={getAvatarURL()} dispatch={dispatch} />
           </div>
         </>
       )}
@@ -133,4 +136,4 @@ const BaseView = ({user, loading, dispatch}) => {
   );
 };
 
-export default connect(({user}) => ({user}))(BaseView);
+export default connect(({ user }) => ({ user }))(BaseView);

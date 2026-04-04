@@ -1,6 +1,6 @@
-import request from '@/utils/request';
 import CONFIG from '@/consts/config';
 import auth from '@/utils/auth';
+import request from '@/utils/request';
 
 // AI 生成测试用例（同步）
 export async function generateTestCase(data: any) {

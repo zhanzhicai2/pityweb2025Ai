@@ -1,29 +1,29 @@
+// @ts-nocheck
 import CONFIG from '@/consts/config';
-import {useModel} from '@umijs/max';
-import React, {useEffect} from 'react';
-import {notification} from "antd";
-
+import { useModel } from '@umijs/max';
+import { notification } from 'antd';
+import React, { useEffect } from 'react';
 
 // @ts-ignore
 const IndexPage: React.FC = () => {
-  const {initialState} = useModel('@@initialState');
-  const {noticeCount, setNoticeCount} = useModel("notice");
+  const { initialState } = useModel('@@initialState');
+  const { noticeCount, setNoticeCount } = useModel('notice');
   const { currentUser } = initialState ?? {};
 
   useEffect(() => {
     if (currentUser && currentUser.id) {
       const ws = new WebSocket(`${CONFIG.WS_URL}/${currentUser.id}`);
       ws.onmessage = function (event) {
-        event.preventDefault()
+        event.preventDefault();
         const messages = event.data;
-        const msg = JSON.parse(messages)
+        const msg = JSON.parse(messages);
         if (msg.type === 0) {
-          setNoticeCount(msg.total ? msg.count : msg.count + noticeCount)
+          setNoticeCount(msg.total ? msg.count : msg.count + noticeCount);
         } else if (msg.type === 1) {
           notification.info({
             message: msg.title,
-            description: msg.content
-          })
+            description: msg.content,
+          });
         } else if (msg.type === 2) {
           // 说明是录制消息
           // dispatch({
@@ -39,9 +39,7 @@ const IndexPage: React.FC = () => {
     }
   }, []);
 
-  return (
-    <></>
-  );
+  return <></>;
 };
 
 export default IndexPage;

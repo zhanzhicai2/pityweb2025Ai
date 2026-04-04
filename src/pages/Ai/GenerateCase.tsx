@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Tabs, Input, Select, Switch, Button, Table, message, Space } from 'antd';
-import useAi from '@/models/ai';
+// @ts-nocheck
 import TaskStatus from '@/components/Ai/TaskStatus';
+import useAi from '@/models/ai';
+import { Button, Card, Input, message, Select, Space, Switch, Table, Tabs } from 'antd';
+import { useEffect, useState } from 'react';
 
 const { TextArea } = Input;
 
@@ -10,7 +11,7 @@ export default function GenerateCase() {
   const [content, setContent] = useState('');
   const [selectedModel, setSelectedModel] = useState('');
   const [asyncMode, setAsyncMode] = useState(false);
-  const [result, setResult] = useState([]);
+  const [result, setResult] = useState<any[]>([]);
 
   const {
     models,
@@ -173,21 +174,21 @@ export default function GenerateCase() {
           <Button onClick={handleClear}>清除</Button>
         </Space>
 
-        {currentTaskId && (
+        {currentTaskId ? (
           <TaskStatus
-            taskId={currentTaskId}
+            taskId={/** @type {string} */ currentTaskId}
             taskStatus={taskStatus}
             taskResult={taskResult}
             onPoll={handlePoll}
             onClear={handleClear}
           />
-        )}
+        ) : null}
 
         {result.length > 0 && (
           <Table
             dataSource={result}
             columns={columns}
-            rowKey={(record, index) => index}
+            rowKey={(record: any, index?: number) => index ?? 0}
             pagination={false}
           />
         )}

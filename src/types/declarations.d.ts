@@ -1,0 +1,9 @@
+declare module 'react-calendar-heatmap';
+declare module '@antv/g6/dist/g6.min.js';
+declare module 'react-copy-to-clipboard';
+declare module 'react-custom-scrollbars';
+declare module 'react-highlight-words';
+declare module 'react-syntax-highlighter';
+declare module 'react-syntax-highlighter/dist/cjs/styles/hljs';
+declare module 'react-syntax-highlighter/dist/esm/styles/hljs';
+declare module '@/components/TestCase/Constructor/ConstructorData';

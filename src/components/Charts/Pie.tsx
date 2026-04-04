@@ -19,7 +19,7 @@ export default ({ data, height, name = 'count', value = 'count' }: PieProps) => 
     label: {
       type: 'inner',
       offset: '-30%',
-      content: ({ percent }: { percent: number }) => `${(percent * 100).toFixed(0)}%`,
+      content: ({ percent }: any) => `${(percent * 100).toFixed(0)}%`,
       style: {
         fontSize: 14,
       },

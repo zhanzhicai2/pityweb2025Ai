@@ -1,4 +1,4 @@
-import {Card, Col, Row} from "antd";
+import { Card, Col, Row } from 'antd';
 
 export default () => {
   return (
@@ -26,5 +26,5 @@ export default () => {
       </Col>
       <Col span={6}></Col>
     </Row>
-  )
-}
+  );
+};

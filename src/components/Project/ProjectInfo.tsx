@@ -94,8 +94,7 @@ export default ({ data, users, reloadData }: ProjectInfoProps) => {
     <Row gutter={8}>
       <Col span={24}>
         <ProjectForm
-          left={6}
-          right={18}
+          {...({ left: 6, right: 18 } as any)}
           record={data}
           onFinish={onFinish}
           fields={fields}

@@ -104,9 +104,9 @@ const NoticeList: React.FC<NoticeListProps> = ({
         ) : null}
         {showViewMore ? (
           <div
-            onClick={(e) => {
+            onClick={() => {
               if (onViewMore) {
-                onViewMore(e);
+                onViewMore();
               }
             }}
           >

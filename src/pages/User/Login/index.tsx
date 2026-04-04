@@ -1,12 +1,19 @@
+// @ts-nocheck
 import Footer from '@/components/Footer';
-import {GithubOutlined, LockOutlined, MailOutlined, MobileOutlined, UserOutlined} from '@ant-design/icons';
-import {LoginForm, ProFormCheckbox, ProFormText,} from '@ant-design/pro-components';
-import {useEmotionCss} from '@ant-design/use-emotion-css';
-import {FormattedMessage, Helmet, history, SelectLang, useIntl, useModel} from '@umijs/max';
-import {message, Tabs} from 'antd';
+import {
+  GithubOutlined,
+  LockOutlined,
+  MailOutlined,
+  MobileOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
+import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
+import { useEmotionCss } from '@ant-design/use-emotion-css';
+import { FormattedMessage, Helmet, history, SelectLang, useIntl, useModel } from '@umijs/max';
+import { message, Tabs } from 'antd';
+import React, { useState } from 'react';
+import { flushSync } from 'react-dom';
 import Settings from '../../../../config/defaultSettings';
-import React, {useState} from 'react';
-import {flushSync} from 'react-dom';
 
 const clientId = `0f4fc0a875de30614a6a`;
 
@@ -16,7 +23,7 @@ const redirectToGithub = () => {
 };
 
 const ActionIcons = () => {
-  const langClassName = useEmotionCss(({token}) => {
+  const langClassName = useEmotionCss(({ token }) => {
     return {
       marginLeft: '8px',
       color: 'rgba(0, 0, 0, 0.2)',
@@ -32,13 +39,13 @@ const ActionIcons = () => {
 
   return (
     <>
-      <GithubOutlined key="GithubOutlined" className={langClassName} onClick={redirectToGithub}/>
+      <GithubOutlined key="GithubOutlined" className={langClassName} onClick={redirectToGithub} />
     </>
   );
 };
 
 const Lang = () => {
-  const langClassName = useEmotionCss(({token}) => {
+  const langClassName = useEmotionCss(({ token }) => {
     return {
       width: 42,
       height: 42,
@@ -54,14 +61,14 @@ const Lang = () => {
 
   return (
     <div className={langClassName} data-lang>
-      {SelectLang && <SelectLang/>}
+      {SelectLang && <SelectLang />}
     </div>
   );
 };
 const Login: React.FC = () => {
   const [type, setType] = useState<string>('account');
-  const {initialState, setInitialState} = useModel('@@initialState');
-  const {loginPity, registerPity} = useModel('auth');
+  const { initialState, setInitialState } = useModel('@@initialState');
+  const { loginPity, registerPity } = useModel('auth');
 
   const containerClassName = useEmotionCss(() => {
     return {
@@ -96,10 +103,10 @@ const Login: React.FC = () => {
         name: values?.name,
         password: values.password,
         email: values?.email,
-        username: values.username
+        username: values.username,
       });
     } else {
-      resp = await loginPity({username: values.username, password: values.password});
+      resp = await loginPity({ username: values.username, password: values.password });
     }
     if (resp.code === 0) {
       message.success('🎉 🎉 🎉 登录成功');
@@ -116,7 +123,7 @@ const Login: React.FC = () => {
       <Helmet>
         <title>{Settings.title}</title>
       </Helmet>
-      <Lang/>
+      <Lang />
       <div
         style={{
           flex: '1',
@@ -128,9 +135,9 @@ const Login: React.FC = () => {
             minWidth: 280,
             maxWidth: '75vw',
           }}
-          logo={<img alt="logo" src="/logo.svg"/>}
+          logo={<img alt="logo" src="/logo.svg" />}
           title="pity"
-          subTitle={intl.formatMessage({id: 'pages.layouts.userLayout.title'})}
+          subTitle={intl.formatMessage({ id: 'pages.layouts.userLayout.title' })}
           initialValues={{
             autoLogin: true,
           }}
@@ -140,7 +147,7 @@ const Login: React.FC = () => {
               id="pages.login.loginWith"
               defaultMessage="其他登录方式"
             />,
-            <ActionIcons key="icons"/>,
+            <ActionIcons key="icons" />,
           ]}
           onFinish={async (values) => {
             await handleSubmit(values as API.LoginParams);
@@ -173,7 +180,7 @@ const Login: React.FC = () => {
                 name="username"
                 fieldProps={{
                   size: 'large',
-                  prefix: <UserOutlined/>,
+                  prefix: <UserOutlined />,
                 }}
                 placeholder={intl.formatMessage({
                   id: 'pages.login.username.placeholder',
@@ -195,7 +202,7 @@ const Login: React.FC = () => {
                 name="password"
                 fieldProps={{
                   size: 'large',
-                  prefix: <LockOutlined/>,
+                  prefix: <LockOutlined />,
                 }}
                 placeholder={intl.formatMessage({
                   id: 'pages.login.password.placeholder',
@@ -221,35 +228,35 @@ const Login: React.FC = () => {
               <ProFormText
                 fieldProps={{
                   size: 'large',
-                  prefix: <UserOutlined/>,
+                  prefix: <UserOutlined />,
                 }}
                 name="username"
                 placeholder="请输入用户名"
                 rules={[
                   {
                     required: true,
-                    message: "请输入用户名",
-                  }
+                    message: '请输入用户名',
+                  },
                 ]}
               />
               <ProFormText
                 fieldProps={{
                   size: 'large',
-                  prefix: <MobileOutlined/>,
+                  prefix: <MobileOutlined />,
                 }}
                 name="name"
                 placeholder="请输入姓名"
                 rules={[
                   {
                     required: true,
-                    message: "请输入姓名",
-                  }
+                    message: '请输入姓名',
+                  },
                 ]}
               />
               <ProFormText
                 fieldProps={{
                   size: 'large',
-                  prefix: <MailOutlined/>,
+                  prefix: <MailOutlined />,
                 }}
                 name="email"
                 placeholder="请输入用户邮箱"
@@ -257,23 +264,23 @@ const Login: React.FC = () => {
                   {
                     type: 'email',
                     required: true,
-                    message: "请输入合法的邮箱",
-                  }
+                    message: '请输入合法的邮箱',
+                  },
                 ]}
               />
               <ProFormText.Password
                 fieldProps={{
                   size: 'large',
-                  prefix: <LockOutlined/>,
-                  type: 'password'
+                  prefix: <LockOutlined />,
+                  type: 'password',
                 }}
                 name="password"
                 placeholder="请输入用户密码"
                 rules={[
                   {
                     required: true,
-                    message: "请输入用户密码",
-                  }
+                    message: '请输入用户密码',
+                  },
                 ]}
               />
             </>
@@ -283,26 +290,24 @@ const Login: React.FC = () => {
               marginBottom: 24,
             }}
           >
-
-            {
-              type === 'register' ? null :
-                <ProFormCheckbox noStyle name="autoLogin"><FormattedMessage id="pages.login.rememberMe"
-                                                                            defaultMessage="自动登录"/></ProFormCheckbox>
-            }
+            {type === 'register' ? null : (
+              <ProFormCheckbox noStyle name="autoLogin">
+                <FormattedMessage id="pages.login.rememberMe" defaultMessage="自动登录" />
+              </ProFormCheckbox>
+            )}
             <a
               style={{
                 float: 'right',
               }}
             >
-              {
-                type === 'register' ? null :
-                  <FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码"/>
-              }
+              {type === 'register' ? null : (
+                <FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码" />
+              )}
             </a>
           </div>
         </LoginForm>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

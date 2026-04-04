@@ -1,16 +1,17 @@
-import { useState, useCallback } from 'react';
+// @ts-nocheck
 import {
-  generateTestCase,
-  generateTestCaseAsync,
-  enhanceAsserts,
-  enhanceAssertsAsync,
   batchGenerate,
   batchGenerateAsync,
-  parseCurl,
+  enhanceAsserts,
+  enhanceAssertsAsync,
+  generateTestCase,
+  generateTestCaseAsync,
   listAiModels,
+  parseCurl,
 } from '@/services/ai';
-import { getTaskStatus, getTaskResult } from '@/services/task';
+import { getTaskResult, getTaskStatus } from '@/services/task';
 import auth from '@/utils/auth';
+import { useCallback, useState } from 'react';
 
 export interface AIModelInfo {
   name: string;

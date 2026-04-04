@@ -1,27 +1,31 @@
-import {message, notification} from 'antd';
+import { message, notification } from 'antd';
 // import type {PityResponse} from '@/services/user';
-import type {PityResponse} from '@/services/auth';
-import {NotificationPlacement} from "antd/es/notification/interface";
-import {listUsers} from "@/services/user";
-import {RequestOptions} from "@@/plugin-request/request";
+import type { PityResponse } from '@/services/auth';
+import { listUsers } from '@/services/user';
+import { RequestOptions } from '@@/plugin-request/request';
+import { NotificationPlacement } from 'antd/es/notification/interface';
 
 interface headers {
   token: string;
-  "Content-Type"?: string;
+  'Content-Type'?: string;
 }
 
 export default {
   headers: (json = true): RequestOptions => {
     const token = localStorage.getItem('pityToken') || '';
-    const header: headers = {token};
+    const header: headers = { token };
     if (json) {
       header['Content-Type'] = 'application/json';
     }
     return header;
   },
-  notificationResponse: (res: PityResponse, info = false, position: NotificationPlacement = 'topRight') => {
+  notificationResponse: (
+    res: PityResponse,
+    info = false,
+    position: NotificationPlacement = 'topRight',
+  ) => {
     if (!res || res.code === undefined) {
-      notification.error({message: "网络开小差了，请稍后重试", placement: position})
+      notification.error({ message: '网络开小差了，请稍后重试', placement: position });
       return false;
     }
     if (res.code === 0) {
@@ -39,9 +43,9 @@ export default {
       localStorage.removeItem('pityToken');
       localStorage.removeItem('pityUser');
       const href = window.location.href;
-      if (href.indexOf("/user/login") === -1) {
-        const uri = href.split("redirect=")
-        window.location.href = `/#/user/login?redirect=${uri[uri.length - 1]}`
+      if (href.indexOf('/user/login') === -1) {
+        const uri = href.split('redirect=');
+        window.location.href = `/#/user/login?redirect=${uri[uri.length - 1]}`;
         // window.open(`/#/user/login?redirect=${href}`)
       }
       notification.info({
@@ -50,12 +54,12 @@ export default {
       });
       return false;
     }
-    notification.error({message: res.msg, placement: position})
+    notification.error({ message: res.msg, placement: position });
     return false;
   },
   response: (res: PityResponse, info = false) => {
     if (!res || res.code === undefined) {
-      message.error("网络开小差了，请稍后重试")
+      message.error('网络开小差了，请稍后重试');
       return false;
     }
     if (res.code === 0) {
@@ -70,9 +74,9 @@ export default {
       localStorage.removeItem('pityToken');
       localStorage.removeItem('pityUser');
       const href = window.location.href;
-      if (href.indexOf("/user/login") === -1) {
-        const uri = href.split("redirect=")
-        window.location.href = `/#/user/login?redirect=${uri[uri.length - 1]}`
+      if (href.indexOf('/user/login') === -1) {
+        const uri = href.split('redirect=');
+        window.location.href = `/#/user/login?redirect=${uri[uri.length - 1]}`;
         // window.open(`/#/user/login?redirect=${href}`)
       }
       message.info(res.msg);
@@ -82,11 +86,11 @@ export default {
     return false;
   },
   getUserMap: async () => {
-    const user = await listUsers();
+    const user = await listUsers({});
     const temp: Record<any, any> = {};
     user.forEach((item: any) => {
       temp[item?.id] = item;
     });
     return temp;
-  }
+  },
 };

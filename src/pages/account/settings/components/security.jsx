@@ -1,4 +1,3 @@
-import React from 'react';
 import { List } from 'antd';
 const passwordStrength = {
   strong: <span className="strong">强</span>,

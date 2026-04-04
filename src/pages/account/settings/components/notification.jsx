@@ -1,5 +1,5 @@
 import { List, Switch } from 'antd';
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 
 const NotificationView = () => {
   const getData = () => {

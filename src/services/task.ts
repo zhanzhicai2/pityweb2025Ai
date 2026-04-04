@@ -1,6 +1,6 @@
-import request from '@/utils/request';
 import CONFIG from '@/consts/config';
 import auth from '@/utils/auth';
+import request from '@/utils/request';
 
 // 查询任务状态
 export async function getTaskStatus(taskId: string) {

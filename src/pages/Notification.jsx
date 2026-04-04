@@ -1,35 +1,34 @@
-import React, {useEffect, useState} from "react";
-import {PageContainer} from '@ant-design/pro-components';
-import {Avatar, Card, Col, List, Menu, Modal, Row} from "antd";
-import {connect, useModel} from '@umijs/max';
-import TooltipIcon from "@/components/Icon/TooltipIcon";
-import {CloseOutlined, EyeTwoTone} from "@ant-design/icons";
-import Markdown from "@/components/CodeEditor/Markdown";
-import "./UserInfo.less";
-import UserLink from "@/components/Button/UserLink";
+import UserLink from '@/components/Button/UserLink';
+import Markdown from '@/components/CodeEditor/Markdown';
+import TooltipIcon from '@/components/Icon/TooltipIcon';
+import { CloseOutlined, EyeTwoTone } from '@ant-design/icons';
+import { PageContainer } from '@ant-design/pro-components';
+import { connect, useModel } from '@umijs/max';
+import { Card, Col, List, Menu, Modal, Row } from 'antd';
+import { useEffect, useState } from 'react';
+import './UserInfo.less';
 
-const Notification = ({user, dispatch}) => {
-
-  const [current, setCurrent] = useState("0");
-  const [activeTab, setActiveTab] = useState("1");
-  const [title, setTitle] = useState("");
+const Notification = ({ user, dispatch }) => {
+  const [current, setCurrent] = useState('0');
+  const [activeTab, setActiveTab] = useState('1');
+  const [title, setTitle] = useState('');
   const [visible, setVisible] = useState(false);
-  const [content, setContent] = useState("");
-  const {userMap} = user;
-  const {fetchNotices, setNoticeCount, deleteNotices, readNotices, notices} = useModel('notice');
+  const [content, setContent] = useState('');
+  const { userMap } = user;
+  const { fetchNotices, setNoticeCount, deleteNotices, readNotices, notices } = useModel('notice');
 
   const tabListNoTitle = [
     {
-      key: "1",
+      key: '1',
       tab: '未读消息',
     },
     {
-      key: "2",
+      key: '2',
       tab: '已读消息',
-    }
+    },
   ];
 
-  const handleClick = e => {
+  const handleClick = (e) => {
     setCurrent(e.key);
   };
 
@@ -37,41 +36,46 @@ const Notification = ({user, dispatch}) => {
     const data = await fetchNotices({
       msg_status: currentTab,
       msg_type: current,
-    })
+    });
     if (currentTab === '1') {
-      await readNotices(data)
-      setNoticeCount(0)
+      await readNotices(data);
+      setNoticeCount(0);
     }
-  }
+  };
 
   useEffect(() => {
-    getNotices(activeTab)
+    getNotices(activeTab);
     if (Object.keys(userMap).length === 0) {
       dispatch({
-        type: 'user/fetchUserList'
-      })
+        type: 'user/fetchUserList',
+      });
     }
-  }, [activeTab, current])
+  }, [activeTab, current]);
 
-  const onDelete = async id => {
-    await deleteNotices({idList: [id]})
+  const onDelete = async (id) => {
+    await deleteNotices({ idList: [id] });
     await fetchNotices({
       msg_status: activeTab,
       msg_type: current,
-    })
-  }
+    });
+  };
 
   return (
     <PageContainer breadcrumb={null} title="消息中心">
-      <Modal title={title} open={visible} footer={null} onCancel={() => {
-        setVisible(false)
-      }}>
-        <Markdown value={content}/>
+      <Modal
+        title={title}
+        open={visible}
+        footer={null}
+        onCancel={() => {
+          setVisible(false);
+        }}
+      >
+        <Markdown value={content} />
       </Modal>
       <Row gutter={18}>
-        <Col span={1}/>
+        <Col span={1} />
         <Col span={5}>
-          <div style={{minHeight: 480, background: '#fff'}}>
+          <div style={{ minHeight: 480, background: '#fff' }}>
             <Menu
               theme="light"
               mode="inline"
@@ -87,55 +91,65 @@ const Notification = ({user, dispatch}) => {
         </Col>
         <Col span={16}>
           <Card
-            style={{width: '100%'}}
-            bodyStyle={{minHeight: 500}}
+            style={{ width: '100%' }}
+            bodyStyle={{ minHeight: 500 }}
             tabList={tabListNoTitle}
             activeTabKey={activeTab}
-            onTabChange={key => {
+            onTabChange={(key) => {
               setActiveTab(key);
             }}
           >
             <List
               itemLayout="horizontal"
               dataSource={notices}
-              renderItem={item => (
+              renderItem={(item) => (
                 <List.Item>
                   <List.Item.Meta
-                    avatar={<UserLink user={userMap[item.sender]} size={32}/>}
-                    title={<span><a href={item.link}>{item.msg_title}</a></span>}
+                    avatar={<UserLink user={userMap[item.sender]} size={32} />}
+                    title={
+                      <span>
+                        <a href={item.link}>{item.msg_title}</a>
+                      </span>
+                    }
                     description={item.created_at}
                   />
-                  <div style={{marginRight: 12}}>
+                  <div style={{ marginRight: 12 }}>
                     {/*<TooltipIcon title="点击已读" font={16} icon={<CheckOutlined style={{color: '#22ff22'}}/>}/>*/}
-                    {
-                      item.msg_content ?
-                        <TooltipIcon title="查看更多" style={{marginLeft: 8}} font={16} icon={<EyeTwoTone/>}
-                                     onClick={() => {
-                                       if (item.msg_content) {
-                                         setContent(item.msg_content)
-                                         setVisible(true)
-                                         setTitle(item.msg_title)
-                                       }
-                                     }}/> : null
-                    }
-                    {
-                      item.msg_type !== 1 ? <TooltipIcon title="删除该消息" style={{marginLeft: 8}} font={16}
-                                                         onClick={async () => {
-                                                           await onDelete(item.id)
-                                                         }}
-                                                         icon={<CloseOutlined style={{color: '#ff3b3b'}}/>}/> : null
-                    }
+                    {item.msg_content ? (
+                      <TooltipIcon
+                        title="查看更多"
+                        style={{ marginLeft: 8 }}
+                        font={16}
+                        icon={<EyeTwoTone />}
+                        onClick={() => {
+                          if (item.msg_content) {
+                            setContent(item.msg_content);
+                            setVisible(true);
+                            setTitle(item.msg_title);
+                          }
+                        }}
+                      />
+                    ) : null}
+                    {item.msg_type !== 1 ? (
+                      <TooltipIcon
+                        title="删除该消息"
+                        style={{ marginLeft: 8 }}
+                        font={16}
+                        onClick={async () => {
+                          await onDelete(item.id);
+                        }}
+                        icon={<CloseOutlined style={{ color: '#ff3b3b' }} />}
+                      />
+                    ) : null}
                   </div>
                 </List.Item>
               )}
             />
           </Card>
         </Col>
-
       </Row>
-
     </PageContainer>
-  )
-}
+  );
+};
 
-export default connect(({user}) => ({user}))(Notification);
+export default connect(({ user }) => ({ user }))(Notification);

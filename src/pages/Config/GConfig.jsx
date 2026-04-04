@@ -1,21 +1,34 @@
-import {PageContainer} from '@ant-design/pro-components';
-import {Badge, Button, Card, Col, Divider, Input, Modal, Row, Select, Switch, Table, Tag} from 'antd';
-import React, {useEffect, useState} from 'react';
-import {connect} from '@umijs/max';
+import { PageContainer } from '@ant-design/pro-components';
+import { connect } from '@umijs/max';
+import {
+  Badge,
+  Button,
+  Card,
+  Col,
+  Divider,
+  Input,
+  Modal,
+  Row,
+  Select,
+  Switch,
+  Table,
+  Tag,
+} from 'antd';
+import { useEffect, useState } from 'react';
 
-import {PlusOutlined} from '@ant-design/icons';
+import UserLink from '@/components/Button/UserLink';
+import PityAceEditor from '@/components/CodeEditor/AceEditor/index';
 import FormForModal from '@/components/PityForm/FormForModal';
-import {vs2015} from "react-syntax-highlighter/dist/cjs/styles/hljs";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import UserLink from "@/components/Button/UserLink";
-import PityAceEditor from "@/components/CodeEditor/AceEditor/index";
-import CONFIG from "@/consts/config";
+import CONFIG from '@/consts/config';
+import { PlusOutlined } from '@ant-design/icons';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { vs2015 } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
 
-const {Option} = Select;
-const GConfig = ({gconfig, user, loading, dispatch}) => {
-  const {data, envList, key_type, envMap, modal, currentEnv, name, pagination} = gconfig;
-  const {userMap} = user;
-  const [record, setRecord] = useState({id: 0, key_type: 0});
+const { Option } = Select;
+const GConfig = ({ gconfig, user, loading, dispatch }) => {
+  const { data, envList, key_type, envMap, modal, currentEnv, name, pagination } = gconfig;
+  const { userMap } = user;
+  const [record, setRecord] = useState({ id: 0, key_type: 0 });
   const [language, setLanguage] = useState(0);
   const [editor, setEditor] = useState(null);
 
@@ -34,13 +47,13 @@ const GConfig = ({gconfig, user, loading, dispatch}) => {
       title: '环境',
       key: 'env',
       dataIndex: 'env',
-      render: env => <Tag>{envMap[env]}</Tag>,
+      render: (env) => <Tag>{envMap[env]}</Tag>,
     },
     {
       title: '类型',
       dataIndex: 'key_type',
       key: 'key_type',
-      render: key => <Tag color={CONFIG.CONFIG_TYPE_TAG[key_type[key]]}>{key_type[key]}</Tag>,
+      render: (key) => <Tag color={CONFIG.CONFIG_TYPE_TAG[key_type[key]]}>{key_type[key]}</Tag>,
     },
     {
       title: 'key',
@@ -57,53 +70,85 @@ const GConfig = ({gconfig, user, loading, dispatch}) => {
           return text;
         }
         if (record.key_type === 1) {
-          return <a onClick={() => {
-            Modal.info({
-              title: `${record.key}`,
-              width: 500,
-              bodyStyle: {padding: -12},
-              content: <SyntaxHighlighter language="json" style={vs2015}>{record.value}</SyntaxHighlighter>
-            })
-          }}>查看</a>
+          return (
+            <a
+              onClick={() => {
+                Modal.info({
+                  title: `${record.key}`,
+                  width: 500,
+                  bodyStyle: { padding: -12 },
+                  content: (
+                    <SyntaxHighlighter language="json" style={vs2015}>
+                      {record.value}
+                    </SyntaxHighlighter>
+                  ),
+                });
+              }}
+            >
+              查看
+            </a>
+          );
         }
         // yaml
         if (record.key_type === 2) {
-          return <a onClick={() => {
-            Modal.info({
-              title: `${record.key}`,
-              width: 500,
-              bodyStyle: {padding: -12},
-              content: <SyntaxHighlighter language="yaml" style={vs2015}>{record.value}</SyntaxHighlighter>
-            })
-          }}>查看</a>
+          return (
+            <a
+              onClick={() => {
+                Modal.info({
+                  title: `${record.key}`,
+                  width: 500,
+                  bodyStyle: { padding: -12 },
+                  content: (
+                    <SyntaxHighlighter language="yaml" style={vs2015}>
+                      {record.value}
+                    </SyntaxHighlighter>
+                  ),
+                });
+              }}
+            >
+              查看
+            </a>
+          );
         }
-      }
+      },
     },
     {
       title: '是否可用',
       dataIndex: 'enable',
       key: 'enable',
-      render: text => <Badge status={text ? 'processing' : 'default'} text={text ? '使用中' : '已禁止'}/>,
+      render: (text) => (
+        <Badge status={text ? 'processing' : 'default'} text={text ? '使用中' : '已禁止'} />
+      ),
     },
     {
-      title: "创建人",
-      key: "create_user",
-      render: (_, record) => <UserLink user={userMap[record.create_user.toString()]}/>
+      title: '创建人',
+      key: 'create_user',
+      render: (_, record) => <UserLink user={userMap[record.create_user.toString()]} />,
     },
     {
       title: '操作',
       key: 'operation',
-      render: (_, record) => <>
-        <a onClick={() => {
-          save({modal: true})
-          setRecord(record);
-          setLanguage(record.key_type);
-        }}>编辑</a>
-        <Divider type='vertical'/>
-        <a onClick={() => {
-          dispatch({type: 'gconfig/deleteGConfig', payload: {id: record.id}})
-        }}>删除</a>
-      </>,
+      render: (_, record) => (
+        <>
+          <a
+            onClick={() => {
+              save({ modal: true });
+              setRecord(record);
+              setLanguage(record.key_type);
+            }}
+          >
+            编辑
+          </a>
+          <Divider type="vertical" />
+          <a
+            onClick={() => {
+              dispatch({ type: 'gconfig/deleteGConfig', payload: { id: record.id } });
+            }}
+          >
+            删除
+          </a>
+        </>
+      ),
     },
   ];
 
@@ -112,25 +157,32 @@ const GConfig = ({gconfig, user, loading, dispatch}) => {
       name: 'env',
       label: '环境',
       required: true,
-      component: <Select defaultValue={currentEnv} placeholder="选择对应环境">
-        {
-          envList.map(v => <Option value={v.id}>{v.name}</Option>)
-        }
-      </Select>,
+      component: (
+        <Select defaultValue={currentEnv} placeholder="选择对应环境">
+          {envList.map((v) => (
+            <Option key={v.id} value={v.id}>
+              {v.name}
+            </Option>
+          ))}
+        </Select>
+      ),
       type: 'select',
     },
     {
       name: 'key_type',
       label: '类型',
       required: true,
-      component: <Select onSelect={e => {
-        setLanguage(e);
-      }
-      }>
-        <Option value={0}>String</Option>
-        <Option value={1}>JSON</Option>
-        <Option value={2}>YAML</Option>
-      </Select>,
+      component: (
+        <Select
+          onSelect={(e) => {
+            setLanguage(e);
+          }}
+        >
+          <Option value={0}>String</Option>
+          <Option value={1}>JSON</Option>
+          <Option value={2}>YAML</Option>
+        </Select>
+      ),
       type: 'select',
     },
     {
@@ -144,13 +196,13 @@ const GConfig = ({gconfig, user, loading, dispatch}) => {
       name: 'value',
       label: 'value',
       required: true,
-      component: <PityAceEditor language={getType()} setEditor={setEditor} height={250}/>,
+      component: <PityAceEditor language={getType()} setEditor={setEditor} height={250} />,
     },
     {
       name: 'enable',
       label: '是否可用',
       required: true,
-      component: <Switch/>,
+      component: <Switch />,
       valuePropName: 'checked',
       initialValue: true,
     },
@@ -170,7 +222,7 @@ const GConfig = ({gconfig, user, loading, dispatch}) => {
     dispatch({
       type: 'user/fetchUserList',
     });
-  }
+  };
 
   const getConfig = (page = pagination.current, size = pagination.pageSize) => {
     dispatch({
@@ -186,14 +238,14 @@ const GConfig = ({gconfig, user, loading, dispatch}) => {
 
   useEffect(() => {
     getEnvList();
-  }, [])
+  }, []);
 
   useEffect(() => {
-    fetchUserList()
+    fetchUserList();
     getConfig();
   }, [currentEnv, name, pagination.current]);
 
-  const onFinish = async values => {
+  const onFinish = async (values) => {
     const params = {
       ...record,
       ...values,
@@ -212,7 +264,7 @@ const GConfig = ({gconfig, user, loading, dispatch}) => {
     }
   };
 
-  const save = data => {
+  const save = (data) => {
     dispatch({
       type: 'gconfig/save',
       payload: data,
@@ -220,40 +272,79 @@ const GConfig = ({gconfig, user, loading, dispatch}) => {
   };
 
   return (
-    <PageContainer title='全局变量' breadcrumb={null}>
+    <PageContainer title="全局变量" breadcrumb={null}>
       <Card>
-        <FormForModal fields={fields} open={modal} left={4} right={20} onFinish={onFinish}
-                      onCancel={() => {
-                        save({modal: false});
-                      }} title='编辑变量' record={record} width={600} offset={-60}/>
+        <FormForModal
+          fields={fields}
+          open={modal}
+          left={4}
+          right={20}
+          onFinish={onFinish}
+          onCancel={() => {
+            save({ modal: false });
+          }}
+          title="编辑变量"
+          record={record}
+          width={600}
+          offset={-60}
+        />
         <Row gutter={[8, 8]}>
           <Col span={12}>
-            <Button type='primary'
-                    onClick={() => {
-                      save({modal: true});
-                      setRecord({id: 0, key_type: 0, env: currentEnv !== null ? currentEnv.toString() : currentEnv})
-                    }}><PlusOutlined/>添加变量</Button>
+            <Button
+              type="primary"
+              onClick={() => {
+                save({ modal: true });
+                setRecord({
+                  id: 0,
+                  key_type: 0,
+                  env: currentEnv !== null ? currentEnv.toString() : currentEnv,
+                });
+              }}
+            >
+              <PlusOutlined />
+              添加变量
+            </Button>
           </Col>
-          <Col span={4}/>
+          <Col span={4} />
           <Col span={8}>
-            <Input addonBefore={<Select allowClear placeholder="选择对应环境" value={currentEnv} style={{width: 120}}
-                                        onChange={e => {
-                                          save({currentEnv: e});
-                                        }}>
-              {
-                envList.map(v => <Option value={v.id.toString()}>{v.name}</Option>)
+            <Input
+              addonBefore={
+                <Select
+                  allowClear
+                  placeholder="选择对应环境"
+                  value={currentEnv}
+                  style={{ width: 120 }}
+                  onChange={(e) => {
+                    save({ currentEnv: e });
+                  }}
+                >
+                  {envList.map((v) => (
+                    <Option key={v.id} value={v.id.toString()}>
+                      {v.name}
+                    </Option>
+                  ))}
+                </Select>
               }
-            </Select>} placeholder='请输入key' value={name} onChange={e => {
-              save({name: e.target.value});
-            }}/>
+              placeholder="请输入key"
+              value={name}
+              onChange={(e) => {
+                save({ name: e.target.value });
+              }}
+            />
           </Col>
         </Row>
-        <Row style={{marginTop: 12}}>
+        <Row style={{ marginTop: 12 }}>
           <Col span={24}>
-            <Table dataSource={data} columns={columns} pagination={pagination} rowKey={record => record.id}
-                   loading={loading.effects['gconfig/fetchGConfig']} onChange={pg => {
-              save({pagination: pg});
-            }}/>
+            <Table
+              dataSource={data}
+              columns={columns}
+              pagination={pagination}
+              rowKey={(record) => record.id}
+              loading={loading.effects['gconfig/fetchGConfig']}
+              onChange={(pg) => {
+                save({ pagination: pg });
+              }}
+            />
           </Col>
         </Row>
       </Card>
@@ -261,7 +352,8 @@ const GConfig = ({gconfig, user, loading, dispatch}) => {
   );
 };
 
-export default connect(({gconfig, user, loading}) => ({
-  gconfig, user,
+export default connect(({ gconfig, user, loading }) => ({
+  gconfig,
+  user,
   loading,
 }))(GConfig);

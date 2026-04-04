@@ -1,9 +1,8 @@
-import React from 'react';
-import { StarTwoTone, LikeOutlined, MessageFilled } from '@ant-design/icons';
-import { useRequest } from 'umi';
+import { LikeOutlined, MessageFilled, StarTwoTone } from '@ant-design/icons';
 import { List, Tag } from 'antd';
-import ArticleListContent from '../ArticleListContent';
+import { useRequest } from 'umi';
 import { queryFakeList } from '../../service';
+import ArticleListContent from '../ArticleListContent';
 import styles from './index.less';
 
 const Articles = () => {

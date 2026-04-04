@@ -1,7 +1,6 @@
 import { Card, List } from 'antd';
-import { useRequest } from 'umi';
-import React from 'react';
 import moment from 'moment';
+import { useRequest } from 'umi';
 import { queryFakeList } from '../../service';
 import AvatarList from '../AvatarList';
 import styles from './index.less';

@@ -8,12 +8,11 @@ Pity 前端 — Pity API 测试平台的 React 前端项目。基于 UmiJS v4 (`
 
 ## 开发阶段
 
-- [x] Phase 1: 依赖升级（Pydantic v1→v2, SQLAlchemy 1.4→2.0, FastAPI 0.75→0.111）
-- [x] Phase 2: 任务调度系统（APScheduler + MySQL 持久化）
-- [x] Phase 3: 测试套件管理系统（套件 CRUD + 执行）
-- [x] Phase 4: AI 测试用例生成（后端完成）
-- [x] Phase 5: Celery 异步任务（后端完成）
-- [x] Phase 6: 前端 AI 集成（已完成）
+- [x] Phase 1-6: 基础功能开发完成
+- [x] Phase 7: 依赖升级（antd 5.x、UmiJS 4.6.x、TypeScript 5.x）
+- [x] Phase 8: TypeScript 全面迁移（84 个类型错误修复，esbuild 配置优化）
+- [ ] Phase 9: antd 6 升级（暂缓，pro-components 3.x 稳定版未发布）
+- [x] Phase 10: TypeScript 全面迁移第二轮（62 个 JS/JSX → TS/TSX，构建成功）
 
 ## 开发命令
 
@@ -217,7 +216,6 @@ export default function useNewFeature() {
 
 ## 重要规则
 
-1. **不要修改 2025-10-12 之前编写的代码** — 优先创建新文件。如需修改旧代码，需征得同意。
 2. 前端开发服务器运行在 `localhost:8000`，后端 API 运行在 `localhost:7777/7778`。
 3. `localStorage` 中的 `pityToken` 是 JWT token 的 key。
 4. 后端 FastAPI 应用的根目录在 `../backend/`。

@@ -71,7 +71,7 @@ export const errorConfig: RequestConfig = {
         }
       } else if (error.response) {
         if (error.message === 'Network Error') {
-          message.error(`网络开小差了, 请稍后再试！`)
+          message.error(`网络开小差了, 请稍后再试！`);
           return;
         }
         // Axios 的错误

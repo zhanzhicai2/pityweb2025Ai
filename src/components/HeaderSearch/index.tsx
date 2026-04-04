@@ -22,7 +22,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
   const { className, defaultValue, onVisibleChange, placeholder, defaultOpen, ...restProps } =
     props;
   const inputRef = useRef<any>(null);
-  const [value, setValue] = useMergedState(defaultValue, {
+  const [value, setValue] = useMergedState(defaultValue || '', {
     value: props.value,
     onChange: props.onChange,
   });
@@ -66,7 +66,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
           marginTop: -6,
         }}
         options={restProps.options}
-        onChange={setValue}
+        onChange={(val) => setValue(val as string)}
       >
         <Input
           ref={inputRef}

@@ -5,9 +5,9 @@ try {
   if (!pkg.exports) {
     pkg.exports = {
       '.': {
-        'import': './index.js',
-        'require': './index.js'
-      }
+        import: './index.js',
+        require: './index.js',
+      },
     };
     fs.writeFileSync(path, JSON.stringify(pkg, null, 2));
     console.log('Fixed click-to-react-component package.json');

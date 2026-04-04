@@ -114,7 +114,7 @@ const ProjectRoleComponent: React.FC<ProjectRoleProps> = ({ project, roles, user
   const permission = (item: ProjectRole) => {
     if (item.project_role === 'OWNER') {
       return [
-        <Tag key="owner" color="blue" size="large">
+        <Tag key="owner" color="blue">
           负责人
         </Tag>,
       ];
@@ -123,14 +123,22 @@ const ProjectRoleComponent: React.FC<ProjectRoleProps> = ({ project, roles, user
       <Select
         key="select"
         style={{ width: 80 }}
-        value={CONFIG.PROJECT_ROLE_MAP[item.project_role]}
+        value={
+          CONFIG.PROJECT_ROLE_MAP[
+            Number(item.project_role) as unknown as keyof typeof CONFIG.PROJECT_ROLE_MAP
+          ]
+        }
         onChange={(data) => {
           onUpdateRole(item, data);
         }}
       >
         {Object.keys(CONFIG.PROJECT_ROLE_MAP).map((key, index) => (
           <Option key={`role-${index}`} value={key}>
-            {CONFIG.PROJECT_ROLE_MAP[key]}
+            {
+              CONFIG.PROJECT_ROLE_MAP[
+                Number(key) as unknown as keyof typeof CONFIG.PROJECT_ROLE_MAP
+              ]
+            }
           </Option>
         ))}
       </Select>,
@@ -164,7 +172,7 @@ const ProjectRoleComponent: React.FC<ProjectRoleProps> = ({ project, roles, user
         <Select placeholder="请选择角色">
           {Object.keys(CONFIG.PROJECT_ROLE_MAP).map((key, index) => (
             <Option key={index} value={key}>
-              {CONFIG.PROJECT_ROLE_MAP[key]}
+              {CONFIG.PROJECT_ROLE_MAP[Number(key) as unknown as 0 | 1]}
             </Option>
           ))}
         </Select>

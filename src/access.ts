@@ -1,4 +1,4 @@
-import {LoginUser} from "@/services/auth";
+import { LoginUser } from '@/services/auth';
 
 /**
  * @see https://umijs.org/zh-CN/plugins/plugin-access

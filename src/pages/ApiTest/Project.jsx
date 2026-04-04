@@ -1,33 +1,46 @@
-import React, {memo, useEffect, useState} from 'react';
-import {PageContainer} from '@ant-design/pro-components';
-import {Avatar, Button, Card, Col, Dropdown, Empty, Input, Menu, Modal, Pagination, Row, Spin, Tooltip,} from 'antd';
+import noRecord from '@/assets/no_record.svg';
+import UserLink from '@/components/Button/UserLink';
+import { IconFont } from '@/components/Icon/IconFont';
+import FormForModal from '@/components/PityForm/FormForModal';
+import UserSelect from '@/components/User/UserSelect';
+import CONFIG from '@/consts/config';
+import { insertProject, listProject } from '@/services/project';
+import { listUsers } from '@/services/user';
+import auth from '@/utils/auth';
 import {
   AliwangwangOutlined,
   DeleteTwoTone,
   ExclamationCircleOutlined,
   QuestionCircleOutlined,
-  SearchOutlined
+  SearchOutlined,
 } from '@ant-design/icons';
-import FormForModal from '@/components/PityForm/FormForModal';
-import {connect, history} from '@umijs/max';
-import {insertProject, listProject} from '@/services/project';
-import auth from '@/utils/auth';
-import {listUsers} from '@/services/user';
-import noRecord from '@/assets/no_record.svg'
-import UserLink from "@/components/Button/UserLink";
-import CONFIG from "@/consts/config";
+import { PageContainer } from '@ant-design/pro-components';
+import { connect, history } from '@umijs/max';
+import {
+  Avatar,
+  Button,
+  Card,
+  Col,
+  Dropdown,
+  Empty,
+  Input,
+  Menu,
+  Modal,
+  Pagination,
+  Row,
+  Spin,
+  Tooltip,
+} from 'antd';
+import { memo, useEffect, useState } from 'react';
 import styles from './Project.less';
-import UserSelect from "@/components/User/UserSelect";
-import {IconFont} from "@/components/Icon/IconFont";
 
-
-const Project = ({dispatch, project, loading}) => {
+const Project = ({ dispatch, project, loading }) => {
   const [data, setData] = useState([]);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 8,
     total: 0,
-    showTotal: count => `共${count}个项目`
+    showTotal: (count) => `共${count}个项目`,
   });
   const [visible, setVisible] = useState(false);
   const [users, setUsers] = useState([]);
@@ -35,12 +48,12 @@ const Project = ({dispatch, project, loading}) => {
   const [spinning, setSpinning] = useState(false);
 
   const fetchData = async (current = pagination.current, size = pagination.pageSize) => {
-    setSpinning(true)
-    const res = await listProject({page: current, size});
-    setSpinning(false)
+    setSpinning(true);
+    const res = await listProject({ page: current, size });
+    setSpinning(false);
     if (auth.response(res)) {
       setData(res.data);
-      setPagination({...pagination, current, total: res.total});
+      setPagination({ ...pagination, current, total: res.total });
     }
   };
 
@@ -54,7 +67,7 @@ const Project = ({dispatch, project, loading}) => {
     setUserMap(temp);
   };
 
-  const onDeleteProject = async projectId => {
+  const onDeleteProject = async (projectId) => {
     const res = await dispatch({
       type: 'project/deleteProject',
       payload: {
@@ -64,19 +77,19 @@ const Project = ({dispatch, project, loading}) => {
     if (res) {
       fetchData();
     }
-  }
+  };
 
   useEffect(() => {
     getUsers();
     fetchData();
   }, []);
 
-  const onSearchProject = async e => {
+  const onSearchProject = async (e) => {
     const projectName = e.target.value;
-    const res = await listProject({page: 1, size: pagination.pageSize, name: projectName});
+    const res = await listProject({ page: 1, size: pagination.pageSize, name: projectName });
     if (auth.response(res)) {
       setData(res.data);
-      setPagination({...pagination, current: 1, total: res.total});
+      setPagination({ ...pagination, current: 1, total: res.total });
     }
   };
 
@@ -111,7 +124,7 @@ const Project = ({dispatch, project, loading}) => {
       name: 'owner',
       label: '项目负责人',
       required: true,
-      component: <UserSelect users={users} placeholder="选择项目负责人"/>,
+      component: <UserSelect users={users} placeholder="选择项目负责人" />,
       type: 'select',
     },
     {
@@ -132,44 +145,49 @@ const Project = ({dispatch, project, loading}) => {
     },
   ];
 
-  const menu = item => <Menu>
-    <Menu.Item icon={<AliwangwangOutlined/>}>
-      <a>
-        申请权限
-      </a>
-    </Menu.Item>
-    <Menu.Item icon={<DeleteTwoTone twoToneColor="red"/>}>
-      <a onClick={e => {
-        e.stopPropagation();
-        Modal.confirm({
-          title: '你确定要删除此项目吗?',
-          icon: <ExclamationCircleOutlined/>,
-          content: '删除后不可恢复，请谨慎~',
-          okText: '确定',
-          okType: 'danger',
-          cancelText: '点错了',
-          onOk: async () => {
-            await onDeleteProject(item.id);
-          },
-        });
-      }}>
-        删除项目
-      </a>
-    </Menu.Item>
-  </Menu>;
-
-  const CardTitle = ({item}) => (
-    <div style={{fontSize: 16, fontWeight: 'bold', color: 'rgb(65, 74, 105)'}}>
-      {item.name}
-      <span style={{float: 'right', lineHeight: '24px', fontSize: 24, marginRight: 4}}>
-          <Dropdown overlay={menu(item)} onClick={e => {
+  const menu = (item) => (
+    <Menu>
+      <Menu.Item icon={<AliwangwangOutlined />}>
+        <a>申请权限</a>
+      </Menu.Item>
+      <Menu.Item icon={<DeleteTwoTone twoToneColor="red" />}>
+        <a
+          onClick={(e) => {
             e.stopPropagation();
-          }}>
-            <IconFont type="icon-more1" style={{cursor: 'pointer'}}/>
-          </Dropdown>
-        </span>
+            Modal.confirm({
+              title: '你确定要删除此项目吗?',
+              icon: <ExclamationCircleOutlined />,
+              content: '删除后不可恢复，请谨慎~',
+              okText: '确定',
+              okType: 'danger',
+              cancelText: '点错了',
+              onOk: async () => {
+                await onDeleteProject(item.id);
+              },
+            });
+          }}
+        >
+          删除项目
+        </a>
+      </Menu.Item>
+    </Menu>
+  );
+
+  const CardTitle = ({ item }) => (
+    <div style={{ fontSize: 16, fontWeight: 'bold', color: 'rgb(65, 74, 105)' }}>
+      {item.name}
+      <span style={{ float: 'right', lineHeight: '24px', fontSize: 24, marginRight: 4 }}>
+        <Dropdown
+          overlay={menu(item)}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <IconFont type="icon-more1" style={{ cursor: 'pointer' }} />
+        </Dropdown>
+      </span>
     </div>
-  )
+  );
 
   return (
     <PageContainer title={false} breadcrumb={null}>
@@ -178,29 +196,29 @@ const Project = ({dispatch, project, loading}) => {
         title="添加项目"
         left={6}
         right={18}
-        record={{private: false}}
+        record={{ private: false }}
         open={visible}
         onCancel={() => setVisible(false)}
         fields={fields}
         onFinish={onHandleCreate}
       />
       <Spin spinning={spinning}>
-        <Card style={{marginBottom: 12}}>
+        <Card style={{ marginBottom: 12 }}>
           <Row gutter={8}>
             <Col span={18}>
               <Button type="primary" onClick={() => setVisible(true)}>
                 创建项目
                 <Tooltip title="只有超级管理员可以创建项目">
-                  <QuestionCircleOutlined/>
+                  <QuestionCircleOutlined />
                 </Tooltip>
               </Button>
             </Col>
             <Col span={6}>
               <Input
                 className="borderSearch"
-                prefix={<SearchOutlined/>}
+                prefix={<SearchOutlined />}
                 onPressEnter={onSearchProject}
-                style={{float: 'right'}}
+                style={{ float: 'right' }}
                 placeholder="请输入项目名称"
               />
             </Col>
@@ -208,23 +226,29 @@ const Project = ({dispatch, project, loading}) => {
         </Card>
         <Row gutter={24}>
           {data.length === 0 ? (
-            <Col span={24} style={{textAlign: 'center', marginBottom: 12}}>
+            <Col span={24} style={{ textAlign: 'center', marginBottom: 12 }}>
               <Card>
-                <Empty description="暂无项目, 快点击『创建项目』创建一个吧!" image={noRecord} imageStyle={{height: 220}}/>
+                <Empty
+                  description="暂无项目, 快点击『创建项目』创建一个吧!"
+                  image={noRecord}
+                  imageStyle={{ height: 220 }}
+                />
               </Card>
             </Col>
           ) : (
             data.map((item) => (
-              <Col key={item.id} span={6} style={{marginBottom: 24}}>
+              <Col key={item.id} span={6} style={{ marginBottom: 24 }}>
                 <Card hoverable className={styles.card}>
                   <Card.Meta
-                    avatar={<Avatar src={item.avatar || CONFIG.PROJECT_AVATAR_URL} size={48}/>}
-                    title={<CardTitle item={item}/>}
-                    description={<div>
-                      <p className={styles.description}>{item.description || '无'}</p>
-                      <p>负责人 {<UserLink user={userMap[item.owner]}/>}</p>
-                      <p>更新时间 {item.updated_at}</p>
-                    </div>}
+                    avatar={<Avatar src={item.avatar || CONFIG.PROJECT_AVATAR_URL} size={48} />}
+                    title={<CardTitle item={item} />}
+                    description={
+                      <div>
+                        <p className={styles.description}>{item.description || '无'}</p>
+                        <p>负责人 {<UserLink user={userMap[item.owner]} />}</p>
+                        <p>更新时间 {item.updated_at}</p>
+                      </div>
+                    }
                     onClick={() => {
                       history.push(`/project/${item.id}`);
                     }}
@@ -236,9 +260,14 @@ const Project = ({dispatch, project, loading}) => {
         </Row>
         <Row gutter={8}>
           <Col span={24}>
-            <Pagination {...pagination} style={{float: 'right'}} position="bottomRight" onChange={pg => {
-              fetchData(pg)
-            }}/>
+            <Pagination
+              {...pagination}
+              style={{ float: 'right' }}
+              position="bottomRight"
+              onChange={(pg) => {
+                fetchData(pg);
+              }}
+            />
           </Col>
         </Row>
       </Spin>
@@ -246,5 +275,4 @@ const Project = ({dispatch, project, loading}) => {
   );
 };
 
-
-export default connect(({loading, project}) => ({loading, project}))(memo(Project));
+export default connect(({ loading, project }) => ({ loading, project }))(memo(Project));
