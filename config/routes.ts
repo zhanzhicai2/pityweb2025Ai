@@ -278,6 +278,12 @@ export default [
     component: './datafactory',
   },
   {
+    path: '/knowledge',
+    name: '知识库',
+    icon: 'icon-document',
+    component: './Tool/KnowledgeBase',
+  },
+  {
     path: '/ai',
     name: 'AI助手',
     icon: 'Robot',
@@ -297,11 +303,6 @@ export default [
         path: '/ai/enhance',
         name: '增强断言',
         component: './Ai/EnhanceAsserts',
-      },
-      {
-        path: '/ai/knowledge',
-        name: '知识库',
-        component: './Tool/KnowledgeBase',
       },
     ],
   },
