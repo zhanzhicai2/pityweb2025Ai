@@ -257,6 +257,12 @@ export default [
         icon: 'redis',
         component: './Tool/RedisOnline',
       },
+      {
+        path: '/tool/knowledge',
+        name: '知识库',
+        icon: 'icon-document',
+        component: './Tool/KnowledgeBase',
+      },
     ],
   },
   {
