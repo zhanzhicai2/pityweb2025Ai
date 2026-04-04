@@ -257,12 +257,6 @@ export default [
         icon: 'redis',
         component: './Tool/RedisOnline',
       },
-      {
-        path: '/tool/knowledge',
-        name: '知识库',
-        icon: 'icon-document',
-        component: './Tool/KnowledgeBase',
-      },
     ],
   },
   {
@@ -303,6 +297,11 @@ export default [
         path: '/ai/enhance',
         name: '增强断言',
         component: './Ai/EnhanceAsserts',
+      },
+      {
+        path: '/ai/knowledge',
+        name: '知识库',
+        component: './Tool/KnowledgeBase',
       },
     ],
   },
