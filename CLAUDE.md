@@ -6,6 +6,18 @@
 
 Pity 前端 — Pity API 测试平台的 React 前端项目。基于 UmiJS v4 (`@umijs/max`)、Ant Design v5、Ant Design Pro Components 构建。后端为 Python FastAPI 应用。
 
+## 项目结构确认
+
+确认我现在工作的目录：
+
+- Pity 前端：/Users/zhanzhicai/Desktop/py/pity/frontend
+- Pity 后端：/Users/zhanzhicai/Desktop/py/pity/backend
+-
+
+## Git 状态
+
+前端 │ /Users/zhanzhicai/Desktop/py/pity/frontend │ feat/upgrade-plugin-system 后端 │ /Users/zhanzhicai/Desktop/py/pity/backend │ feat/upgrade-plugin-system 分开提交：backend 和 frontend 单独 commit，只提交不推送
+
 ## 开发阶段
 
 - [x] Phase 1-6: 基础功能开发完成
