@@ -23,6 +23,7 @@ import {
   Modal,
   Select,
   Spin,
+  Switch,
   Typography,
   message,
 } from 'antd';
@@ -57,6 +58,7 @@ export default () => {
   const [sending, setSending] = useState(false);
   const [models, setModels] = useState<{ id: string; name: string }[]>([]);
   const [selectedModel, setSelectedModel] = useState<string>('');
+  const [useRag, setUseRag] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // 滚动到底部
@@ -137,11 +139,21 @@ export default () => {
       return;
     }
 
+    // RAG 开关提示
+    if (useRag) {
+      Modal.info({
+        title: '知识库检索已启用',
+        content: '本次对话将使用本地知识库检索增强，请稍候...',
+        okText: '确定',
+      });
+    }
+
     try {
       setSending(true);
       const res = await sendMessage(currentSession.id, {
         content: inputValue,
         model: selectedModel,
+        use_rag: useRag,
       });
 
       if (res.code === 0) {
@@ -297,6 +309,10 @@ export default () => {
                   style={{ width: 120 }}
                   options={models.map((m) => ({ label: m.name, value: m.id }))}
                 />
+              </div>
+              <div className="rag-switch">
+                <Switch size="small" checked={useRag} onChange={setUseRag} />
+                <span style={{ marginLeft: 4, fontSize: 12 }}>知识库</span>
               </div>
               <TextArea
                 value={inputValue}

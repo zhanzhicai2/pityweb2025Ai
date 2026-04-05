@@ -58,6 +58,7 @@ export async function sendMessage(sessionId, data) {
     data: {
       content: data.content,
       model: data.model,
+      use_rag: data.use_rag || false,
     },
     headers: auth.headers(),
   });
