@@ -312,6 +312,13 @@ export default [
     ],
   },
   {
+    path: '/notification',
+    name: '通知管理',
+    icon: 'notification',
+    authority: ['superAdmin', 'admin'],
+    component: './Notification',
+  },
+  {
     path: '*',
     layout: false,
     component: './404',
