@@ -319,6 +319,13 @@ export default [
     component: './Notification',
   },
   {
+    path: '/openapi',
+    name: 'OpenAPI导入',
+    icon: 'api',
+    authority: ['superAdmin', 'admin'],
+    component: './OpenAPI',
+  },
+  {
     path: '*',
     layout: false,
     component: './404',

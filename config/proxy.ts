@@ -73,6 +73,10 @@ export default {
       target: 'http://0.0.0.0:7777',
       changeOrigin: true,
     },
+    '/import/openapi': {
+      target: 'http://0.0.0.0:7777',
+      changeOrigin: true,
+    },
   },
   /**
    * @name 详细的代理配置
