@@ -322,7 +322,6 @@ export default [
     path: '/openapi',
     name: 'OpenAPI导入',
     icon: 'api',
-    authority: ['superAdmin', 'admin'],
     component: './OpenAPI',
   },
   {
