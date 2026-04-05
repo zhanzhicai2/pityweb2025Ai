@@ -290,6 +290,11 @@ export default [
     authority: ['superAdmin', 'admin'],
     routes: [
       {
+        path: '/ai/chat',
+        name: 'AI对话',
+        component: './AiChat',
+      },
+      {
         path: '/ai/generate',
         name: 'AI生成用例',
         component: './Ai/GenerateCase',
