@@ -143,28 +143,35 @@ frontend/
 
 页面位于 `src/pages/`，镜像路由结构。标准 CRUD 界面使用 Ant Design Pro 组件 (ProTable, ProForm, ProList)。共享组件位于 `src/components/`。
 
-### 状态管理迁移策略
+### 状态管理
 
-项目现有 dva model（`namespace`/`reducers`/`effects`）继续保留，不做迁移。**新文件必须使用纯 hooks 风格**（`@umijs/plugin-model`），为 React 19 及后续版本做准备。
+使用 **dva model** 方案（`namespace`/`state`/`reducers`/`effects`），通过 `useModel('modelName')` 访问。
 
-```typescript
-// 新 model 示例: src/models/newFeature.ts
-import { useState, useCallback } from 'react';
-
-export default function useNewFeature() {
-  const [list, setList] = useState([]);
-  const fetchList = useCallback(async () => {
-    /* ... */
-  }, []);
-  return { list, fetchList };
-}
+```javascript
+// src/models/example.js
+export default {
+  namespace: 'example',
+  state: {
+    list: [],
+  },
+  reducers: {
+    updateState(state, { payload }) {
+      return { ...state, ...payload };
+    },
+  },
+  effects: {
+    *fetchList({ payload }, { call, put }) {
+      // 调用 service
+      const data = yield call(exampleService.list, payload);
+      yield put({ type: 'updateState', payload: { list: data } });
+    },
+  },
+};
 ```
-
-两种风格通过 `useModel('name')` 统一消费，可共存无需配置改动。
 
 ### 语言
 
-项目混合使用 TypeScript (`.ts/.tsx`) 和 JavaScript (`.js/.jsx`)。**新文件应使用 TypeScript**。
+项目使用 **JavaScript** (`.js/.jsx`)，现有 TypeScript 文件保持不动。新文件统一使用 JavaScript。
 
 ### 日期处理
 
@@ -188,9 +195,29 @@ export default function useNewFeature() {
 - `3` — Python 方法
 - `4` — HTTP 请求
 
+## 开发阶段
+
+当前开发进度：
+
+| Phase      | 内容                                            | 状态      |
+| ---------- | ----------------------------------------------- | --------- |
+| Phase 1-5  | 后端 FastAPI + 前端基础功能                     | ✅ 完成   |
+| Phase 6    | 前端 AI 集成（AI service、dva model、/ai 路由） | 🔄 待开发 |
+| Phase 7    | 依赖升级                                        | 🔄 待开发 |
+| Phase 8/10 | TypeScript 全面迁移                             | 🔄 待开发 |
+| Phase 12   | 数据池前端页面                                  | 🔄 待开发 |
+| Phase 13   | AI 对话助手前端页面                             | 🔄 待开发 |
+| Phase 14   | 通知管理前端                                    | 🔄 待开发 |
+| Phase 15   | OpenAPI 导入前端                                | 🔄 待开发 |
+| Phase 16   | AI 对话 RAG 压缩检索                            | 🔄 待开发 |
+| Phase 18   | Ant Design V6 升级                              | 🔄 待开发 |
+
+**注意**：Phase 6-18 的参考实现位于 `/Users/zhanzhicai/Desktop/py/pity/frontend` 的 `feat/upgrade-plugin-system` 分支。如有疑问可参考该分支代码。
+
 ## 重要规则
 
 1. **不要修改 2025-10-12 之前编写的代码** — 优先创建新文件。如需修改旧代码，需征得同意。
 2. 前端开发服务器运行在 `localhost:8000`，后端 API 运行在 `localhost:7777/7778`。
 3. `localStorage` 中的 `pityToken` 是 JWT token 的 key。
 4. 后端 FastAPI 应用的根目录在 `../backend/`。
+5. **前端新目录**：`/Users/zhanzhicai/Desktop/py/pity/pityweb2025Ai`（当前工作目录）
