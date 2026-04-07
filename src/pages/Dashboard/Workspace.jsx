@@ -4,7 +4,7 @@ import ChartCard from '@/components/Charts/ChartCard';
 import NoRecord2 from '@/components/NotFound/NoRecord2';
 import CONFIG from '@/consts/config';
 import common from '@/utils/common';
-import { TinyArea } from '@ant-design/charts';
+import { Tiny } from '@ant-design/charts';
 import {
   AlertTwoTone,
   CheckCircleTwoTone,
@@ -12,10 +12,21 @@ import {
   InfoCircleOutlined,
   PlusOutlined,
 } from '@ant-design/icons';
-import { RingProgress } from '@ant-design/plots';
 import { PageContainer } from '@ant-design/pro-components';
 import { connect, history, useModel } from '@umijs/max';
-import { Avatar, Button, Card, Col, Empty, Rate, Row, Statistic, Tag, Tooltip } from 'antd';
+import {
+  Avatar,
+  Button,
+  Card,
+  Col,
+  Empty,
+  Progress,
+  Rate,
+  Row,
+  Statistic,
+  Tag,
+  Tooltip,
+} from 'antd';
 import { useEffect } from 'react';
 import styles from './Workspace.less';
 
@@ -134,24 +145,13 @@ const Workspace = ({ user, dispatch }) => {
 
   const RingPie = ({ report }) => {
     const config = {
-      height: 128,
-      autoFit: true,
-      percent: calculatePercent(report, true),
-      color: ['#67C23A', '#F4664A'],
-      innerRadius: 0.85,
-      radius: 0.98,
-      statistic: {
-        title: {
-          style: {
-            color: '#363636',
-            fontSize: '12px',
-            lineHeight: '14px',
-          },
-          formatter: () => `上次通过率`,
-        },
-      },
+      type: 'circle',
+      percent: calculatePercent(report, true) * 100,
+      strokeColor: ['#67C23A', '#F4664A'],
+      width: 128,
+      format: () => `通过率`,
     };
-    return <RingProgress {...config} />;
+    return <Progress {...config} />;
   };
 
   const revertArray = (report) => {
@@ -284,14 +284,12 @@ const Workspace = ({ user, dispatch }) => {
                               }
                               contentHeight={128}
                             >
-                              <TinyArea
+                              <Tiny.Area
                                 color="#1890ff"
-                                xField="x"
                                 height={120}
-                                forceFit
-                                yField="y"
-                                smooth
+                                autoFit={true}
                                 data={revertArray(item.report)}
+                                tooltip
                               />
                             </ChartCard>
                           </Col>

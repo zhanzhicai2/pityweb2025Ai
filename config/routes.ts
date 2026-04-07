@@ -285,7 +285,7 @@ export default [
   },
   {
     path: '/ai',
-    name: 'AI助手',
+    name: 'AI管理',
     icon: 'Robot',
     authority: ['superAdmin', 'admin'],
     routes: [
@@ -295,19 +295,37 @@ export default [
         component: './AiChat',
       },
       {
-        path: '/ai/generate',
+        path: '/ai/config',
+        name: 'LLM配置',
+        component: './LlmConfig',
+      },
+    ],
+  },
+  {
+    path: '/ai-app',
+    name: 'AI智能化',
+    icon: 'Robot',
+    authority: ['superAdmin', 'admin'],
+    routes: [
+      {
+        path: '/ai-app/generate',
         name: 'AI生成用例',
         component: './Ai/GenerateCase',
       },
       {
-        path: '/ai/batch',
+        path: '/ai-app/batch',
         name: '批量生成',
         component: './Ai/BatchGenerate',
       },
       {
-        path: '/ai/enhance',
+        path: '/ai-app/enhance',
         name: '增强断言',
         component: './Ai/EnhanceAsserts',
+      },
+      {
+        path: '/ai-app/requirement',
+        name: '需求文档管理',
+        component: './Ai/Requirement',
       },
     ],
   },

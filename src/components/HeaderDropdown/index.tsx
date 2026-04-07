@@ -7,14 +7,14 @@ import React from 'react';
 export type HeaderDropdownProps = {
   overlayClassName?: string;
   placement?: 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topCenter' | 'topRight' | 'bottomCenter';
-  overlay?: React.ReactNode;
-  onVisibleChange?: (visible: boolean) => void;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 } & Omit<DropDownProps, 'overlay'>;
 
 const HeaderDropdown: React.FC<HeaderDropdownProps> = ({
   overlayClassName: cls,
-  overlay,
-  onVisibleChange,
+  open,
+  onOpenChange,
   ...restProps
 }) => {
   const className = useEmotionCss(({ token }) => {
@@ -27,13 +27,11 @@ const HeaderDropdown: React.FC<HeaderDropdownProps> = ({
   return (
     <Dropdown
       overlayClassName={classNames(className, cls)}
-      trigger={['click']}
-      onOpenChange={onVisibleChange}
       getPopupContainer={(target) => target.parentElement || document.body}
+      open={open}
+      onOpenChange={onOpenChange}
       {...restProps}
-    >
-      {overlay}
-    </Dropdown>
+    />
   );
 };
 

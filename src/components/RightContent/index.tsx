@@ -68,7 +68,7 @@ const GlobalHeaderRight = () => {
       >
         <QuestionCircleOutlined />
       </span>
-      <Avatar />
+      <Avatar menu />
       {/*<SelectLang className={actionClassName} />*/}
     </div>
   );

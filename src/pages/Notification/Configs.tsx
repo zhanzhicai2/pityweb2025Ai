@@ -7,7 +7,7 @@ import {
 } from '@/services/webhook';
 import { DeleteOutlined, EditOutlined, PlusOutlined, SendOutlined } from '@ant-design/icons';
 import ProTable, { ActionType } from '@ant-design/pro-table';
-import { Button, message, Modal, Popconfirm, Space, Switch, Tag } from 'antd';
+import { Button, Form, message, Modal, Popconfirm, Space, Switch, Tag } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 
 const eventTypeOptions = [
@@ -36,9 +36,9 @@ interface WebhookFormProps {
   onSuccess: () => void;
 }
 
-const WebhookForm: React.FC<WebhookFormProps> = ({ record, onCancel, onSuccess }) => {
-  const [form] = ProTable.useForm();
-  const [loading, setLoading] = useState(false);
+const WebhookForm: React.FC<WebhookFormProps> = ({ record, onSuccess }) => {
+  const [form] = Form.useForm();
+  const [, setLoading] = useState(false);
 
   useEffect(() => {
     if (record) {
@@ -163,11 +163,8 @@ const WebhookForm: React.FC<WebhookFormProps> = ({ record, onCancel, onSuccess }
   return (
     <ProTable
       type="form"
-      form={form}
       columns={formColumns}
-      submitButtonProps={{ loading, htmlType: 'submit' }}
       onSubmit={handleSubmit}
-      onReset={onCancel}
       rowKey="id"
       pagination={false}
     />

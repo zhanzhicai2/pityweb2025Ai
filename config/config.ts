@@ -96,6 +96,8 @@ export default defineConfig({
     antd: true,
     // default true, when it is true, will use `navigator.language` overwrite default
     baseNavigator: true,
+    // 抑制缺少翻译警告，减少控制台噪音
+    onError: () => {},
   },
   /**
    * @name antd 插件
@@ -144,9 +146,7 @@ export default defineConfig({
       projectName: 'swagger',
     },
   ],
-  mfsu: {
-    strategy: 'normal',
-  },
+  mfsu: {},
   requestRecord: {},
   esbuildMinifyIIFE: true,
 });

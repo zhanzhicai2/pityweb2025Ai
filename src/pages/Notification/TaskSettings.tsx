@@ -7,7 +7,7 @@ import {
 } from '@/services/webhook';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import ProTable, { ActionType } from '@ant-design/pro-table';
-import { Button, message, Modal, Switch } from 'antd';
+import { Button, Form, message, Modal, Switch } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 
 const taskTypeOptions = [
@@ -21,9 +21,9 @@ interface TaskSettingFormProps {
   onSuccess: () => void;
 }
 
-const TaskSettingForm: React.FC<TaskSettingFormProps> = ({ record, onCancel, onSuccess }) => {
-  const [form] = ProTable.useForm();
-  const [loading, setLoading] = useState(false);
+const TaskSettingForm: React.FC<TaskSettingFormProps> = ({ record, onSuccess }) => {
+  const [form] = Form.useForm();
+  const [, setLoading] = useState(false);
   const [configOptions, setConfigOptions] = useState<{ label: string; value: number }[]>([]);
 
   useEffect(() => {
@@ -129,11 +129,8 @@ const TaskSettingForm: React.FC<TaskSettingFormProps> = ({ record, onCancel, onS
   return (
     <ProTable
       type="form"
-      form={form}
       columns={formColumns}
-      submitButtonProps={{ loading, htmlType: 'submit' }}
       onSubmit={handleSubmit}
-      onReset={onCancel}
       rowKey="id"
       pagination={false}
     />

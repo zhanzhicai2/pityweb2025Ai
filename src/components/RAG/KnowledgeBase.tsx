@@ -84,7 +84,7 @@ export default () => {
       dataIndex: 'file_type',
       key: 'file_type',
       width: 100,
-      render: (text: string) => <Tag color="blue">{text || 'unknown'}</Tag>,
+      render: (text: string) => <Tag color="blue">{(text as string) || 'unknown'}</Tag>,
     },
     {
       title: '状态',
@@ -92,8 +92,9 @@ export default () => {
       key: 'status',
       width: 80,
       render: (text: string) => {
-        const color = text === 'ready' ? 'green' : text === 'error' ? 'red' : 'orange';
-        return <Tag color={color}>{text || 'pending'}</Tag>;
+        const color =
+          (text as string) === 'ready' ? 'green' : (text as string) === 'error' ? 'red' : 'orange';
+        return <Tag color={color}>{(text as string) || 'pending'}</Tag>;
       },
     },
     {
@@ -107,7 +108,7 @@ export default () => {
       dataIndex: 'file_size',
       key: 'file_size',
       width: 100,
-      render: (size: number) => (size ? `${(size / 1024).toFixed(1)} KB` : '-'),
+      render: (size: number) => (size ? `${((size as number) / 1024).toFixed(1)} KB` : '-'),
     },
     {
       title: '创建时间',
@@ -141,7 +142,7 @@ export default () => {
       dataIndex: 'relevance_score',
       key: 'relevance_score',
       width: 80,
-      render: (score: number) => (score ? `${(score * 100).toFixed(1)}%` : '-'),
+      render: (score: number) => (score ? `${((score as number) * 100).toFixed(1)}%` : '-'),
     },
     {
       title: '内容',
@@ -203,7 +204,7 @@ export default () => {
                 搜索「{searchQuery}」的结果 ({searchResults.length} 条)
               </div>
               <ProTable
-                columns={searchColumns}
+                columns={searchColumns as any}
                 dataSource={searchResults}
                 rowKey={(record, index) => record.content?.substring(0, 50) || index}
                 pagination={{ pageSize: 10 }}
@@ -217,7 +218,7 @@ export default () => {
 
         {/* 文档列表 */}
         <ProTable
-          columns={columns}
+          columns={columns as any}
           request={async (params) => {
             const res = await listDocuments(
               params.current || 1,

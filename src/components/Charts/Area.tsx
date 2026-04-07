@@ -1,4 +1,4 @@
-import { Area } from '@ant-design/plots';
+import Area from '@ant-design/plots/es/components/area';
 
 interface AreaProps {
   data: any[];

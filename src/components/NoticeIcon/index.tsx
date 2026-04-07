@@ -119,7 +119,7 @@ const NoticeIcon: React.FC<NoticeIconProps> = (props) => {
       placement="bottomRight"
       overlayClassName={styles.popover}
       open={visible}
-      onVisibleChange={setVisible}
+      onOpenChange={(open) => setVisible(open)}
     >
       {notificationBox}
       {trigger}

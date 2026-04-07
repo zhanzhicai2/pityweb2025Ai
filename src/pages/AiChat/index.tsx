@@ -139,15 +139,6 @@ export default () => {
       return;
     }
 
-    // RAG 开关提示
-    if (useRag) {
-      Modal.info({
-        title: '知识库检索已启用',
-        content: '本次对话将使用本地知识库检索增强，请稍候...',
-        okText: '确定',
-      });
-    }
-
     try {
       setSending(true);
       const res = await sendMessage(currentSession.id, {
@@ -236,6 +227,10 @@ export default () => {
             新建
           </Button>
         </div>
+        <div className="rag-toggle">
+          <Switch size="small" checked={useRag} onChange={setUseRag} />
+          <span style={{ marginLeft: 8, fontSize: 12 }}>启用知识库</span>
+        </div>
 
         <div className="session-list">
           {sessions.length === 0 ? (
@@ -310,10 +305,6 @@ export default () => {
                   options={models.map((m) => ({ label: m.name, value: m.id }))}
                 />
               </div>
-              <div className="rag-switch">
-                <Switch size="small" checked={useRag} onChange={setUseRag} />
-                <span style={{ marginLeft: 4, fontSize: 12 }}>知识库</span>
-              </div>
               <TextArea
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
@@ -364,6 +355,12 @@ export default () => {
           justify-content: space-between;
           align-items: center;
           border-bottom: 1px solid #f0f0f0;
+        }
+        .rag-toggle {
+          padding: 12px 16px;
+          border-bottom: 1px solid #f0f0f0;
+          display: flex;
+          align-items: center;
         }
         .session-list {
           flex: 1;

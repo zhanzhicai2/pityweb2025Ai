@@ -3,7 +3,7 @@ import CONFIG from '@/consts/config';
 import { queryStatistics } from '@/services/statistics';
 import { listUsers } from '@/services/user';
 import auth from '@/utils/auth';
-import { TinyArea } from '@ant-design/charts';
+import { Tiny } from '@ant-design/charts';
 import { ProjectTwoTone } from '@ant-design/icons';
 import { PageContainer, StatisticCard } from '@ant-design/pro-components';
 import { ErrorComputer, Jump, MessageFailed, Plan, Success, User } from '@icon-park/react';
@@ -21,20 +21,17 @@ const MiniProgress = ({ rate }) => {
   return <Progress {...config} />;
 };
 
-const Area = ({ data, field, color, fill }) => {
+const Area = ({ data, field }) => {
+  const chartData = data.map((item, index) => ({ x: index, y: item[field] || 0 }));
+  const hasData = chartData.some((d) => d.y > 0);
   const config = {
     height: 48,
-    autoFit: true,
-    line: {
-      color: color,
-    },
-    data: data.map((item) => item[field] || 0),
-    smooth: true,
-    areaStyle: {
-      fill: fill || '#d6e3fd',
-    },
+    data: chartData,
+    xField: 'x',
+    yField: 'y',
+    tooltip: hasData,
   };
-  return <TinyArea {...config} />;
+  return <Tiny.Area {...config} />;
 };
 
 export default () => {
@@ -109,14 +106,7 @@ export default () => {
                 value: count?.user,
                 prefix: <User theme="outline" size="24" fill="#9013fe" strokeLinecap="square" />,
               }}
-              chart={
-                <Area
-                  data={data}
-                  field="user"
-                  color="rgb(158, 105, 230)"
-                  fill="rgb(227, 212, 248)"
-                />
-              }
+              chart={<Area data={data} field="user" />}
             />
           </Skeleton>
         </Col>
@@ -129,7 +119,7 @@ export default () => {
                 value: count?.project,
                 prefix: <ProjectTwoTone twoToneColor="#f5a623" />,
               }}
-              chart={<Area data={data} field="project" color="#f5a623" fill="#ede6da" />}
+              chart={<Area data={data} field="project" />}
             />
           </Skeleton>
         </Col>
@@ -155,9 +145,7 @@ export default () => {
                 value: count?.testplan,
                 prefix: <Plan theme="outline" size="24" fill="#7ed321" strokeLinecap="square" />,
               }}
-              chart={
-                <Area data={data} field="testplan" color="#7ed321" fill="rgb(234, 243, 244)" />
-              }
+              chart={<Area data={data} field="testplan" />}
             />
           </Skeleton>
         </Col>

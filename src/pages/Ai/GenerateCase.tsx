@@ -1,6 +1,7 @@
 // @ts-nocheck
 import TaskStatus from '@/components/Ai/TaskStatus';
 import useAi from '@/models/ai';
+import { listProject } from '@/services/project';
 import { Button, Card, Input, message, Select, Space, Switch, Table, Tabs } from 'antd';
 import { useEffect, useState } from 'react';
 
@@ -12,6 +13,8 @@ export default function GenerateCase() {
   const [selectedModel, setSelectedModel] = useState('');
   const [asyncMode, setAsyncMode] = useState(false);
   const [result, setResult] = useState<any[]>([]);
+  const [projects, setProjects] = useState<any[]>([]);
+  const [selectedProject, setSelectedProject] = useState<number | undefined>(undefined);
 
   const {
     models,
@@ -40,6 +43,21 @@ export default function GenerateCase() {
     }
   }, [models, defaultModel, selectedModel]);
 
+  // 获取项目列表
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const res = await listProject({});
+        if (res?.code === 0) {
+          setProjects(res.data || []);
+        }
+      } catch (e) {
+        console.error('获取项目列表失败', e);
+      }
+    };
+    fetchProjects();
+  }, []);
+
   const handleSubmit = async () => {
     if (!content.trim()) {
       message.warning('请输入内容');
@@ -55,6 +73,7 @@ export default function GenerateCase() {
       input_type: inputType,
       model_name: selectedModel,
       async: asyncMode,
+      project_id: selectedProject,
     };
 
     try {
@@ -82,7 +101,7 @@ export default function GenerateCase() {
       message.warning('请输入cURL内容');
       return;
     }
-    const res = await parseCurl({ curl: content });
+    const res = await parseCurl({ curl: content, project_id: selectedProject });
     if (res?.code === 0) {
       const cases = Array.isArray(res.data) ? res.data : [res.data];
       setResult(cases);
@@ -138,6 +157,23 @@ export default function GenerateCase() {
             {models.map((m) => (
               <Select.Option key={m.name} value={m.name}>
                 {m.display_name}
+              </Select.Option>
+            ))}
+          </Select>
+        </Space>
+
+        <Space>
+          <span>项目：</span>
+          <Select
+            value={selectedProject}
+            onChange={(value) => setSelectedProject(value)}
+            placeholder="选择项目（可选）"
+            allowClear
+            style={{ width: 200 }}
+          >
+            {projects.map((p) => (
+              <Select.Option key={p.id} value={p.id}>
+                {p.name}
               </Select.Option>
             ))}
           </Select>

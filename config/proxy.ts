@@ -69,6 +69,14 @@ export default {
       target: 'http://0.0.0.0:7777',
       changeOrigin: true,
     },
+    '/llm/': {
+      target: 'http://0.0.0.0:7777',
+      changeOrigin: true,
+    },
+    '/requirement/': {
+      target: 'http://0.0.0.0:7777',
+      changeOrigin: true,
+    },
     '/webhook/': {
       target: 'http://0.0.0.0:7777',
       changeOrigin: true,
