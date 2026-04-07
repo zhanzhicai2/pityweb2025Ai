@@ -42,7 +42,7 @@ const GlobalHeaderRight = () => {
   const { initialState } = useModel('@@initialState');
   const { noticeCount } = useModel('notice');
 
-  if (!initialState || !initialState.settings) {
+  if (!initialState) {
     return null;
   }
 

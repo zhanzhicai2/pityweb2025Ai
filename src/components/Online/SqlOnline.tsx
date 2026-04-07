@@ -250,7 +250,7 @@ const SqlOnline: React.FC<SqlOnlineProps> = ({
           loading.effects['online/onlineExecuteSQL']
         )
       }
-      tip="数据加载中, 请耐心等待..."
+      description="数据加载中, 请耐心等待..."
       size="large"
     >
       <Row gutter={12}>
@@ -314,7 +314,7 @@ const SqlOnline: React.FC<SqlOnlineProps> = ({
             ) : (
               <Empty
                 image={emptyWork}
-                imageStyle={{ height: imageHeight || 190, marginTop: 32 }}
+                styles={{ image: { height: imageHeight || 190, marginTop: 32 } }}
                 description="选中左侧的『数据库连接』开启sql之旅吧~"
               />
             )}
@@ -337,7 +337,7 @@ const SqlOnline: React.FC<SqlOnlineProps> = ({
                 {testResults.length === 0 ? (
                   <Empty
                     image={noResult}
-                    imageStyle={{ height: imageHeight || 180 }}
+                    styles={{ image: { height: imageHeight || 180 } }}
                     description="没有『查询结果』哦, 快去执行SQL吧~"
                   />
                 ) : (

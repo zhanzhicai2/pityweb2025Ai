@@ -16,7 +16,7 @@ export default defineConfig({
   hash: true,
 
   title: 'pity',
-
+  // port: 8001,
   history: {
     type: 'hash',
   },

@@ -12,8 +12,10 @@ export default ({ desc, height = 180, image = noRecord }: NoRecordProps) => {
   return (
     <Empty
       image={image}
-      imageStyle={{
-        height,
+      styles={{
+        image: {
+          height,
+        },
       }}
       description={desc || '暂无数据'}
     ></Empty>

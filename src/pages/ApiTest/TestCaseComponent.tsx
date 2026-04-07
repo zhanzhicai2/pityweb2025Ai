@@ -204,7 +204,7 @@ const TestCaseComponent: React.FC<TestCaseComponentProps> = ({
         single={false}
       />
 
-      <Spin spinning={load} tip="暴力加载中..." size="large">
+      <Spin spinning={load} description="暴力加载中..." size="large">
         {!case_id ? (
           <TestCaseEditor
             directoryId={directory_id}
@@ -362,7 +362,7 @@ const TestCaseComponent: React.FC<TestCaseComponentProps> = ({
           <Empty
             description="你无法查看此用例，请联系对应项目组长开通权限。"
             image={NoPermission}
-            imageStyle={{ height: 400 }}
+            styles={{ image: { height: 400 } }}
           />
         )}
       </Spin>

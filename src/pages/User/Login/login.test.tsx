@@ -1,4 +1,4 @@
-// @ts-nocheck
+﻿// @ts-nocheck
 import { TestBrowser } from '@@/testBrowser';
 import { act, fireEvent, render } from '@testing-library/react';
 import React from 'react';

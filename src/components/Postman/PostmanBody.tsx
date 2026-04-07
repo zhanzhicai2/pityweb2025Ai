@@ -103,7 +103,7 @@ const PostmanBody: React.FC<PostmanBodyProps> = ({
   const [, setUrl] = useState('');
   const [, setEditor] = useState<any>(null);
   const [, setOpen] = useState(false);
-  const { ossFileList, envMap, addressList } = gconfig;
+  const { ossFileList, envMap, addressList = [] } = gconfig;
 
   const parseFormData = () => {
     if (body) {

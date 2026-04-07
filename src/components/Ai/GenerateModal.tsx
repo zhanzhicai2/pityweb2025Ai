@@ -175,7 +175,7 @@ const GenerateModal: React.FC<GenerateModalProps> = ({ visible, onClose, onSucce
         style={{ marginBottom: 16 }}
       />
 
-      {loading && <Spin tip="处理中..." />}
+      {loading && <Spin description="处理中..." />}
 
       {currentTaskId && (
         <TaskStatus

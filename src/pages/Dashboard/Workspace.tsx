@@ -225,7 +225,7 @@ const Workspace = ({ user, dispatch }: WorkspaceProps) => {
               {followPlan.length === 0 ? (
                 <Col span={24}>
                   <Empty
-                    imageStyle={{ height: 250 }}
+                    styles={{ image: { height: 250 } }}
                     image={noRecord}
                     description={
                       <span>

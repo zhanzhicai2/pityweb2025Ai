@@ -239,7 +239,7 @@ const Project: React.FC<ProjectProps> = ({ dispatch }) => {
                 <Empty
                   description="暂无项目, 快点击『创建项目』创建一个吧!"
                   image={noRecord}
-                  imageStyle={{ height: 220 }}
+                  styles={{ image: { height: 220 } }}
                 />
               </Card>
             </Col>

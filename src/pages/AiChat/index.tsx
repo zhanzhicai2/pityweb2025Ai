@@ -289,7 +289,7 @@ export default () => {
               ))}
               {loading && (
                 <div className="loading-container">
-                  <Spin tip="加载中..." />
+                  <Spin description="加载中..." />
                 </div>
               )}
               <div ref={messagesEndRef} />

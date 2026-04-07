@@ -107,7 +107,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       return (
         <ConfigProvider
           renderEmpty={() => (
-            <Empty image={NoTableData} imageStyle={{ height: 160 }} description="暂无数据" />
+            <Empty image={NoTableData} styles={{ image: { height: 160 } }} description="暂无数据" />
           )}
         >
           {children}
