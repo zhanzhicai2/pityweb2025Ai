@@ -104,7 +104,7 @@ const Workspace = ({ user, dispatch }) => {
               <Col span={12}>
                 <Statistic
                   title="注册时间"
-                  valueStyle={{ color: '#1890ff' }}
+                  styles={{ content: { color: '#1890ff' } }}
                   value={getRegisterDays(userMap[userId])}
                   prefix={<UserOutlined />}
                   suffix="天"

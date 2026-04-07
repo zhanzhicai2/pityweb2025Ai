@@ -69,7 +69,7 @@ const ConstructorCopy: React.FC<ConstructorCopyProps> = ({
                   const title = String(treeNode.title || '');
                   return title.toLowerCase().indexOf(inputValue.toLowerCase()) > -1;
                 }}
-                dropdownStyle={{ maxHeight: 600, overflow: 'auto' }}
+                styles={{ popup: { root: { maxHeight: 600, overflow: 'auto' } } }}
                 treeData={constructorData}
                 placeholder="通过搜索构造条件，可以快速复制参数哦！"
                 treeDefaultExpandAll

@@ -117,7 +117,7 @@ const Notification = ({ user, dispatch }: NotificationProps) => {
         <Col span={16}>
           <Card
             style={{ width: '100%' }}
-            bodyStyle={{ minHeight: 500 }}
+            styles={{ body: { minHeight: 500 } }}
             tabList={tabListNoTitle}
             activeTabKey={activeTab}
             onTabChange={(key) => {

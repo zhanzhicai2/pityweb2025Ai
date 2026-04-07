@@ -10,7 +10,7 @@ interface HeaderSearchProps {
   defaultValue?: string;
   value?: string;
   onChange?: (value: string) => void;
-  onVisibleChange?: (visible: boolean) => void;
+  onOpenChange?: (visible: boolean) => void;
   placeholder?: string;
   open?: boolean;
   defaultOpen?: boolean;
@@ -19,8 +19,7 @@ interface HeaderSearchProps {
 }
 
 const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
-  const { className, defaultValue, onVisibleChange, placeholder, defaultOpen, ...restProps } =
-    props;
+  const { className, defaultValue, onOpenChange, placeholder, defaultOpen, ...restProps } = props;
   const inputRef = useRef<any>(null);
   const [value, setValue] = useMergedState(defaultValue || '', {
     value: props.value,
@@ -28,7 +27,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
   });
   const [searchMode, setSearchMode] = useMergedState(defaultOpen ?? false, {
     value: props.open,
-    onChange: onVisibleChange,
+    onChange: onOpenChange,
   });
   const inputClass = classNames(styles.input, {
     [styles.show]: searchMode,
@@ -45,8 +44,8 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
       }}
       onTransitionEnd={({ propertyName }: any) => {
         if (propertyName === 'width' && !searchMode) {
-          if (onVisibleChange) {
-            onVisibleChange(searchMode);
+          if (onOpenChange) {
+            onOpenChange(searchMode);
           }
         }
       }}

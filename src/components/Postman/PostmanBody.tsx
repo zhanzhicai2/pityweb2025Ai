@@ -333,7 +333,7 @@ const PostmanBody: React.FC<PostmanBodyProps> = ({
     return (
       <Row style={{ marginTop: 12 }}>
         <Col span={24}>
-          <Card bodyStyle={{ padding: 0 }}>
+          <Card styles={{ body: { padding: 0 } }}>
             <JSONAceEditor
               value={body}
               onChange={(e: string) => setBody(e)}

@@ -666,7 +666,7 @@ const TestCaseDirectory: React.FC<TestCaseDirectoryProps> = ({
       ) : (
         <Card
           style={{ height: '100%', minHeight: 600 }}
-          bodyStyle={{ padding: 0 }}
+          styles={{ body: { padding: 0 } }}
           bordered={false}
         >
           <Row>
@@ -683,7 +683,7 @@ const TestCaseDirectory: React.FC<TestCaseDirectoryProps> = ({
               formName="root"
             />
             <Drawer
-              bodyStyle={{ padding: 0 }}
+              styles={{ body: { padding: 0 } }}
               open={addCaseVisible}
               width={1300}
               title="添加场景用例"

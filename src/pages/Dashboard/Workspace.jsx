@@ -174,7 +174,7 @@ const Workspace = ({ user, dispatch }) => {
                 <strong>关注中的测试计划</strong> ({followPlan.length}个)
               </div>
             }
-            bodyStyle={{ minHeight: 400 }}
+            styles={{ body: { minHeight: 400 } }}
           >
             <Row gutter={8}>
               {followPlan.length === 0 ? (
@@ -220,7 +220,7 @@ const Workspace = ({ user, dispatch }) => {
                                   <Col span={8}>
                                     <Statistic
                                       title="成功"
-                                      valueStyle={{ color: '#3f8600' }}
+                                      styles={{ content: { color: '#3f8600' } }}
                                       value={item.report[0].success_count}
                                       prefix={<CheckCircleTwoTone twoToneColor="#52c41a" />}
                                     />
@@ -228,7 +228,7 @@ const Workspace = ({ user, dispatch }) => {
                                   <Col span={8}>
                                     <Statistic
                                       title="失败"
-                                      valueStyle={{ marginLeft: 8 }}
+                                      styles={{ content: { marginLeft: 8 } }}
                                       value={item.report[0].failed_count}
                                       prefix={<CloseCircleTwoTone twoToneColor="#F56C6C" />}
                                     />
@@ -236,7 +236,7 @@ const Workspace = ({ user, dispatch }) => {
                                   <Col span={8}>
                                     <Statistic
                                       title="错误"
-                                      valueStyle={{ marginLeft: 8 }}
+                                      styles={{ content: { marginLeft: 8 } }}
                                       value={item.report[0].error_count}
                                       prefix={<AlertTwoTone twoToneColor="#E6A23C" />}
                                     />

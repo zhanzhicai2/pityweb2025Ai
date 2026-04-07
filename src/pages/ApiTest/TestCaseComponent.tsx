@@ -252,7 +252,7 @@ const TestCaseComponent: React.FC<TestCaseComponentProps> = ({
               ) : (
                 <Card
                   style={{ margin: -8 }}
-                  bodyStyle={{ padding: 24 }}
+                  styles={{ body: { padding: 24 } }}
                   title={
                     <span>
                       {directoryName} {caseInfo.name ? ` > ${caseInfo.name}` : ''}{' '}

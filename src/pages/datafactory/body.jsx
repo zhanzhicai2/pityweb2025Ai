@@ -291,7 +291,7 @@ export default () => {
               style={{
                 borderLeft: `4px solid ${categoryColors[cat.name] || '#667eea'}`,
               }}
-              bodyStyle={{ padding: 16 }}
+              styles={{ body: { padding: 16 } }}
             >
               <div className="category-content">
                 <div
@@ -350,7 +350,7 @@ export default () => {
                       background: selectedTool?.name === tool.name ? '#e6f7ff' : '#fafafa',
                       borderColor: selectedTool?.name === tool.name ? '#1890ff' : '#f0f0f0',
                     }}
-                    bodyStyle={{ padding: 12 }}
+                    styles={{ body: { padding: 12 } }}
                   >
                     <div
                       style={{ fontWeight: selectedTool?.name === tool.name ? 'bold' : 'normal' }}

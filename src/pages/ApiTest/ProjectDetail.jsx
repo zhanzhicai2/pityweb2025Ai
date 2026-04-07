@@ -64,7 +64,7 @@ export default () => {
         />
       }
     >
-      <Card bodyStyle={{ padding: '8px 18px' }}>
+      <Card styles={{ body: { padding: '8px 18px' } }}>
         <Tabs defaultActiveKey="1">
           <TabPane tab="成员列表" key="1">
             <ProjectRole users={users} project={projectData} roles={roles} fetchData={fetchData} />

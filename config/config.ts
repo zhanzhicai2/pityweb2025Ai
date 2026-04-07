@@ -96,7 +96,7 @@ export default defineConfig({
     antd: true,
     // default true, when it is true, will use `navigator.language` overwrite default
     baseNavigator: true,
-    // 抑制缺少翻译警告，减少控制台噪音
+    // @ts-ignore 抑制缺少翻译警告
     onError: () => {},
   },
   /**

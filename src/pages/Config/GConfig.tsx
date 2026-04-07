@@ -94,7 +94,7 @@ const GConfig: React.FC<GConfigProps> = ({ gconfig, user, loading, dispatch }) =
                 Modal.info({
                   title: `${record.key}`,
                   width: 500,
-                  bodyStyle: { padding: -12 },
+                  styles: { body: { padding: -12 } },
                   content: (
                     <SyntaxHighlighter language="json" style={vs2015}>
                       {record.value}
@@ -115,7 +115,7 @@ const GConfig: React.FC<GConfigProps> = ({ gconfig, user, loading, dispatch }) =
                 Modal.info({
                   title: `${record.key}`,
                   width: 500,
-                  bodyStyle: { padding: -12 },
+                  styles: { body: { padding: -12 } },
                   content: (
                     <SyntaxHighlighter language="yaml" style={vs2015}>
                       {record.value}

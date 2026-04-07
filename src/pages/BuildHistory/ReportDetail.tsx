@@ -278,7 +278,7 @@ const ReportDetail: React.FC<ReportDetailProps> = ({ dispatch, loading, user, gc
                   <Card hoverable bordered={false} className={styles.statisticCard}>
                     <Statistic
                       title="用例总数"
-                      valueStyle={{ marginLeft: 8 }}
+                      styles={{ content: { marginLeft: 8 } }}
                       value={
                         reportDetail.failed_count +
                         reportDetail.success_count +
@@ -301,7 +301,7 @@ const ReportDetail: React.FC<ReportDetailProps> = ({ dispatch, loading, user, gc
                   <Card hoverable bordered={false} className={styles.statisticCard}>
                     <Statistic
                       title="失败数"
-                      valueStyle={{ marginLeft: 8 }}
+                      styles={{ content: { marginLeft: 8 } }}
                       value={reportDetail.failed_count}
                       prefix={<CloseCircleTwoTone twoToneColor="rgb(230, 98, 97)" />}
                     />
@@ -311,7 +311,7 @@ const ReportDetail: React.FC<ReportDetailProps> = ({ dispatch, loading, user, gc
                   <Card hoverable bordered={false} className={styles.statisticCard}>
                     <Statistic
                       title="错误数"
-                      valueStyle={{ marginLeft: 8 }}
+                      styles={{ content: { marginLeft: 8 } }}
                       value={reportDetail.error_count}
                       prefix={<AlertTwoTone twoToneColor="rgb(250, 207, 76)" />}
                     />

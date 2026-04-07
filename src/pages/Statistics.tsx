@@ -223,7 +223,7 @@ export default () => {
                   }
                   statistic={{
                     value: report?.failed,
-                    valueStyle: { color: 'rgb(230, 98, 97)' },
+                    styles: { content: { color: 'rgb(230, 98, 97)' } },
                   }}
                   chart={
                     <Area
@@ -255,7 +255,7 @@ export default () => {
                   }
                   statistic={{
                     value: report?.error,
-                    valueStyle: { color: 'rgb(250, 207, 76)' },
+                    styles: { content: { color: 'rgb(250, 207, 76)' } },
                   }}
                   chart={
                     <Area
@@ -282,7 +282,7 @@ export default () => {
                   }
                   statistic={{
                     value: report?.success,
-                    valueStyle: { color: 'rgb(63, 205, 127)' },
+                    styles: { content: { color: 'rgb(63, 205, 127)' } },
                   }}
                   chart={
                     <Area
@@ -307,7 +307,7 @@ export default () => {
                   }
                   statistic={{
                     value: report?.skip,
-                    valueStyle: { color: 'rgb(86, 97, 235)' },
+                    styles: { content: { color: 'rgb(86, 97, 235)' } },
                   }}
                   chart={<Area data={reportData} field="skip" />}
                 />

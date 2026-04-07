@@ -58,7 +58,7 @@ const Detail = ({ name, record }: { name: string; record: RequestInfo }) => {
         Modal.info({
           title: name,
           width: 700,
-          bodyStyle: { padding: -12 },
+          styles: { body: { padding: -12 } },
           content: (
             <SyntaxHighlighter language="json" style={vs2015}>
               {(record as any)[name]}

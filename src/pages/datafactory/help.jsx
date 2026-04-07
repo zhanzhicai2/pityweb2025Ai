@@ -9,7 +9,7 @@ export default ({ visible, onCancel }) => {
       width={900}
       title="帮助文档"
       footer={null}
-      bodyStyle={{ minHeight: 360 }}
+      styles={{ body: { minHeight: 360 } }}
       onCancel={onCancel}
     >
       <Row gutter={18}>
