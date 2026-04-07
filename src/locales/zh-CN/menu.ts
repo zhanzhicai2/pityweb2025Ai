@@ -60,7 +60,9 @@ export default {
   'menu.接口测试.编辑用例': '编辑用例',
   'menu.接口测试.测试计划': '测试计划',
   'menu.测试报告': '测试报告',
+  'menu.测试报告.测试报告': '测试报告',
   'menu.测试报告.构建历史': '构建历史',
+  'menu.消息中心': '消息中心',
   'menu.测试配置': '测试配置',
   'menu.测试配置.环境管理': '环境管理',
   'menu.测试配置.地址管理': '地址管理',
@@ -94,5 +96,6 @@ export default {
   'menu.用户资料': '用户资料',
   'tabs.close.left': '关闭左侧',
   'tabs.close.right': '关闭右侧',
+  'tabs.close.others': '关闭其他',
   'tabs.refresh': '刷新',
 };

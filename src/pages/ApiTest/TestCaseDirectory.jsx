@@ -17,7 +17,6 @@ import common from '@/utils/common';
 import {
   CameraTwoTone,
   DeleteOutlined,
-  DownOutlined,
   EditOutlined,
   ExclamationCircleOutlined,
   ExportOutlined,
@@ -233,15 +232,15 @@ const TestCaseDirectory = ({ testcase, gconfig, project, user, loading, dispatch
         <>
           <a href={`/#/apiTest/testcase/${currentDirectory[0]}/${record.id}`}>详情</a>
           <Divider type="vertical" />
-          <Dropdown overlay={menu(record)}>
-            <a
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-            >
-              执行 <DownOutlined />
-            </a>
-          </Dropdown>
+          <Select
+            size="small"
+            placeholder="执行"
+            style={{ width: 80 }}
+            onChange={async (envId) => {
+              await execute(record, envId);
+            }}
+            options={envList.map((item) => ({ label: item.name, value: item.id }))}
+          />
         </>
       ),
     },
@@ -527,12 +526,16 @@ const TestCaseDirectory = ({ testcase, gconfig, project, user, loading, dispatch
             onAddTestCase();
           }}
         >
-          <RocketOutlined /> 普通场景
+          <span>
+            <RocketOutlined /> 普通场景
+          </span>
         </a>
       </AMenu.Item>
       <AMenu.Item key="2">
         <a onClick={() => setRecorderModal(true)}>
-          <CameraTwoTone /> 录制场景
+          <span>
+            <CameraTwoTone /> 录制场景
+          </span>
           <Tag
             color="red"
             style={{
@@ -556,7 +559,9 @@ const TestCaseDirectory = ({ testcase, gconfig, project, user, loading, dispatch
             setAiModalVisible(true);
           }}
         >
-          <RobotOutlined /> AI 生成场景
+          <span>
+            <RobotOutlined /> AI 生成场景
+          </span>
         </a>
       </AMenu.Item>
     </AMenu>
@@ -863,21 +868,15 @@ const TestCaseDirectory = ({ testcase, gconfig, project, user, loading, dispatch
                       <Col span={24}>
                         <Dropdown overlay={AddCaseMenu} trigger="click">
                           <Button type="primary">
-                            <PlusOutlined /> 新建场景
+                            <span>
+                              <PlusOutlined /> 新建场景
+                            </span>
                           </Button>
                         </Dropdown>
                         {selectedRowKeys.length > 0 ? (
-                          <Dropdown overlay={menu()} trigger={['hover']}>
-                            <Button
-                              style={{ marginLeft: 8 }}
-                              icon={<PlayCircleOutlined />}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                              }}
-                            >
-                              执行用例 <DownOutlined />
-                            </Button>
-                          </Dropdown>
+                          <span>
+                            <PlayCircleOutlined /> 执行用例
+                          </span>
                         ) : null}
                         {selectedRowKeys.length > 0 ? (
                           <Button

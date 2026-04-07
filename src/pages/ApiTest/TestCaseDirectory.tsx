@@ -19,7 +19,6 @@ import common from '@/utils/common';
 import {
   CameraTwoTone,
   DeleteOutlined,
-  DownOutlined,
   EditOutlined,
   ExclamationCircleOutlined,
   ExportOutlined,
@@ -168,13 +167,13 @@ const TestCaseDirectory: React.FC<TestCaseDirectoryProps> = ({
     }
   };
 
-  const menu = (record: any) =>
-    envList.length === 0 ? (
-      <Card>
-        <div>
+  const menu = (record: any) => {
+    if (envList.length === 0) {
+      return (
+        <div style={{ padding: 16 }}>
           <Empty
             image={noResult}
-            imageStyle={{ height: 90, width: 90, margin: '0 auto' }}
+            styles={{ image: { height: 90, width: 90, margin: '0 auto' } }}
             description={
               <p>
                 还没有任何环境, 去<a href="/#/config/environment">添加一个</a>?
@@ -182,8 +181,9 @@ const TestCaseDirectory: React.FC<TestCaseDirectoryProps> = ({
             }
           />
         </div>
-      </Card>
-    ) : (
+      );
+    }
+    return (
       <AMenu>
         {envList.map((item: any) => (
           <AMenu.Item key={item.id}>
@@ -202,6 +202,7 @@ const TestCaseDirectory: React.FC<TestCaseDirectoryProps> = ({
         ))}
       </AMenu>
     );
+  };
 
   const columns = [
     {
@@ -255,19 +256,13 @@ const TestCaseDirectory: React.FC<TestCaseDirectoryProps> = ({
       key: 'ops',
       fixed: 'right' as const,
       render: (_: any, record: any) => (
-        <>
+        <div>
           <a href={`/#/apiTest/testcase/${currentDirectory[0]}/${record.id}`}>详情</a>
-          <Divider type="vertical" />
-          <Dropdown overlay={menu(record)}>
-            <a
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-            >
-              执行 <DownOutlined />
-            </a>
+          <Divider orientation="vertical" />
+          <Dropdown overlay={menu(record)} trigger={['click']}>
+            <span className="ant-dropdown-link">执行</span>
           </Dropdown>
-        </>
+        </div>
       ),
     },
   ];
@@ -545,12 +540,16 @@ const TestCaseDirectory: React.FC<TestCaseDirectoryProps> = ({
             onAddTestCase();
           }}
         >
-          <RocketOutlined /> 普通场景
+          <span>
+            <RocketOutlined /> 普通场景
+          </span>
         </a>
       </AMenu.Item>
       <AMenu.Item key="2">
         <a onClick={() => setRecorderModal(true)}>
-          <CameraTwoTone /> 录制场景
+          <span>
+            <CameraTwoTone /> 录制场景
+          </span>
           <Tag
             color="red"
             style={{
@@ -574,7 +573,9 @@ const TestCaseDirectory: React.FC<TestCaseDirectoryProps> = ({
             setAiModalVisible(true);
           }}
         >
-          <RobotOutlined /> AI 生成场景
+          <span>
+            <RobotOutlined /> AI 生成场景
+          </span>
         </a>
       </AMenu.Item>
     </AMenu>
@@ -881,20 +882,16 @@ const TestCaseDirectory: React.FC<TestCaseDirectoryProps> = ({
                       <Col span={24}>
                         <Dropdown overlay={AddCaseMenu} trigger="click">
                           <Button type="primary">
-                            <PlusOutlined /> 新建场景
+                            <span>
+                              <PlusOutlined /> 新建场景
+                            </span>
                           </Button>
                         </Dropdown>
                         {selectedRowKeys.length > 0 ? (
                           <Dropdown overlay={menu()} trigger={['hover']}>
-                            <Button
-                              style={{ marginLeft: 8 }}
-                              icon={<PlayCircleOutlined />}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                              }}
-                            >
-                              执行用例 <DownOutlined />
-                            </Button>
+                            <span>
+                              <PlayCircleOutlined /> 执行用例
+                            </span>
                           </Dropdown>
                         ) : null}
                         {selectedRowKeys.length > 0 ? (
@@ -949,7 +946,7 @@ const TestCaseDirectory: React.FC<TestCaseDirectoryProps> = ({
                 ) : (
                   <Empty
                     image={emptyWork}
-                    imageStyle={{ height: 230 }}
+                    styles={{ image: { height: 230 } }}
                     description="快选中左侧的目录畅享用例之旅吧~"
                   />
                 )}
