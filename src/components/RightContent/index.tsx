@@ -1,10 +1,10 @@
-import {BellOutlined, QuestionCircleOutlined} from '@ant-design/icons';
-import {useEmotionCss} from '@ant-design/use-emotion-css';
-import {history, useModel} from '@umijs/max';
-import {Badge, Tooltip} from 'antd';
+import { BellOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { useEmotionCss } from '@ant-design/use-emotion-css';
+import { history, useModel } from '@umijs/max';
+import { Badge, Tooltip } from 'antd';
 import React from 'react';
 import Avatar from './AvatarDropdown';
-import "./index.less"
+import './index.less';
 
 const GlobalHeaderRight = () => {
   const className = useEmotionCss(() => {
@@ -17,7 +17,7 @@ const GlobalHeaderRight = () => {
     };
   });
 
-  const actionClassName = useEmotionCss(({token}) => {
+  const actionClassName = useEmotionCss(({ token }) => {
     return {
       display: 'flex',
       float: 'right',
@@ -37,11 +37,11 @@ const GlobalHeaderRight = () => {
     return {
       lineHeight: '48px',
       color: 'inherit',
-    }
-  })
+    };
+  });
 
-  const {initialState} = useModel('@@initialState');
-  const {noticeCount} = useModel('notice')
+  const { initialState } = useModel('@@initialState');
+  const { noticeCount } = useModel('notice');
 
   if (!initialState || !initialState.settings) {
     return null;
@@ -50,25 +50,26 @@ const GlobalHeaderRight = () => {
   return (
     <div className={className}>
       <Tooltip title="消息中心">
-        <span className={actionClassName}
-              onClick={() => {
-                history.push("/notification")
-              }}
+        <span
+          className={actionClassName}
+          onClick={() => {
+            history.push('/notification');
+          }}
         >
           <Badge className={badgeClassName} showZero={false} count={noticeCount || 0} size="small">
-              <BellOutlined/>
+            <BellOutlined />
           </Badge>
         </span>
       </Tooltip>
       <span
         className={actionClassName}
         onClick={() => {
-          window.open('https://wuranxu.github.io/pityDoc/');
+          window.open('/dashboard/workspace');
         }}
       >
-        <QuestionCircleOutlined/>
+        <QuestionCircleOutlined />
       </span>
-      <Avatar/>
+      <Avatar menu={true} />
       {/*<SelectLang className={actionClassName} />*/}
     </div>
   );

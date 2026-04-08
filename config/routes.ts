@@ -51,8 +51,14 @@ export default [
     hideInMenu: true,
   },
   {
+    path: '/account/center',
+    name: '个人中心',
+    component: './UserInfo',
+    hideInMenu: true,
+  },
+  {
     path: '/member/:user_id',
-    name: '用户资料',
+    name: '个人中心',
     component: './UserInfo',
     hideInMenu: true,
   },
