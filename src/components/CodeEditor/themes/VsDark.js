@@ -1,8 +1,10 @@
-ace.define("ace/theme/vs-dark",["require","exports","module","ace/lib/dom"], function(require, exports, module) {
-
-  exports.isDark = false;
-  exports.cssClass = "ace-vs-dark";
-  exports.cssText = `
+ace.define(
+  'ace/theme/vs-dark',
+  ['require', 'exports', 'module', 'ace/lib/dom'],
+  function (require, exports, module) {
+    exports.isDark = false;
+    exports.cssClass = 'ace-vs-dark';
+    exports.cssText = `
 .ace-vs-dark .ace_gutter {
   background: #1E1E1E;
   color: rgb(125,125,125)
@@ -137,11 +139,13 @@ ace.define("ace/theme/vs-dark",["require","exports","module","ace/lib/dom"], fun
 }
 `;
 
-  var dom = require("ace/lib/dom");
-  dom.importCssString(exports.cssText, exports.cssClass);
-});                (function() {
-  ace.require(["ace/theme/ace-vs-dark"], function(m) {
-    if (typeof module == "object" && typeof exports == "object" && module) {
+    let dom = require('ace/lib/dom');
+    dom.importCssString(exports.cssText, exports.cssClass);
+  },
+);
+(function () {
+  ace.require(['ace/theme/ace-vs-dark'], function (m) {
+    if (typeof module === 'object' && typeof exports === 'object' && module) {
       module.exports = m;
     }
   });

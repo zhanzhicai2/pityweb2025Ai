@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Card,
@@ -15,28 +15,33 @@ import {
   Tabs,
   Tooltip,
 } from 'antd';
-import {DeleteTwoTone, DownOutlined, EditTwoTone, QuestionCircleOutlined} from '@ant-design/icons';
+import {
+  DeleteTwoTone,
+  DownOutlined,
+  EditTwoTone,
+  QuestionCircleOutlined,
+} from '@ant-design/icons';
 import EditableTable from '@/components/Table/EditableTable';
-import {httpRequest} from '@/services/request';
+import { httpRequest } from '@/services/request';
 import auth from '@/utils/auth';
-import {listGConfig} from "@/services/configure";
-import FormData from "@/components/Postman/FormData";
-import {connect} from '@umijs/max';
-import JSONAceEditor from "@/components/CodeEditor/AceEditor/JSONAceEditor";
-import {IconFont} from "@/components/Icon/IconFont";
+import { listGConfig } from '@/services/configure';
+import FormData from '@/components/Postman/FormData';
+import { connect } from '@umijs/max';
+import JSONAceEditor from '@/components/CodeEditor/AceEditor/JSONAceEditor';
+import { IconFont } from '@/components/Icon/IconFont';
 
-const {Option} = Select;
-const {TabPane} = Tabs;
+const { Option } = Select;
+const { TabPane } = Tabs;
 
 const STATUS = {
-  200: {color: '#67C23A', text: 'OK'},
-  401: {color: '#F56C6C', text: 'unauthorized'},
-  400: {color: '#F56C6C', text: 'Bad Request'},
+  200: { color: '#67C23A', text: 'OK' },
+  401: { color: '#F56C6C', text: 'unauthorized' },
+  400: { color: '#F56C6C', text: 'Bad Request' },
 };
 
 const tabExtra = (response) => {
   return response && response.response ? (
-    <div style={{marginRight: 16}}>
+    <div style={{ marginRight: 16 }}>
       <span>
         Status:
         <span
@@ -49,8 +54,8 @@ const tabExtra = (response) => {
           {response.status_code}{' '}
           {STATUS[response.status_code] ? STATUS[response.status_code].text : ''}
         </span>
-        <span style={{marginLeft: 8, marginRight: 8}}>
-          Time: <span style={{color: '#67C23A'}}>{response.cost}</span>
+        <span style={{ marginLeft: 8, marginRight: 8 }}>
+          Time: <span style={{ color: '#67C23A' }}>{response.cost}</span>
         </span>
       </span>
     </div>
@@ -58,10 +63,20 @@ const tabExtra = (response) => {
 };
 
 const PostmanBody = ({
-                       form, gconfig, dispatch, body, setBody, headers, setHeaders,
-                       formData, setFormData, caseInfo,
-                       bodyType, setBodyType, save = null
-                     }) => {
+  form,
+  gconfig,
+  dispatch,
+  body,
+  setBody,
+  headers,
+  setHeaders,
+  formData,
+  setFormData,
+  caseInfo,
+  bodyType,
+  setBodyType,
+  save = null,
+}) => {
   const [rawType, setRawType] = useState('JSON');
   const [method, setMethod] = useState('GET');
   const [paramsData, setParamsData] = useState([]);
@@ -72,7 +87,7 @@ const PostmanBody = ({
   const [url, setUrl] = useState('');
   const [editor, setEditor] = useState(null);
   const [open, setOpen] = useState(false);
-  const {ossFileList, envMap, addressList} = gconfig;
+  const { ossFileList, envMap, addressList } = gconfig;
 
   const parseFormData = () => {
     if (body) {
@@ -81,42 +96,39 @@ const PostmanBody = ({
         setFormData(temp);
       }
     }
-  }
+  };
 
   useEffect(() => {
     if (caseInfo) {
       setMethod(caseInfo.request_method);
     }
-  }, [caseInfo.request_method])
+  }, [caseInfo.request_method]);
 
   useEffect(() => {
     if (bodyType === 2) {
       dispatch({
-        type: 'gconfig/listOssFile'
-      })
+        type: 'gconfig/listOssFile',
+      });
       try {
-        parseFormData()
-      } catch (e) {
-      }
+        parseFormData();
+      } catch (e) {}
     }
-
-  }, [bodyType])
+  }, [bodyType]);
 
   useEffect(() => {
     dispatch({
-      type: 'gconfig/fetchAddress'
-    })
-  }, [])
+      type: 'gconfig/fetchAddress',
+    });
+  }, []);
 
   const init = async () => {
     setUrl(form.getFieldValue('url'));
-    splitUrl(form.getFieldValue('url'))
-  }
+    splitUrl(form.getFieldValue('url'));
+  };
 
   useEffect(() => {
-    init()
-  }, [body])
-
+    init();
+  }, [body]);
 
   // 请求url+params
   const resColumns = [
@@ -136,7 +148,7 @@ const PostmanBody = ({
     if (!response[field]) {
       return [];
     }
-    const data = JSON.parse(response[field])
+    const data = JSON.parse(response[field]);
     return Object.keys(data).map((key) => ({
       key,
       value: data[key],
@@ -145,7 +157,7 @@ const PostmanBody = ({
 
   // 根据paramsData拼接url
   const joinUrl = (data) => {
-    const url = form.getFieldValue('url')
+    const url = form.getFieldValue('url');
     let tempUrl;
     if (url === undefined) {
       tempUrl = '';
@@ -163,7 +175,7 @@ const PostmanBody = ({
       }
     });
     // setUrl(tempUrl);
-    form.setFieldsValue({url: tempUrl})
+    form.setFieldsValue({ url: tempUrl });
   };
 
   const splitUrl = (nowUrl) => {
@@ -181,7 +193,7 @@ const PostmanBody = ({
         const [key, value] = item.split('=');
         const now = Date.now();
         keys.push(now + idx + 10);
-        newParams.push({key, value, id: now + idx + 10, description: ''});
+        newParams.push({ key, value, id: now + idx + 10, description: '' });
       });
       setParamsData(newParams);
       setEditableRowKeys(keys);
@@ -205,7 +217,7 @@ const PostmanBody = ({
 
   // 拼接http请求
   const onRequest = async () => {
-    const url = form.getFieldValue('url')
+    const url = form.getFieldValue('url');
     if (url === '') {
       notification.error({
         message: '请求Url不能为空',
@@ -315,13 +327,13 @@ const PostmanBody = ({
           return (
             <>
               <EditTwoTone
-                style={{cursor: 'pointer'}}
+                style={{ cursor: 'pointer' }}
                 onClick={() => {
-                  setEditableRowKeys([record.id])
+                  setEditableRowKeys([record.id]);
                 }}
               />
               <DeleteTwoTone
-                style={{cursor: 'pointer', marginLeft: 8}}
+                style={{ cursor: 'pointer', marginLeft: 8 }}
                 onClick={() => {
                   onDelete(columnType, record.id);
                 }}
@@ -334,64 +346,87 @@ const PostmanBody = ({
     ];
   };
 
-  const getBody = bd => {
+  const getBody = (bd) => {
     if (bd === 0) {
-      return <div style={{height: '20vh', lineHeight: '20vh', textAlign: 'center'}}>
-        This request does not have a body
-      </div>
+      return (
+        <div style={{ height: '20vh', lineHeight: '20vh', textAlign: 'center' }}>
+          This request does not have a body
+        </div>
+      );
     }
     if (bd === 2) {
-      return <FormData ossFileList={ossFileList} dataSource={formData} setDataSource={setFormData}/>
+      return (
+        <FormData ossFileList={ossFileList} dataSource={formData} setDataSource={setFormData} />
+      );
     }
-    return <Row style={{marginTop: 12}}>
-      <Col span={24}>
-        <Card bodyStyle={{padding: 0}}>
-          <JSONAceEditor value={body} onChange={e => setBody(e)} height="20vh" setEditor={setEditor}/>
-        </Card>
-      </Col>
-    </Row>
-  }
+    return (
+      <Row style={{ marginTop: 12 }}>
+        <Col span={24}>
+          <Card bodyStyle={{ padding: 0 }}>
+            <JSONAceEditor
+              value={body}
+              onChange={(e) => setBody(e)}
+              height="20vh"
+              setEditor={setEditor}
+            />
+          </Card>
+        </Col>
+      </Row>
+    );
+  };
 
   const getAddress = () => {
-    const temp = {}
-    addressList.forEach(v => {
+    const temp = {};
+    addressList.forEach((v) => {
       if (temp[v.name] === undefined) {
-        temp[v.name] = {[v.env]: v.gateway}
+        temp[v.name] = { [v.env]: v.gateway };
       } else {
         temp[v.name][v.env] = v.gateway;
       }
-    })
+    });
     return temp;
-  }
+  };
 
   const currentAddress = getAddress();
 
   const prefixSelector = (
     <Form.Item name="base_path" noStyle>
-      <Select style={{width: 130}} placeholder="选择BasePath" showSearch allowClear
-              optionLabelProp="label"
-              filterOption={(input, option) => {
-                if (option.children.length > 1) {
-                  return false;
-                }
-                return option.children.props.children.indexOf(input.toLowerCase()) >= 0
-              }}
+      <Select
+        style={{ width: 130 }}
+        placeholder="选择BasePath"
+        showSearch
+        allowClear
+        optionLabelProp="label"
+        filterOption={(input, option) => {
+          if (option.children.length > 1) {
+            return false;
+          }
+          return option.children.props.children.indexOf(input.toLowerCase()) >= 0;
+        }}
       >
-        <Option value={null} label="无">无<a style={{float: 'right', fontSize: 12}} href="/#/config/address">去配置</a></Option>
-        {
-          Object.keys(currentAddress).map(key => <Option value={key} key={key} label={key}><Tooltip title={
-            <div>
-              {
-                Object.keys(currentAddress[key]).map(v => <p>
-                  {envMap[v]}: {currentAddress[key][v]}
-                </p>)
+        <Option value={null} label="无">
+          无
+          <a style={{ float: 'right', fontSize: 12 }} href="/#/config/address">
+            去配置
+          </a>
+        </Option>
+        {Object.keys(currentAddress).map((key) => (
+          <Option value={key} key={key} label={key}>
+            <Tooltip
+              title={
+                <div>
+                  {Object.keys(currentAddress[key]).map((v, i) => (
+                    <p key={i}>
+                      {envMap[v]}: {currentAddress[key][v]}
+                    </p>
+                  ))}
+                </div>
               }
-            </div>
-          }>
-            {key}
-          </Tooltip>
-          </Option>)
-        }
+            >
+              {key}
+            </Tooltip>
+          </Option>
+        ))}
       </Select>
     </Form.Item>
   );
@@ -402,55 +437,75 @@ const PostmanBody = ({
         <Col span={20}>
           <Form layout="inline" form={form}>
             <Col span={8}>
-              <Form.Item colon={false} name="request_method" label="请求方式" rules={
-                [{required: true, message: "请选择请求方法"}]
-              } initialValue={method}>
+              <Form.Item
+                colon={false}
+                name="request_method"
+                label="请求方式"
+                rules={[{ required: true, message: '请选择请求方法' }]}
+                initialValue={method}
+              >
                 <Select
                   placeholder="选择请求方式"
                   onChange={(data) => setMethod(data)}
-                  style={{width: 120, textAlign: 'left'}}
+                  style={{ width: 120, textAlign: 'left' }}
                 >
-                  <Option key="GET" value="GET">GET</Option>
-                  <Option key="POST" value="POST">POST</Option>
-                  <Option key="PUT" value="PUT">PUT</Option>
-                  <Option key="DELETE" value="DELETE">DELETE</Option>
+                  <Option key="GET" value="GET">
+                    GET
+                  </Option>
+                  <Option key="POST" value="POST">
+                    POST
+                  </Option>
+                  <Option key="PUT" value="PUT">
+                    PUT
+                  </Option>
+                  <Option key="DELETE" value="DELETE">
+                    DELETE
+                  </Option>
                 </Select>
               </Form.Item>
             </Col>
             <Col span={16}>
-              <Form.Item name="url" colon={false}
-                         label={<Tooltip title="点击可展开全局变量提示">
-                           请求地址
-                           <QuestionCircleOutlined style={{marginLeft: 4}}
-                                                   onClick={() => setOpen(true)}/></Tooltip>}
-                         rules={
-                           [{required: true, message: "请输入请求url"}]
-                         }>
-                <Input addonBefore={prefixSelector} style={{width: '100%'}} placeholder="请输入要请求的url"
-                       onChange={(e) => {
-                         splitUrl(e.target.value);
-                         form.setFieldsValue({url: e.target.value})
-                         setUrl(e.target.value);
-                       }}/>
+              <Form.Item
+                name="url"
+                colon={false}
+                label={
+                  <Tooltip title="点击可展开全局变量提示">
+                    请求地址
+                    <QuestionCircleOutlined
+                      style={{ marginLeft: 4 }}
+                      onClick={() => setOpen(true)}
+                    />
+                  </Tooltip>
+                }
+                rules={[{ required: true, message: '请输入请求url' }]}
+              >
+                <Input
+                  addonBefore={prefixSelector}
+                  style={{ width: '100%' }}
+                  placeholder="请输入要请求的url"
+                  onChange={(e) => {
+                    splitUrl(e.target.value);
+                    form.setFieldsValue({ url: e.target.value });
+                    setUrl(e.target.value);
+                  }}
+                />
               </Form.Item>
             </Col>
           </Form>
         </Col>
         <Col span={4}>
-          <div style={{float: 'right'}}>
-            {!save ? <Button
-              onClick={onRequest}
-              loading={loading}
-              type="primary"
-            >
-              <IconFont type="icon-fasong1"/>
-              Send{' '}
-            </Button> : null}
+          <div style={{ float: 'right' }}>
+            {!save ? (
+              <Button onClick={onRequest} loading={loading} type="primary">
+                <IconFont type="icon-fasong1" />
+                Send{' '}
+              </Button>
+            ) : null}
           </div>
         </Col>
       </Row>
-      <Row style={{marginTop: 8}}>
-        <Tabs defaultActiveKey="1" style={{width: '100%'}}>
+      <Row style={{ marginTop: 8 }}>
+        <Tabs defaultActiveKey="1" style={{ width: '100%' }}>
           <TabPane tab="Params" key="1">
             <EditableTable
               columns={columns('params')}
@@ -478,12 +533,12 @@ const PostmanBody = ({
                 defaultValue={0}
                 value={bodyType}
                 onChange={(e) => {
-                  setBodyType(e.target.value)
+                  setBodyType(e.target.value);
                   if (e.target.value === 'form-data') {
                     // 获取oss文件
                     dispatch({
-                      type: 'gconfig/listOssFile'
-                    })
+                      type: 'gconfig/listOssFile',
+                    });
                   }
                 }}
               >
@@ -495,9 +550,9 @@ const PostmanBody = ({
                 <Radio value={5}>GraphQL</Radio>
               </Radio.Group>
               {bodyType === 1 ? (
-                <Dropdown style={{marginLeft: 8}} overlay={menu} trigger={['click']}>
+                <Dropdown style={{ marginLeft: 8 }} overlay={menu} trigger={['click']}>
                   <a onClick={(e) => e.preventDefault()}>
-                    {rawType} <DownOutlined/>
+                    {rawType} <DownOutlined />
                   </a>
                 </Dropdown>
               ) : null}
@@ -508,11 +563,18 @@ const PostmanBody = ({
       </Row>
       <Row gutter={[8, 8]}>
         {Object.keys(response).length === 0 ? null : (
-          <Tabs style={{width: '100%'}} tabBarExtraContent={tabExtra(response)}>
+          <Tabs style={{ width: '100%' }} tabBarExtraContent={tabExtra(response)}>
             <TabPane tab="Body" key="1">
-              <JSONAceEditor value={typeof response?.response === 'object' ?
-                JSON.stringify(response.response,null,2):response.response} readOnly={true}
-                             height="30vh" setEditor={setEditor}/>
+              <JSONAceEditor
+                value={
+                  typeof response?.response === 'object'
+                    ? JSON.stringify(response.response, null, 2)
+                    : response.response
+                }
+                readOnly={true}
+                height="30vh"
+                setEditor={setEditor}
+              />
             </TabPane>
             <TabPane tab="Cookie" key="2">
               <Table
@@ -537,4 +599,4 @@ const PostmanBody = ({
   );
 };
 
-export default connect(({gconfig}) => ({gconfig}))(PostmanBody);
+export default connect(({ gconfig }) => ({ gconfig }))(PostmanBody);

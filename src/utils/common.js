@@ -3,34 +3,38 @@ export default {
     if (num === 0 || total === 0) {
       return 0;
     }
-    return (Math.round(num / total * 10000) / 100.00);// 小数点后两位百分比
+    return Math.round((num / total) * 10000) / 100.0; // 小数点后两位百分比
   },
 
   calPiePercent: function Percentage(num, total) {
     if (num === 0 || total === 0) {
       return 0;
     }
-    return (Math.round(num / total * 100) / 100.00);// 小数点后两位百分比
+    return Math.round((num / total) * 100) / 100.0; // 小数点后两位百分比
   },
-  parseHeaders: headers => {
+  parseHeaders: (headers) => {
     if (!headers) {
       return [];
     }
-    let hd = {}
+    let hd = {};
     if (typeof headers === 'string') {
       hd = JSON.parse(headers);
     } else {
       hd = headers;
     }
     return Object.keys(hd).map((key, index) => ({
-      key, value: hd[key], id: index
-    }))
+      key,
+      value: hd[key],
+      id: index,
+    }));
   },
-  translateHeaders: headers => {
+  translateHeaders: (headers) => {
     const hd = {};
     for (const h in headers) {
-      hd[headers[h].key] = headers[h].value;
+      if (Object.prototype.hasOwnProperty.call(headers, h)) {
+        hd[headers[h].key] = headers[h].value;
+      }
     }
     return JSON.stringify(hd, null, 2);
   },
-}
+};

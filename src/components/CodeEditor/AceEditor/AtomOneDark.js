@@ -1,8 +1,10 @@
-ace.define("ace/theme/atom-one-dark",["require","exports","module","ace/lib/dom"], function(require, exports, module) {
-
-  exports.isDark = false;
-  exports.cssClass = "ace-atom-dark";
-  exports.cssText = `
+ace.define(
+  'ace/theme/atom-one-dark',
+  ['require', 'exports', 'module', 'ace/lib/dom'],
+  function (require, exports, module) {
+    exports.isDark = false;
+    exports.cssClass = 'ace-atom-dark';
+    exports.cssText = `
 .ace-atom-dark .ace_gutter {
   background: #1d1f20;
   color: rgb(139,140,137)
@@ -131,11 +133,13 @@ ace.define("ace/theme/atom-one-dark",["require","exports","module","ace/lib/dom"
 }
 `;
 
-  var dom = require("ace/lib/dom");
-  dom.importCssString(exports.cssText, exports.cssClass);
-});                (function() {
-  ace.require(["ace/theme/ace-atom-one-dark"], function(m) {
-    if (typeof module == "object" && typeof exports == "object" && module) {
+    let dom = require('ace/lib/dom');
+    dom.importCssString(exports.cssText, exports.cssClass);
+  },
+);
+(function () {
+  ace.require(['ace/theme/ace-atom-one-dark'], function (m) {
+    if (typeof module === 'object' && typeof exports === 'object' && module) {
       module.exports = m;
     }
   });

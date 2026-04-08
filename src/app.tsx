@@ -1,22 +1,23 @@
 import Footer from '@/components/Footer';
 import RightContent from '@/components/RightContent';
-import {PageLoading, Settings as LayoutSettings} from '@ant-design/pro-components';
-import {SettingDrawer} from '@ant-design/pro-components';
-import type {RunTimeLayoutConfig} from '@umijs/max';
-import {history} from '@umijs/max';
+import { PageLoading, Settings as LayoutSettings } from '@ant-design/pro-components';
+import { SettingDrawer } from '@ant-design/pro-components';
+import type { RunTimeLayoutConfig } from '@umijs/max';
+import { history } from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
-import {errorConfig} from './requestErrorConfig';
-import {currentUser as queryCurrentUser, LoginUser} from './services/auth';
+import { errorConfig } from './requestErrorConfig';
+import { currentUser as queryCurrentUser, LoginUser } from './services/auth';
 import React from 'react';
-import NoTableData from "@/assets/NoSearch.svg";
+import NoTableData from '@/assets/NoSearch.svg';
 
-import {ConfigProvider, Empty, message, Spin} from "antd";
-import IndexPage from "@/pages/IndexPage";
+import { ConfigProvider, Empty, message, Spin } from 'antd';
+import IndexPage from '@/pages/IndexPage';
 import { Loading } from '@icon-park/react';
 
-const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
-Spin.setDefaultIndicator(<Loading spin={true} theme="outline" size="36" fill="#4a90e2" strokeLinecap="butt" />)
+Spin.setDefaultIndicator(
+  <Loading spin={true} theme="outline" size="36" fill="#4a90e2" strokeLinecap="butt" />,
+);
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
@@ -29,12 +30,12 @@ export async function getInitialState(): Promise<{
 }> {
   const fetchUserInfo = async () => {
     try {
-      const token = localStorage.getItem("pityToken");
+      const token = localStorage.getItem('pityToken');
       if (!token) {
         history.push(loginPath);
         return;
       }
-      const msg = await queryCurrentUser({token});
+      const msg = await queryCurrentUser({ token });
       if (msg.code !== 0) {
         message.info(msg.msg);
         throw msg.msg;
@@ -46,7 +47,7 @@ export async function getInitialState(): Promise<{
     return undefined;
   };
   // 如果不是登录页面，执行
-  const {location} = history;
+  const { location } = history;
   if (location.pathname !== loginPath) {
     const currentUser = await fetchUserInfo();
     return {
@@ -63,16 +64,16 @@ export async function getInitialState(): Promise<{
 }
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
-export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => {
+export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
     siderWidth: 216,
-    rightContentRender: () => <RightContent/>,
+    rightContentRender: () => <RightContent />,
     waterMarkProps: {
       content: initialState?.currentUser?.name,
     },
-    footerRender: () => <Footer/>,
+    footerRender: () => <Footer />,
     onPageChange: () => {
-      const {location} = history;
+      const { location } = history;
       // 如果没有登录，重定向到 login
       if (!initialState?.currentUser && location.pathname !== loginPath) {
         history.push(loginPath);
@@ -104,13 +105,15 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
     // unAccessible: <div>unAccessible</div>,
     // 增加一个 loading 的状态
     childrenRender: (children) => {
-      if (initialState?.loading) return <PageLoading/>;
+      if (initialState?.loading) return <PageLoading />;
       return (
         <ConfigProvider
-        renderEmpty={() => <Empty image={NoTableData} imageStyle={{height: 160}}
-                                                  description="暂无数据"/>}>
+          renderEmpty={() => (
+            <Empty image={NoTableData} imageStyle={{ height: 160 }} description="暂无数据" />
+          )}
+        >
           {children}
-          <IndexPage/>
+          <IndexPage />
           <SettingDrawer
             disableUrlParams
             enableDarkTheme

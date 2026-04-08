@@ -1,36 +1,40 @@
 // import 'ace-builds/src-noconflict/worker-json'; // pg模式包
-import React, {Component} from 'react';
-import "ace-builds";
-import AceEditor from "react-ace";
+import React, { Component } from 'react';
+import 'ace-builds';
+import AceEditor from 'react-ace';
 // import jsonWorkerUrl from "file-loader!ace-builds/src-noconflict/worker-json";
-import "ace-builds/src-noconflict/ext-language_tools";
-import "ace-builds/src-noconflict/ext-spellcheck";
+import 'ace-builds/src-noconflict/ext-language_tools';
+import 'ace-builds/src-noconflict/ext-spellcheck';
 import './MaterialOneDark'; // pg模式包
-import {addCompleter} from 'ace-builds/src-noconflict/ext-language_tools';
-import "ace-builds/src-noconflict/mode-json"
+import { addCompleter } from 'ace-builds/src-noconflict/ext-language_tools';
+import 'ace-builds/src-noconflict/mode-json';
 
 // ace.config.setModuleUrl("ace/mode/json_worker", jsonWorkerUrl)
 
-
 export default class JSONAceEditor extends Component {
+  constructor(props) {
+    super(props);
+    this.aceEditor = React.createRef();
+  }
 
   componentDidMount() {
-    this.props.setEditor(this.refs);
+    this.props.setEditor(this.aceEditor);
     addCompleter({
       getCompletions: (editor, session, pos, prefix, callback) => {
-        callback(null, (this.props.tables || []).map(v => (
-          {name: v, value: v}
-        )));
-      }
+        callback(
+          null,
+          (this.props.tables || []).map((v, i) => ({ name: v, value: v, meta: 'table', i })),
+        );
+      },
     });
   }
 
   render() {
-    const {value, onChange, height, readOnly, theme} = this.props;
+    const { value, onChange, height, readOnly, theme } = this.props;
     return (
       <AceEditor
-        ref="aceEditor"
-        mode='json'
+        ref={this.aceEditor}
+        mode="json"
         theme={theme || 'material-one-dark'}
         fontSize={14}
         showGutter
@@ -40,7 +44,7 @@ export default class JSONAceEditor extends Component {
         wrapEnabled
         highlightActiveLine
         enableSnippets
-        style={{width: '100%', height: height || 300}}
+        style={{ width: '100%', height: height || 300 }}
         setOptions={{
           readOnly: readOnly || false,
           enableBasicAutocompletion: true,
@@ -52,8 +56,6 @@ export default class JSONAceEditor extends Component {
           useWorker: true,
         }}
       />
-    )
+    );
   }
 }
-
-
