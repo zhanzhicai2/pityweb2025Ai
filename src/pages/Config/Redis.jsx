@@ -164,7 +164,20 @@ const Redis = ({ gconfig, loading, dispatch }) => {
           }}
         >
           <Row gutter={[8, 8]}>
-            <Col span={6}>
+            <Row style={{ marginBottom: 16 }}>
+              <Button
+                type="primary"
+                // style={{ marginBottom: 8 }}
+                onClick={() => {
+                  setVisible(true);
+                  setRecord({});
+                }}
+              >
+                <PlusOutlined />
+                添加配置
+              </Button>
+            </Row>
+            <Col span={4}>
               <Form.Item label="环境" name="env">
                 <Select placeholder="选择环境" allowClear>
                   {envList.map((item) => (
@@ -175,17 +188,17 @@ const Redis = ({ gconfig, loading, dispatch }) => {
                 </Select>
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={4}>
               <Form.Item label="名称" name="name">
                 <Input placeholder="输入redis名称" />
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={4}>
               <Form.Item label="地址" name="addr">
                 <Input placeholder="输入redis地址" />
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={4}>
               <Form.Item label="类型" name="cluster">
                 <Select placeholder="选择redis类型" allowClear>
                   <Option value={true}>集群</Option>
@@ -195,17 +208,6 @@ const Redis = ({ gconfig, loading, dispatch }) => {
             </Col>
           </Row>
         </Form>
-        <Button
-          type="primary"
-          style={{ marginBottom: 8 }}
-          onClick={() => {
-            setVisible(true);
-            setRecord({});
-          }}
-        >
-          <PlusOutlined />
-          添加配置
-        </Button>
         <Modal
           title="Redis配置"
           width={500}

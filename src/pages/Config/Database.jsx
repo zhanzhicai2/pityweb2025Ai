@@ -330,14 +330,25 @@ const Database = ({ dispatch, gconfig, loading }) => {
         >
           <Alert
             type="info"
-            style={{ marginBottom: 12 }}
+            style={{ marginBottom: 8 }}
             closable
             message="🥂 在添加/编辑数据库配置之前，记得先测试连接是否可用哟！"
           />
         </FormForModal>
         <Form {...layout} form={form}>
           <Row gutter={8}>
-            <Col span={6}>
+            <Row style={{ marginBottom: 16 }}>
+              <Button
+                type="primary"
+                onClick={() => {
+                  save({ databaseModal: true, databaseRecord: { sql_type: 0 } });
+                  setConnection(null);
+                }}
+              >
+                <PlusOutlined /> 添加配置
+              </Button>
+            </Row>
+            <Col span={4}>
               <Form.Item label="环境" name="env">
                 <Select placeholder="选择环境" allowClear>
                   {envList.map((k) => (
@@ -348,17 +359,17 @@ const Database = ({ dispatch, gconfig, loading }) => {
                 </Select>
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={4}>
               <Form.Item label="配置名" name="name">
                 <Input placeholder="输入数据库配置名" />
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={4}>
               <Form.Item label="数据库名" name="database">
                 <Input placeholder="输入数据库名" />
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={4}>
               <div style={{ float: 'right' }}>
                 <Button type="primary" onClick={fetchDbConfig}>
                   <SearchOutlined />
@@ -378,27 +389,16 @@ const Database = ({ dispatch, gconfig, loading }) => {
             </Col>
           </Row>
         </Form>
-        <Row style={{ marginTop: 12 }}>
-          <Col span={24}>
-            <Row style={{ marginBottom: 16 }}>
-              <Button
-                type="primary"
-                onClick={() => {
-                  save({ databaseModal: true, databaseRecord: { sql_type: 0 } });
-                  setConnection(null);
-                }}
-              >
-                <PlusOutlined /> 添加配置
-              </Button>
-            </Row>
-            <Table
-              columns={columns}
-              dataSource={dbConfigData}
-              rowKey={(record) => record.id}
-              loading={effects['gconfig/fetchDbConfig']}
-            />
-          </Col>
-        </Row>
+        {/*<Row style={{ marginTop: 12 }}>*/}
+        <Col span={24}>
+          <Table
+            columns={columns}
+            dataSource={dbConfigData}
+            rowKey={(record) => record.id}
+            loading={effects['gconfig/fetchDbConfig']}
+          />
+        </Col>
+        {/*</Row>*/}
       </Card>
     </PageContainer>
   );

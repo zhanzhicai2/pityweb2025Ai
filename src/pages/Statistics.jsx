@@ -99,7 +99,7 @@ export default () => {
   }, []);
 
   return (
-    <PageContainer title={false} breadcrumb={null}>
+    <PageContainer title="平台数据统计" breadcrumb={null}>
       <Row gutter={16}>
         <Col span={6}>
           <Skeleton loading={loading} active>

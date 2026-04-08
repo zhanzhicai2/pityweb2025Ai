@@ -239,7 +239,7 @@ const TestCaseRecorder = ({ dispatch, project, recorder, testcase, loading }) =>
             />
           </Col>
           <Col span={8}>
-            <Dropdown menu={{ menu }}>
+            <Dropdown overlay={menu}>
               <a onClick={(e) => e.preventDefault()}>
                 下载证书 <DownOutlined />
               </a>

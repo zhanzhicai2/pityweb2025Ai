@@ -139,6 +139,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
           },
           {
             key: 'settings',
+            // hideInMenu: true,
             icon: <SettingOutlined />,
             label: '个人设置',
           },
