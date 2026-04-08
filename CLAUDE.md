@@ -4,7 +4,7 @@
 
 ## 项目概述
 
-Pity 前端 — Pity API 测试平台的 React 前端项目。基于 UmiJS v4 (`@umijs/max`)、Ant Design v5、Ant Design Pro Components 构建。后端为 Python FastAPI 应用。
+Pity 前端 — Pity API 测试平台的 React 前端项目。基于 UmiJS v4 (`@umijs/max`)、Ant Design v5、Ant Design Pro Components 构建。后端为 Python FastAPI 应用，目录在 `../backend/`，日志系统在 `../backend/logs/` 目录下。
 
 ## 开发命令
 
@@ -61,19 +61,18 @@ npx tsc --noEmit         # 仅类型检查
 
 主要路由结构:
 
-| 路径           | 说明                                | 权限             |
-| -------------- | ----------------------------------- | ---------------- |
-| `/user/login`  | 登录                                | 公开             |
-| `/dashboard/*` | 工作台、统计                        | 已登录           |
-| `/project`     | 项目管理                            | 已登录           |
-| `/apiTest/*`   | 接口用例、录制、测试计划            | 已登录           |
-| `/record/*`    | 构建历史、测试报告                  | 已登录           |
-| `/config/*`    | 环境管理、全局变量、数据库等        | admin/superAdmin |
-| `/system/*`    | 系统设置、用户管理                  | superAdmin       |
-| `/tool/*`      | HTTP 测试、SQL 客户端、Redis 客户端 | 已登录           |
-| `/mock`        | Mock 配置                           | 已登录           |
-| `/ci`          | 持续集成                            | 已登录           |
-| `/datafactory` | 数据工厂                            | 已登录           |
+| 路径           | 说明                 | 权限             |
+| -------------- | -------------------- | ---------------- |
+| `/user/login`  | 登录                 | 公开             |
+| `/dashboard/*` | 工作台、统计         | 已登录           |
+| `/project`     | 项目管理             | 已登录           |
+| `/apiTest/*`   | 接口用例、录制、计划 | 已登录           |
+| `/record/*`    | 构建历史、测试报告   | 已登录           |
+| `/config/*`    | 环境、变量、数据库   | admin/superAdmin |
+| `/system/*`    | 系统设置、用户管理   | superAdmin       |
+| `/tool/*`      | HTTP/SQL/Redis       | 已登录           |
+| `/mock`        | Mock 配置            | 已登录           |
+| `/datafactory` | 数据工厂             | 已登录           |
 
 ### API 代理
 
@@ -87,46 +86,45 @@ npx tsc --noEmit         # 仅类型检查
 ## 项目结构
 
 ```
-frontend/
-├── config/                    # UmiJS 配置
-│   ├── routes.ts              # 路由定义
-│   ├── proxy.ts               # API 代理配置
-│   ├── defaultSettings.ts     # 布局/主题/URL 配置
-│   └── config.ts              # 其他 UmiJS 配置
-├── src/
-│   ├── app.tsx                # 应用入口、getInitialState、layout 配置
-│   ├── requestErrorConfig.ts  # @umijs/max 请求错误处理配置
-│   ├── consts/
-│   │   └── config.ts          # 全局常量（角色、状态、断言类型等）
-│   ├── models/                # dva 状态管理
-│   ├── services/              # API 请求服务
-│   ├── pages/                 # 页面组件（镜像路由结构）
-│   │   ├── ApiTest/           # 接口测试（用例、录制、计划）
-│   │   ├── Dashboard/         # 工作台
-│   │   ├── BuildHistory/      # 测试报告
-│   │   ├── Config/            # 测试配置（环境、数据库、Redis等）
-│   │   ├── Manager/           # 后台管理
-│   │   ├── Tool/              # 实用工具（HTTP/SQL/Redis）
-│   │   ├── User/              # 登录
-│   │   ├── uiTest/            # UI测试（开发中）
-│   │   └── datafactory/       # 数据工厂
-│   ├── components/            # 共享组件
-│   │   ├── TestCase/          # 测试用例相关组件
-│   │   ├── Project/           # 项目相关组件
-│   │   ├── PityForm/          # 自定义表单
-│   │   ├── CodeEditor/        # 代码编辑器
-│   │   ├── Table/             # 表格组件
-│   │   ├── Tree/              # 树形组件
-│   │   └── ...                # 其他通用组件
-│   └── utils/
-│       ├── auth.ts            # 认证工具（token、401处理）
-│       ├── request.js         # umi-request 封装
-│       ├── common.js          # 通用工具函数
-│       └── utils.js           # 其他工具
-├── mock/                      # Mock 数据
-├── tests/                     # 测试文件
-├── types/                     # 类型定义
-└── package.json
+src/
+├── app.tsx                    # 应用入口、getInitialState、layout 配置
+├── requestErrorConfig.ts      # @umijs/max 请求错误处理配置
+├── access.ts                  # 权限控制
+├── consts/config.ts           # 全局常量
+├── models/                    # dva 状态管理
+│   ├── auth.ts, testcase.js, testplan.js, project.js
+│   ├── constructor.js, notice.ts, recorder.js, gconfig.js
+│   └── ...
+├── services/                  # API 请求服务（umi-request 封装）
+│   ├── auth.ts, user.js, project.js, testcase.js
+│   ├── testplan.js, configure.js, online.js
+│   └── ...
+├── pages/                     # 页面组件（镜像路由结构）
+│   ├── ApiTest/               # 接口测试（用例、录制、计划、录制）
+│   ├── Dashboard/             # 工作台
+│   ├── BuildHistory/          # 测试报告
+│   ├── Config/                # 测试配置（环境、数据库、Redis等）
+│   ├── Manager/               # 后台管理
+│   ├── Tool/                  # 实用工具（HTTP/SQL/Redis）
+│   ├── User/                  # 登录
+│   └── datafactory/           # 数据工厂
+├── components/                # 共享组件
+│   ├── TestCase/              # 测试用例相关
+│   ├── Project/               # 项目相关
+│   ├── PityForm/              # 自定义表单
+│   ├── CodeEditor/            # 代码/JSON编辑器
+│   ├── Table/                 # 表格组件
+│   ├── Tree/                  # 树形组件
+│   └── RightContent/          # 右上角用户信息
+└── utils/
+    ├── auth.ts                # 认证工具（token、401处理）
+    ├── request.js             # umi-request 封装
+    └── ...
+config/
+├── routes.ts                  # 路由定义
+├── proxy.ts                   # API 代理配置
+├── defaultSettings.ts         # 布局/主题/URL 配置
+└── config.ts                  # 其他 UmiJS 配置
 ```
 
 ## 编码规范
@@ -143,76 +141,68 @@ frontend/
 
 页面位于 `src/pages/`，镜像路由结构。标准 CRUD 界面使用 Ant Design Pro 组件 (ProTable, ProForm, ProList)。共享组件位于 `src/components/`。
 
-### 状态管理
+### 状态管理迁移策略
 
-使用 **dva model** 方案（`namespace`/`state`/`reducers`/`effects`），通过 `useModel('modelName')` 访问。
+项目现有 dva model（`namespace`/`reducers`/`effects`）继续保留，不做迁移
 
-```javascript
-// src/models/example.js
-export default {
-  namespace: 'example',
-  state: {
-    list: [],
-  },
-  reducers: {
-    updateState(state, { payload }) {
-      return { ...state, ...payload };
-    },
-  },
-  effects: {
-    *fetchList({ payload }, { call, put }) {
-      // 调用 service
-      const data = yield call(exampleService.list, payload);
-      yield put({ type: 'updateState', payload: { list: data } });
-    },
-  },
-};
+```typescript
+// 新 model 示例: src/models/newFeature.ts
+import { useState, useCallback } from 'react';
+
+export default function useNewFeature() {
+  const [list, setList] = useState([]);
+  const fetchList = useCallback(async () => {
+    /* ... */
+  }, []);
+  return { list, fetchList };
+}
 ```
+
+两种风格通过 `useModel('name')` 统一消费，可共存无需配置改动。
 
 ### 语言
 
-项目使用 **JavaScript** (`.js/.jsx`)，现有 TypeScript 文件保持不动。新文件统一使用 JavaScript。
+项目使用 **JavaScript** (`.js/.jsx`)，新文件统一使用 JavaScript，旧文件不需要动。
 
 ### 日期处理
 
 使用 `moment`（非 dayjs）。
 
-### 角色常量
+### Ant Design v5 Dropdown 注意
 
-`src/consts/config.ts` 中定义三个用户角色: `user (0)`, `admin (1)`, `superAdmin (2)`。路由通过 `authority` 数组控制访问权限。
+Dropdown 组件的 `menu` prop 在 v5 中期望 config 对象，传递 React 组件需用 `overlay` prop：
 
-### 项目角色
+```jsx
+// ✅ 正确
+<Dropdown overlay={<Menu>...</Menu>}>
 
-- `OWNER (2)` — 负责人
-- `ADMIN (1)` — 组长
-- `MEMBER (0)` — 组员
+// ❌ 错误
+<Dropdown menu={<Menu>...</Menu>}>
+```
 
-### 用例构造器类型
+### 前端显示原则
 
-- `0` — 测试场景
-- `1` — SQL 语句
-- `2` — Redis 命令
-- `3` — Python 方法
-- `4` — HTTP 请求
+后端返回的数据字段，前端按需取用显示，不在后端数据上做删减。前端负责控制展示内容。
 
-## 开发阶段
+### 代码注释原则
 
-当前开发进度：
+注释掉的代码（`{/* ... */}` 或 `// ...`）必须保留，不删除。
 
-| Phase      | 内容                                            | 状态      |
-| ---------- | ----------------------------------------------- | --------- |
-| Phase 1-5  | 后端 FastAPI + 前端基础功能                     | ✅ 完成   |
-| Phase 6    | 前端 AI 集成（AI service、dva model、/ai 路由） | 🔄 待开发 |
-| Phase 7    | 依赖升级                                        | 🔄 待开发 |
-| Phase 8/10 | TypeScript 全面迁移                             | 🔄 待开发 |
-| Phase 12   | 数据池前端页面                                  | 🔄 待开发 |
-| Phase 13   | AI 对话助手前端页面                             | 🔄 待开发 |
-| Phase 14   | 通知管理前端                                    | 🔄 待开发 |
-| Phase 15   | OpenAPI 导入前端                                | 🔄 待开发 |
-| Phase 16   | AI 对话 RAG 压缩检索                            | 🔄 待开发 |
-| Phase 18   | Ant Design V6 升级                              | 🔄 待开发 |
+### 可选链原则
 
-**注意**：Phase 6-18 的参考实现位于 `/Users/zhanzhicai/Desktop/py/pity/frontend` 的 `feat/upgrade-plugin-system` 分支。如有疑问可参考该分支代码。
+访问可能为 `null`/`undefined` 的对象属性时，使用可选链 `?.` 防止报错：
+
+```javascript
+// ✅ 使用可选链
+const value = editor?.aceEditor?.editor?.getSelectedText();
+
+// ❌ 不使用可选链
+const value = editor.aceEditor.editor.getSelectedText(); // 可能报错
+```
+
+### 问题解决原则
+
+发现问题后，先解释清楚**原因**，再给出**解决方案**，让用户理解问题所在。
 
 ## 重要规则
 
@@ -220,4 +210,86 @@ export default {
 2. 前端开发服务器运行在 `localhost:8000`，后端 API 运行在 `localhost:7777/7778`。
 3. `localStorage` 中的 `pityToken` 是 JWT token 的 key。
 4. 后端 FastAPI 应用的根目录在 `../backend/`。
-5. **前端新目录**：`/Users/zhanzhicai/Desktop/py/pity/pityweb2025Ai`（当前工作目录）
+5. 路由 icon 使用 Ant Design Icon 名称（如 `dashboard`、`api`、`tool`）。
+
+## Phase 开发流程
+
+每个 Phase 开发遵循以下流程：
+
+### 开始 Phase
+
+1. 在 `/Users/zhanzhicai/Desktop/Obsidian_one/AI学习笔记/pity/frontend` 创建 Phase 计划文档
+2. 文档命名格式：`PhaseX_功能名称实施记录.md`
+
+### 开发过程中
+
+- 发现问题或遗漏功能时，**立即追加**到 Obsidian 计划文档的"后续工作"列表
+- 例如：发现"AI 生成用例没有保存到数据库"，立即添加 `- [ ] AI 生成用例保存到数据库`
+- 解决一个问题后，更新为 `- [x] AI 生成用例保存到数据库（commit号）`
+- 每次开发完成需要测试
+  - 语法检查：`npm run lint`
+  - 启动前端验证服务正常：`npm start`
+  - 核心功能手动测试
+
+### 结束 Phase
+
+1. **扫描遗漏内容**：
+
+- 检查本次 Phase 是否有发现但未记录的问题/功能
+- 检查"后续工作"列表中的待办是否都已完成
+- 确认所有功能点都已测试
+
+2. 更新 Obsidian 计划文档：
+
+- 标记完成状态
+- 记录所有 commit
+- 列出新增/修改文件
+- 添加测试结果
+- 记录遇到的问题和解决方案
+- 更新后续工作清单
+
+3. 在 `frontend/CLAUDE.md` 更新开发阶段状态
+4. 在 `frontend/CLAUDE.md` 关键约定中添加本次 Phase 的关键架构说明
+5. 提交代码：`git add -A && git commit -m "feat: Phase X 功能名称"`
+
+- 注意：推送由用户手动执行（网络问题导致推送失败的情况较多）
+
+### Obsidian 文档标准结构
+
+```markdown
+# Phase X：功能名称实施记录
+
+> 日期：YYYY-MM-DD 状态：进行中/已完成分支：dev 最新 Commit：xxxxxx
+
+## 更新记录
+
+| 日期       | Commit | 更新内容 |
+| ---------- | ------ | -------- |
+| YYYY-MM-DD | xxxxxx | 描述     |
+
+## 完成情况
+
+- [x] 功能点 1
+- [ ] 功能点 2
+
+## API 端点
+
+（表格列出所有接口）
+
+## 测试结果
+
+（命令和响应）
+
+## 测试检查清单：核心功能手动测试
+
+(表格列出所有接口）
+
+## 修复的问题
+
+1. 问题描述 - 解决方案
+
+## 后续工作
+
+- [ ] 待办 1
+- [ ] 待办 2
+```

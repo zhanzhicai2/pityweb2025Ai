@@ -84,10 +84,12 @@ const SqlOnline = ({
         );
         databaseSource[i].title = (
           <span>
-            {databaseSource[i].title}{' '}
-            <span style={{ fontSize: 12, fontWeight: 200, marginLeft: 8 }}>
-              {databaseSource[i].type}
-            </span>
+            {databaseSource[i].title}
+            {/*{databaseSource[i].comment && (*/}
+            {/*  <span style={{ fontSize: 12, color: '#909399', marginLeft: 8 }}>*/}
+            {/*    {databaseSource[i].comment}*/}
+            {/*  </span>*/}
+            {/*)}*/}
           </span>
         );
       } else if (databaseSource[i].key.indexOf('table') > -1) {
@@ -120,7 +122,7 @@ const SqlOnline = ({
       message.warning('请输入sql语句!!!');
       return;
     }
-    const value = editor.aceEditor.editor.getSelectedText();
+    const value = editor?.aceEditor?.editor?.getSelectedText();
     const real = value || sqlValue;
     dispatch({
       type: 'online/onlineExecuteSQL',
