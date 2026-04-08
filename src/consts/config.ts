@@ -35,9 +35,9 @@ const CONFIG = {
   WS_URL: getWss(),
   ICONFONT: defaultSettings.iconfontUrl,
   OSS_URL: 'http://oss.pity.fun/pity',
-  AVATAR_URL: 'https://static.pity.fun/picture/20220809231905.png',
+  AVATAR_URL: 'https://api.dicebear.com/7.x/avataaars/svg?seed=default',
   DOCUMENT_URL: 'https://wuranxu.github.io/pityDoc',
-  PROJECT_AVATAR_URL: 'https://static.pity.fun/picture/20220809232253.png',
+  PROJECT_AVATAR_URL: 'https://api.dicebear.com/7.x/initials/svg?seed=project',
   ROLE: {
     0: 'user',
     1: 'admin',
@@ -189,7 +189,7 @@ const CONFIG = {
     2: 'icon-qiyeweixin',
     3: 'icon-feishu',
   },
-  WECHAT_URL: 'https://static.pity.fun/picture/20220813204341.png',
+  WECHAT_URL: 'https://api.dicebear.com/7.x/identicon/svg?seed=wechat',
 };
 
 export default CONFIG;
