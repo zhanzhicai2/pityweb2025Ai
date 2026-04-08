@@ -1,22 +1,27 @@
 import Footer from '@/components/Footer';
-import {GithubOutlined, LockOutlined, MailOutlined, MobileOutlined, UserOutlined} from '@ant-design/icons';
-import {LoginForm, ProFormCheckbox, ProFormText,} from '@ant-design/pro-components';
-import {useEmotionCss} from '@ant-design/use-emotion-css';
-import {FormattedMessage, Helmet, history, SelectLang, useIntl, useModel} from '@umijs/max';
-import {message, Tabs} from 'antd';
+import {
+  GithubOutlined,
+  LockOutlined,
+  MailOutlined,
+  MobileOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
+import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
+import { useEmotionCss } from '@ant-design/use-emotion-css';
+import { Helmet, history, useModel } from '@umijs/max';
+import { message, Tabs } from 'antd';
 import Settings from '../../../../config/defaultSettings';
-import React, {useState} from 'react';
-import {flushSync} from 'react-dom';
+import React, { useState } from 'react';
+import { flushSync } from 'react-dom';
 
 const clientId = `0f4fc0a875de30614a6a`;
 
 const redirectToGithub = () => {
-  // const current = window.location.href
   window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}`;
 };
 
 const ActionIcons = () => {
-  const langClassName = useEmotionCss(({token}) => {
+  const langClassName = useEmotionCss(({ token }) => {
     return {
       marginLeft: '8px',
       color: 'rgba(0, 0, 0, 0.2)',
@@ -32,36 +37,15 @@ const ActionIcons = () => {
 
   return (
     <>
-      <GithubOutlined key="GithubOutlined" className={langClassName} onClick={redirectToGithub}/>
+      <GithubOutlined key="GithubOutlined" className={langClassName} onClick={redirectToGithub} />
     </>
   );
 };
 
-const Lang = () => {
-  const langClassName = useEmotionCss(({token}) => {
-    return {
-      width: 42,
-      height: 42,
-      lineHeight: '42px',
-      position: 'fixed',
-      right: 16,
-      borderRadius: token.borderRadius,
-      ':hover': {
-        backgroundColor: token.colorBgTextHover,
-      },
-    };
-  });
-
-  return (
-    <div className={langClassName} data-lang>
-      {SelectLang && <SelectLang/>}
-    </div>
-  );
-};
 const Login: React.FC = () => {
   const [type, setType] = useState<string>('account');
-  const {initialState, setInitialState} = useModel('@@initialState');
-  const {loginPity, registerPity} = useModel('auth');
+  const { initialState, setInitialState } = useModel('@@initialState');
+  const { loginPity, registerPity } = useModel('auth');
 
   const containerClassName = useEmotionCss(() => {
     return {
@@ -74,8 +58,6 @@ const Login: React.FC = () => {
       backgroundSize: '100% 100%',
     };
   });
-
-  const intl = useIntl();
 
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
@@ -96,10 +78,10 @@ const Login: React.FC = () => {
         name: values?.name,
         password: values.password,
         email: values?.email,
-        username: values.username
+        username: values.username,
       });
     } else {
-      resp = await loginPity({username: values.username, password: values.password});
+      resp = await loginPity({ username: values.username, password: values.password });
     }
     if (resp.code === 0) {
       message.success('🎉 🎉 🎉 登录成功');
@@ -116,7 +98,6 @@ const Login: React.FC = () => {
       <Helmet>
         <title>{Settings.title}</title>
       </Helmet>
-      <Lang/>
       <div
         style={{
           flex: '1',
@@ -128,20 +109,13 @@ const Login: React.FC = () => {
             minWidth: 280,
             maxWidth: '75vw',
           }}
-          logo={<img alt="logo" src="/logo.svg"/>}
+          logo={<img alt="logo" src="/logo.svg" />}
           title="pity"
-          subTitle={intl.formatMessage({id: 'pages.layouts.userLayout.title'})}
+          subTitle="Pity是一款开源的接口自动化平台"
           initialValues={{
             autoLogin: true,
           }}
-          actions={[
-            <FormattedMessage
-              key="loginWith"
-              id="pages.login.loginWith"
-              defaultMessage="其他登录方式"
-            />,
-            <ActionIcons key="icons"/>,
-          ]}
+          actions={[<span key="loginWith">其他登录方式</span>, <ActionIcons key="icons" />]}
           onFinish={async (values) => {
             await handleSubmit(values as API.LoginParams);
           }}
@@ -153,17 +127,11 @@ const Login: React.FC = () => {
             items={[
               {
                 key: 'account',
-                label: intl.formatMessage({
-                  id: 'pages.login.accountLogin.tab',
-                  defaultMessage: '账户密码登录',
-                }),
+                label: '账户密码登录',
               },
               {
                 key: 'register',
-                label: intl.formatMessage({
-                  id: 'pages.login.phoneLogin.tab',
-                  defaultMessage: '注册',
-                }),
+                label: '注册',
               },
             ]}
           />
@@ -173,21 +141,13 @@ const Login: React.FC = () => {
                 name="username"
                 fieldProps={{
                   size: 'large',
-                  prefix: <UserOutlined/>,
+                  prefix: <UserOutlined />,
                 }}
-                placeholder={intl.formatMessage({
-                  id: 'pages.login.username.placeholder',
-                  defaultMessage: '用户名: tester',
-                })}
+                placeholder="用户名: tester"
                 rules={[
                   {
                     required: true,
-                    message: (
-                      <FormattedMessage
-                        id="pages.login.username.required"
-                        defaultMessage="请输入用户名!"
-                      />
-                    ),
+                    message: '请输入用户名',
                   },
                 ]}
               />
@@ -195,21 +155,13 @@ const Login: React.FC = () => {
                 name="password"
                 fieldProps={{
                   size: 'large',
-                  prefix: <LockOutlined/>,
+                  prefix: <LockOutlined />,
                 }}
-                placeholder={intl.formatMessage({
-                  id: 'pages.login.password.placeholder',
-                  defaultMessage: '密码: tester',
-                })}
+                placeholder="密码: tester"
                 rules={[
                   {
                     required: true,
-                    message: (
-                      <FormattedMessage
-                        id="pages.login.password.required"
-                        defaultMessage="请输入密码！"
-                      />
-                    ),
+                    message: '请输入密码',
                   },
                 ]}
               />
@@ -221,35 +173,35 @@ const Login: React.FC = () => {
               <ProFormText
                 fieldProps={{
                   size: 'large',
-                  prefix: <UserOutlined/>,
+                  prefix: <UserOutlined />,
                 }}
                 name="username"
                 placeholder="请输入用户名"
                 rules={[
                   {
                     required: true,
-                    message: "请输入用户名",
-                  }
+                    message: '请输入用户名',
+                  },
                 ]}
               />
               <ProFormText
                 fieldProps={{
                   size: 'large',
-                  prefix: <MobileOutlined/>,
+                  prefix: <MobileOutlined />,
                 }}
                 name="name"
                 placeholder="请输入姓名"
                 rules={[
                   {
                     required: true,
-                    message: "请输入姓名",
-                  }
+                    message: '请输入姓名',
+                  },
                 ]}
               />
               <ProFormText
                 fieldProps={{
                   size: 'large',
-                  prefix: <MailOutlined/>,
+                  prefix: <MailOutlined />,
                 }}
                 name="email"
                 placeholder="请输入用户邮箱"
@@ -257,23 +209,23 @@ const Login: React.FC = () => {
                   {
                     type: 'email',
                     required: true,
-                    message: "请输入合法的邮箱",
-                  }
+                    message: '请输入合法的邮箱',
+                  },
                 ]}
               />
               <ProFormText.Password
                 fieldProps={{
                   size: 'large',
-                  prefix: <LockOutlined/>,
-                  type: 'password'
+                  prefix: <LockOutlined />,
+                  type: 'password',
                 }}
                 name="password"
                 placeholder="请输入用户密码"
                 rules={[
                   {
                     required: true,
-                    message: "请输入用户密码",
-                  }
+                    message: '请输入用户密码',
+                  },
                 ]}
               />
             </>
@@ -283,26 +235,22 @@ const Login: React.FC = () => {
               marginBottom: 24,
             }}
           >
-
-            {
-              type === 'register' ? null :
-                <ProFormCheckbox noStyle name="autoLogin"><FormattedMessage id="pages.login.rememberMe"
-                                                                            defaultMessage="自动登录"/></ProFormCheckbox>
-            }
+            {type === 'register' ? null : (
+              <ProFormCheckbox noStyle name="autoLogin">
+                自动登录
+              </ProFormCheckbox>
+            )}
             <a
               style={{
                 float: 'right',
               }}
             >
-              {
-                type === 'register' ? null :
-                  <FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码"/>
-              }
+              {type === 'register' ? null : '忘记密码'}
             </a>
           </div>
         </LoginForm>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };
