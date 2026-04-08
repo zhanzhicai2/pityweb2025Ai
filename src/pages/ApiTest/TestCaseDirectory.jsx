@@ -230,7 +230,7 @@ const TestCaseDirectory = ({ testcase, gconfig, project, user, loading, dispatch
         <>
           <a href={`/#/apiTest/testcase/${currentDirectory[0]}/${record.id}`}>详情</a>
           <Divider type="vertical" />
-          <Dropdown menu={{ menu: menu(record) }}>
+          <Dropdown overlay={menu(record)}>
             <a
               onClick={(e) => {
                 e.stopPropagation();
@@ -843,7 +843,7 @@ const TestCaseDirectory = ({ testcase, gconfig, project, user, loading, dispatch
                           </Button>
                         </Dropdown>
                         {selectedRowKeys.length > 0 ? (
-                          <Dropdown menu={{ menu: menu() }} trigger={['hover']}>
+                          <Dropdown overlay={menu()} trigger={['hover']}>
                             <Button
                               style={{ marginLeft: 8 }}
                               icon={<PlayCircleOutlined />}

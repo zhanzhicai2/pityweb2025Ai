@@ -178,7 +178,7 @@ const Project = ({ dispatch, project, loading }) => {
       {item.name}
       <span style={{ float: 'right', lineHeight: '24px', fontSize: 24, marginRight: 4 }}>
         <Dropdown
-          menu={{ menu: menu(item) }}
+          overlay={menu(item)}
           onClick={(e) => {
             e.stopPropagation();
           }}

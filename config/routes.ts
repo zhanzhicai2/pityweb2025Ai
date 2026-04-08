@@ -65,7 +65,7 @@ export default [
   {
     path: '/project',
     name: '项目管理',
-    icon: 'icon-Project',
+    icon: ' P',
     component: './ApiTest/Project',
   },
   {
@@ -155,7 +155,7 @@ export default [
   },
   {
     path: '/record',
-    icon: 'icon-jilu1',
+    icon: 'B',
     name: '测试报告',
     routes: [
       {
@@ -166,7 +166,7 @@ export default [
       {
         path: '/record/report/:id',
         hideInMenu: true,
-        name: '测试报告',
+        name: '详细报告',
         component: './BuildHistory/ReportDetail',
       },
     ],
@@ -179,7 +179,7 @@ export default [
   },
   {
     path: '/config',
-    icon: 'icon-config',
+    icon: 'Z',
     name: '测试配置',
     authority: ['superAdmin', 'admin'],
     routes: [
@@ -236,7 +236,7 @@ export default [
   },
   {
     path: '/mock',
-    icon: 'icon-mockplus_doc',
+    icon: 'Api',
     name: 'Mock配置',
     component: './Building',
   },
@@ -248,7 +248,7 @@ export default [
       {
         path: '/tool/request',
         name: 'HTTP测试',
-        icon: 'icon-yunhang',
+        icon: 'Send',
         component: './Tool/Request',
       },
       {
@@ -279,7 +279,7 @@ export default [
   // },
   {
     path: '/datafactory',
-    icon: 'icon-hebingxingzhuang',
+    icon: 'M',
     name: '数据工厂',
     component: './datafactory',
   },

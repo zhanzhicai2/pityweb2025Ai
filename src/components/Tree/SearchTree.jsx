@@ -130,7 +130,7 @@ export default ({
                     }}
                     className="icon-left"
                   />
-                  <Dropdown menu={{ menu: menu(node) }} trigger="click">
+                  <Dropdown overlay={menu(node)} trigger="click">
                     <MoreOutlined
                       className="icon-right"
                       onClick={(e) => {

@@ -111,7 +111,7 @@ const Applications = () => {
               <Tooltip title="分享" key="share">
                 <ShareAltOutlined />
               </Tooltip>,
-              <Dropdown menu={{ menu: itemMenu }} key="ellipsis">
+              <Dropdown overlay={itemMenu} key="ellipsis">
                 <EllipsisOutlined />
               </Dropdown>,
             ]}

@@ -161,21 +161,39 @@
   },
   "hotPaths": [
     {
-      "path": "src",
-      "accessCount": 17,
-      "lastAccessed": 1775619562406,
-      "type": "directory"
-    },
-    {
-      "path": "src/app.tsx",
-      "accessCount": 15,
-      "lastAccessed": 1775615824763,
+      "path": "config/routes.ts",
+      "accessCount": 31,
+      "lastAccessed": 1775633349953,
       "type": "file"
     },
     {
+      "path": "src",
+      "accessCount": 26,
+      "lastAccessed": 1775634075348,
+      "type": "directory"
+    },
+    {
       "path": "src/pages/ApiTest/TestCaseDirectory.jsx",
+      "accessCount": 18,
+      "lastAccessed": 1775633989165,
+      "type": "file"
+    },
+    {
+      "path": "src/app.tsx",
+      "accessCount": 16,
+      "lastAccessed": 1775627405739,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/ApiTest/TestCaseRecorder.jsx",
+      "accessCount": 12,
+      "lastAccessed": 1775629784750,
+      "type": "file"
+    },
+    {
+      "path": "src/global.less",
       "accessCount": 9,
-      "lastAccessed": 1775615653181,
+      "lastAccessed": 1775620322316,
       "type": "file"
     },
     {
@@ -197,15 +215,45 @@
       "type": "file"
     },
     {
-      "path": "src/pages/ApiTest/TestCaseRecorder.jsx",
-      "accessCount": 6,
-      "lastAccessed": 1775619938193,
+      "path": "src/pages/ApiTest/TestCaseComponent.jsx",
+      "accessCount": 7,
+      "lastAccessed": 1775633685867,
+      "type": "file"
+    },
+    {
+      "path": "src/components/Postman/Postman.jsx",
+      "accessCount": 7,
+      "lastAccessed": 1775633757036,
       "type": "file"
     },
     {
       "path": "config/defaultSettings.ts",
-      "accessCount": 5,
-      "lastAccessed": 1775616234309,
+      "accessCount": 6,
+      "lastAccessed": 1775627419765,
+      "type": "file"
+    },
+    {
+      "path": "src/components/Postman/PostmanBody.jsx",
+      "accessCount": 6,
+      "lastAccessed": 1775633745541,
+      "type": "file"
+    },
+    {
+      "path": "src/components/TestCase/TestCaseDetail.jsx",
+      "accessCount": 6,
+      "lastAccessed": 1775633768578,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/account/center/components/Applications/index.jsx",
+      "accessCount": 6,
+      "lastAccessed": 1775634027996,
+      "type": "file"
+    },
+    {
+      "path": "src/components/TestCase/Directory.jsx",
+      "accessCount": 6,
+      "lastAccessed": 1775634050819,
       "type": "file"
     },
     {
@@ -215,39 +263,27 @@
       "type": "file"
     },
     {
-      "path": "src/components/Postman/Postman.jsx",
-      "accessCount": 5,
-      "lastAccessed": 1775619587206,
-      "type": "file"
-    },
-    {
       "path": "src/pages/Dashboard/Workspace.jsx",
       "accessCount": 5,
       "lastAccessed": 1775619870223,
       "type": "file"
     },
     {
-      "path": "src/pages/account/center/components/Applications/index.jsx",
-      "accessCount": 4,
-      "lastAccessed": 1775615475168,
-      "type": "file"
-    },
-    {
-      "path": "src/components/Postman/PostmanBody.jsx",
-      "accessCount": 4,
-      "lastAccessed": 1775615515970,
-      "type": "file"
-    },
-    {
-      "path": "src/components/TestCase/Directory.jsx",
-      "accessCount": 4,
-      "lastAccessed": 1775615538150,
-      "type": "file"
-    },
-    {
       "path": "src/pages/Notification.jsx",
       "accessCount": 4,
       "lastAccessed": 1775619631059,
+      "type": "file"
+    },
+    {
+      "path": "src/components/Tree/SearchTree.jsx",
+      "accessCount": 4,
+      "lastAccessed": 1775634039464,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/ApiTest/Project.jsx",
+      "accessCount": 4,
+      "lastAccessed": 1775634061422,
       "type": "file"
     },
     {
@@ -263,51 +299,15 @@
       "type": "file"
     },
     {
-      "path": "src/pages/ApiTest/TestCaseComponent.jsx",
-      "accessCount": 3,
-      "lastAccessed": 1775615326111,
-      "type": "file"
-    },
-    {
       "path": "src/pages/datafactory/help.jsx",
       "accessCount": 3,
       "lastAccessed": 1775615564729,
       "type": "file"
     },
     {
-      "path": "config/routes.ts",
-      "accessCount": 3,
-      "lastAccessed": 1775617918372,
-      "type": "file"
-    },
-    {
-      "path": "src/global.less",
-      "accessCount": 3,
-      "lastAccessed": 1775619320126,
-      "type": "file"
-    },
-    {
       "path": "src/pages/TableList/index.tsx",
       "accessCount": 3,
       "lastAccessed": 1775619864592,
-      "type": "file"
-    },
-    {
-      "path": "src/pages/ApiTest/Project.jsx",
-      "accessCount": 2,
-      "lastAccessed": 1775611723146,
-      "type": "file"
-    },
-    {
-      "path": "src/components/TestCase/TestCaseDetail.jsx",
-      "accessCount": 2,
-      "lastAccessed": 1775611787283,
-      "type": "file"
-    },
-    {
-      "path": "src/components/Tree/SearchTree.jsx",
-      "accessCount": 2,
-      "lastAccessed": 1775611792754,
       "type": "file"
     },
     {

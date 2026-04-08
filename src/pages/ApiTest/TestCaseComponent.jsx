@@ -325,7 +325,7 @@ const TestCaseComponent = ({ loading, dispatch, user, testcase, gconfig }) => {
                       >
                         <EditOutlined /> 编辑
                       </Button>
-                      <Dropdown menu={{ menu }} trigger={['click']}>
+                      <Dropdown overlay={menu} trigger={['click']}>
                         <Button
                           type="primary"
                           style={{ marginLeft: 8, borderRadius: 16 }}

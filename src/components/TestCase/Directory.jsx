@@ -142,7 +142,7 @@ export default ({ loading, treeData, fetchData, projectData, userMap }) => {
       return (
         <>
           {Icon(
-            <Dropdown menu={{ menu: caseMenu(item.key.split('_')[1]) }}>
+            <Dropdown overlay={caseMenu(item.key.split('_')[1])}>
               <a style={{ color: '#3cc64d' }}>
                 <PlusOutlined style={{ fontSize: 16, marginTop: 4, cursor: 'pointer' }} />
               </a>
