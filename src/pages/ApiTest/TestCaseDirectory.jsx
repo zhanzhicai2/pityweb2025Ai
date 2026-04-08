@@ -1,5 +1,5 @@
-import {PageContainer} from '@ant-design/pro-components';
-import {REQUEST_TYPE} from '@/components/Common/global';
+import { PageContainer } from '@ant-design/pro-components';
+import { REQUEST_TYPE } from '@/components/Common/global';
 import {
   Avatar,
   Badge,
@@ -24,8 +24,8 @@ import {
   Tooltip,
   TreeSelect,
 } from 'antd';
-import {connect, history} from '@umijs/max';
-import React, {memo, useEffect, useState} from 'react';
+import { connect, history } from '@umijs/max';
+import React, { memo, useEffect, useState } from 'react';
 import SplitPane from 'react-split-pane';
 import './TestCaseDirectory.less';
 import {
@@ -57,21 +57,27 @@ import ScrollCard from '@/components/Scrollbar/ScrollCard';
 import emptyWork from '@/assets/emptyWork.svg';
 import AddTestCaseComponent from '@/pages/ApiTest/AddTestCaseComponent';
 import RecorderDrawer from '@/components/TestCase/recorder/RecorderDrawer';
-import {Switch} from '@icon-park/react';
-import common from "@/utils/common";
+import { Switch } from '@icon-park/react';
+import common from '@/utils/common';
 
-const {Option} = Select;
+const { Option } = Select;
 
-const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}) => {
-  const {projects, project_id} = project;
-  const {envList} = gconfig;
-  const {userList, userMap} = user;
+const TestCaseDirectory = ({ testcase, gconfig, project, user, loading, dispatch }) => {
+  const { projects, project_id } = project;
+  const { envList } = gconfig;
+  const { userList, userMap } = user;
   const {
-    directory, currentDirectory, testcases,
+    directory,
+    currentDirectory,
+    testcases,
     asserts,
     testData,
-    preConstructor, outParameters,
-    postConstructor, testResult, selectedRowKeys, pagination
+    preConstructor,
+    outParameters,
+    postConstructor,
+    testResult,
+    selectedRowKeys,
+    pagination,
   } = testcase;
   const [currentNode, setCurrentNode] = useState(null);
   const [rootModal, setRootModal] = useState(false);
@@ -125,12 +131,11 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
     if (auth.response(res)) {
       Modal.confirm({
         title: '用例正在后台执行, 去报告页面查看任务状态🔔',
-        icon: <QuestionCircleOutlined/>,
+        icon: <QuestionCircleOutlined />,
         onOk() {
           history.push(`/#/record/list`);
         },
-        onCancel() {
-        },
+        onCancel() {},
       });
     }
   };
@@ -141,7 +146,7 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
         <div>
           <Empty
             image={noResult}
-            imageStyle={{height: 90, width: 90, margin: '0 auto'}}
+            imageStyle={{ height: 90, width: 90, margin: '0 auto' }}
             description={
               <p>
                 还没有任何环境, 去<a href="/#/config/environment">添加一个</a>?
@@ -207,7 +212,7 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
       key: 'create_user',
       width: 160,
       ellipsis: true,
-      render: (create_user) => <UserLink user={userMap[create_user]}/>,
+      render: (create_user) => <UserLink user={userMap[create_user]} />,
     },
     {
       title: '更新时间',
@@ -224,14 +229,14 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
       render: (_, record) => (
         <>
           <a href={`/#/apiTest/testcase/${currentDirectory[0]}/${record.id}`}>详情</a>
-          <Divider type="vertical"/>
-          <Dropdown overlay={menu(record)}>
+          <Divider type="vertical" />
+          <Dropdown menu={{ menu: menu(record) }}>
             <a
               onClick={(e) => {
                 e.stopPropagation();
               }}
             >
-              执行 <DownOutlined/>
+              执行 <DownOutlined />
             </a>
           </Dropdown>
         </>
@@ -249,7 +254,7 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
     if (project_id) {
       dispatch({
         type: 'testcase/listTestcaseDirectory',
-        payload: {project_id, move: true},
+        payload: { project_id, move: true },
       });
     }
   };
@@ -304,7 +309,7 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
     });
     dispatch({
       type: 'testcase/save',
-      payload: {currentDirectory: []},
+      payload: { currentDirectory: [] },
     });
     // 把项目id写入localStorage
     localStorage.setItem('project_id', data.project_id);
@@ -327,7 +332,7 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
     if (record.id) {
       result = await dispatch({
         type: 'testcase/updateTestcaseDirectory',
-        payload: {...params, id: record.id},
+        payload: { ...params, id: record.id },
       });
     } else {
       result = await dispatch({
@@ -365,7 +370,7 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
   const onDeleteDirectory = async (key) => {
     const res = await dispatch({
       type: 'testcase/deleteTestcaseDirectory',
-      payload: {id: key},
+      payload: { id: key },
     });
     if (res) {
       listTestcaseTree();
@@ -391,16 +396,16 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
       // 新增目录
       setCurrentNode(node.key);
       setModalTitle('新增目录');
-      setRecord({name: ''});
+      setRecord({ name: '' });
       setRootModal(true);
     } else if (key === 2) {
-      setRecord({name: node.title.props.children[2], id: node.key});
+      setRecord({ name: node.title.props.children[2], id: node.key });
       setModalTitle('编辑目录');
       setRootModal(true);
     } else if (key === 3) {
       Modal.confirm({
         title: '你确定要删除这个目录吗?',
-        icon: <ExclamationCircleOutlined/>,
+        icon: <ExclamationCircleOutlined />,
         content: '删除后，目录下的case也将不再可见！！！',
         okText: '确定',
         okType: 'danger',
@@ -429,7 +434,7 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
       required: true,
       placeholder: '请选择要移动到的目录',
       type: 'select',
-      component: <TreeSelect treeData={directory} showSearch treeDefaultExpandAll/>,
+      component: <TreeSelect treeData={directory} showSearch treeDefaultExpandAll />,
     },
   ];
 
@@ -439,15 +444,15 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
     }
     const filter_project = projects.filter((p) => p.id === project_id);
     if (filter_project.length === 0) {
-      save({project_id: projects[0].id});
+      save({ project_id: projects[0].id });
       return projects[0];
     }
     return filter_project[0];
   };
 
   const layout = {
-    labelCol: {span: 8},
-    wrapperCol: {span: 16},
+    labelCol: { span: 8 },
+    wrapperCol: { span: 16 },
   };
 
   // menu
@@ -460,7 +465,7 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
             handleItemClick(2, node);
           }}
         >
-          <EditOutlined/> 编辑目录
+          <EditOutlined /> 编辑目录
         </a>
       </AMenu.Item>
       <AMenu.Item key="2" danger>
@@ -470,7 +475,7 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
             handleItemClick(3, node);
           }}
         >
-          <DeleteOutlined/> 删除目录
+          <DeleteOutlined /> 删除目录
         </a>
       </AMenu.Item>
     </AMenu>
@@ -482,12 +487,12 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
         className="directoryButton"
         onClick={() => {
           setRootModal(true);
-          setRecord({name: ''});
+          setRecord({ name: '' });
           setModalTitle('新建根目录');
           setCurrentNode(null);
         }}
       >
-        <PlusOutlined/>
+        <PlusOutlined />
       </a>
     </Tooltip>
   );
@@ -504,7 +509,7 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
         asserts: [],
         postConstructor: [],
         preConstructor: [],
-        outParameters: [{key: 0, source: 1}],
+        outParameters: [{ key: 0, source: 1 }],
         caseInfo: {},
         testData: {},
       },
@@ -519,12 +524,12 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
             onAddTestCase();
           }}
         >
-          <RocketOutlined/> 普通场景
+          <RocketOutlined /> 普通场景
         </a>
       </AMenu.Item>
       <AMenu.Item key="2">
         <a onClick={() => setRecorderModal(true)}>
-          <CameraTwoTone/> 录制场景
+          <CameraTwoTone /> 录制场景
           <Tag
             color="red"
             style={{
@@ -542,27 +547,27 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
   );
 
   const filterOutParameters = () => {
-    return outParameters.filter(v => {
+    return outParameters.filter((v) => {
       switch (v.source) {
         case 0:
         case 5:
-          return v.name && v.expression && v.match_index
+          return v.name && v.expression && v.match_index;
         case 1:
         case 2:
         case 3:
         case 6:
         case 7:
-          return v.name && v.expression
+          return v.name && v.expression;
         case 4:
-          return v.name
+          return v.name;
         default:
           return false;
       }
-    })
-  }
+    });
+  };
 
   const onSubmit = async () => {
-    const values = await addForm.validateFields()
+    const values = await addForm.validateFields();
     const params = {
       ...values,
       request_type: parseInt(values.request_type, 10),
@@ -573,26 +578,26 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
       request_headers: common.translateHeaders(headers),
       body: bodyType === 2 ? JSON.stringify(formData) : body,
     };
-    let tempData = []
-    Object.values(testData).forEach(v => {
-      tempData = tempData.concat(v)
-    })
+    let tempData = [];
+    Object.values(testData).forEach((v) => {
+      tempData = tempData.concat(v);
+    });
     const data = {
-      "case": params,
-      "asserts": asserts,
-      "data": tempData,
-      "constructor": [...preConstructor, ...postConstructor],
-      "out_parameters": filterOutParameters(),
-    }
+      case: params,
+      asserts: asserts,
+      data: tempData,
+      constructor: [...preConstructor, ...postConstructor],
+      out_parameters: filterOutParameters(),
+    };
     const res = await dispatch({
       type: 'testcase/createTestCase',
-      payload: data
-    })
+      payload: data,
+    });
     if (res) {
       setAddCaseVisible(false);
-      await listTestcase()
+      await listTestcase();
     }
-  }
+  };
 
   return (
     <PageContainer title={false} breadcrumb={null}>
@@ -626,8 +631,8 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
         />
       ) : (
         <Card
-          style={{height: '100%', minHeight: 600}}
-          bodyStyle={{padding: 0}}
+          style={{ height: '100%', minHeight: 600 }}
+          bodyStyle={{ padding: 0 }}
           bordered={false}
         >
           <Row>
@@ -644,18 +649,27 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
               formName="root"
             />
             <Drawer
-              bodyStyle={{padding: 0}}
+              bodyStyle={{ padding: 0 }}
               open={addCaseVisible}
               width={1300}
               title="添加场景用例"
               onClose={() => setAddCaseVisible(false)}
               maskClosable={false}
-              footer={<div style={{float: 'right'}}>
-                <Button type="primary" onClick={async () => {
-                  await onSubmit()
-                }}><SaveOutlined/> 提交</Button>
-                <Button style={{marginLeft: 8}}><PlayCircleOutlined/> 测试</Button>
-              </div>}
+              footer={
+                <div style={{ float: 'right' }}>
+                  <Button
+                    type="primary"
+                    onClick={async () => {
+                      await onSubmit();
+                    }}
+                  >
+                    <SaveOutlined /> 提交
+                  </Button>
+                  <Button style={{ marginLeft: 8 }}>
+                    <PlayCircleOutlined /> 测试
+                  </Button>
+                </div>
+              }
             >
               <AddTestCaseComponent
                 directory_id={currentDirectory[0]}
@@ -687,10 +701,10 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
               <ScrollCard className="card" hideOverflowX={true}>
                 <Row gutter={8}>
                   <Col span={24}>
-                    <div style={{height: 40, lineHeight: '40px'}}>
+                    <div style={{ height: 40, lineHeight: '40px' }}>
                       {editing ? (
                         <Select
-                          style={{marginLeft: 32, width: 150}}
+                          style={{ marginLeft: 32, width: 150 }}
                           showSearch
                           allowClear
                           placeholder="请选择项目"
@@ -698,7 +712,7 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
                           autoFocus={true}
                           onChange={(e) => {
                             if (e !== undefined) {
-                              save({project_id: e});
+                              save({ project_id: e });
                             }
                             setEditing(false);
                           }}
@@ -715,7 +729,7 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
                       ) : (
                         <div onClick={() => setEditing(true)}>
                           <Avatar
-                            style={{marginLeft: 8, marginRight: 6}}
+                            style={{ marginLeft: 8, marginRight: 6 }}
                             size="large"
                             src={getProject().avatar || CONFIG.PROJECT_AVATAR_URL}
                           />
@@ -730,7 +744,7 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
                             {getProject().name}
                           </span>
                           <Switch
-                            style={{marginLeft: 12, cursor: 'pointer', lineHeight: '40px'}}
+                            style={{ marginLeft: 12, cursor: 'pointer', lineHeight: '40px' }}
                             theme="outline"
                             size="16"
                             fill="#7ed321"
@@ -740,7 +754,7 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
                     </div>
                   </Col>
                 </Row>
-                <div style={{marginTop: 24}}>
+                <div style={{ marginTop: 24 }}>
                   <Spin spinning={loading.effects['testcase/listTestcaseDirectory']}>
                     {directory.length > 0 ? (
                       <SearchTree
@@ -768,7 +782,7 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
                             <a
                               onClick={() => {
                                 setRootModal(true);
-                                setRecord({name: ''});
+                                setRecord({ name: '' });
                                 setModalTitle('新建根目录');
                                 setCurrentNode(null);
                               }}
@@ -790,62 +804,62 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
                       <Row gutter={6}>
                         <Col span={8}>
                           <Form.Item label="用例名称" {...layout} name="name">
-                            <Input placeholder="输入用例名称"/>
+                            <Input placeholder="输入用例名称" />
                           </Form.Item>
                         </Col>
                         <Col span={8}>
                           <Form.Item label="创建人" {...layout} name="create_user">
-                            <UserSelect users={userList} placeholder="请选择创建用户"/>
+                            <UserSelect users={userList} placeholder="请选择创建用户" />
                           </Form.Item>
                         </Col>
                         <Col span={8}>
-                          <div style={{float: 'right'}}>
+                          <div style={{ float: 'right' }}>
                             <Button
                               type="primary"
                               onClick={async () => {
                                 await listTestcase();
                               }}
                             >
-                              <SearchOutlined/> 查询
+                              <SearchOutlined /> 查询
                             </Button>
                             <Button
-                              style={{marginLeft: 8}}
+                              style={{ marginLeft: 8 }}
                               onClick={async () => {
                                 form.resetFields();
                                 await listTestcase();
                               }}
                             >
-                              <ReloadOutlined/> 重置
+                              <ReloadOutlined /> 重置
                             </Button>
                           </div>
                         </Col>
                       </Row>
                     </Form>
-                    <Row gutter={8} style={{marginTop: 4}}>
+                    <Row gutter={8} style={{ marginTop: 4 }}>
                       <Col span={24}>
-                        <Dropdown overlay={AddCaseMenu} trigger="click">
+                        <Dropdown menu={{ items: AddCaseMenu }} trigger="click">
                           <Button type="primary">
-                            <PlusOutlined/> 新建场景
+                            <PlusOutlined /> 新建场景
                           </Button>
                         </Dropdown>
                         {selectedRowKeys.length > 0 ? (
-                          <Dropdown overlay={menu()} trigger={['hover']}>
+                          <Dropdown menu={{ menu: menu() }} trigger={['hover']}>
                             <Button
-                              style={{marginLeft: 8}}
-                              icon={<PlayCircleOutlined/>}
+                              style={{ marginLeft: 8 }}
+                              icon={<PlayCircleOutlined />}
                               onClick={(e) => {
                                 e.stopPropagation();
                               }}
                             >
-                              执行用例 <DownOutlined/>
+                              执行用例 <DownOutlined />
                             </Button>
                           </Dropdown>
                         ) : null}
                         {selectedRowKeys.length > 0 ? (
                           <Button
                             type="dashed"
-                            style={{marginLeft: 8}}
-                            icon={<ExportOutlined/>}
+                            style={{ marginLeft: 8 }}
+                            icon={<ExportOutlined />}
                             onClick={(e) => {
                               e.stopPropagation();
                               onMoveTestCase();
@@ -857,8 +871,8 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
                         {selectedRowKeys.length > 0 ? (
                           <Button
                             danger
-                            style={{marginLeft: 8}}
-                            icon={<DeleteOutlined/>}
+                            style={{ marginLeft: 8 }}
+                            icon={<DeleteOutlined />}
                             onClick={(e) => {
                               e.stopPropagation();
                               onDeleteTestcase();
@@ -869,7 +883,7 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
                         ) : null}
                       </Col>
                     </Row>
-                    <Row style={{marginTop: 16}}>
+                    <Row style={{ marginTop: 16 }}>
                       <Col span={24}>
                         <Table
                           columns={columns}
@@ -878,10 +892,10 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
                           pagination={pagination}
                           bordered
                           onChange={(pg) => {
-                            saveCase({pagination: {...pagination, current: pg.current}});
+                            saveCase({ pagination: { ...pagination, current: pg.current } });
                           }}
                           dataSource={testcases}
-                          scroll={{x: 1100}}
+                          scroll={{ x: 1100 }}
                           loading={
                             loading.effects['testcase/listTestcase'] ||
                             loading.effects['testcase/executeTestcase']
@@ -893,7 +907,7 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
                 ) : (
                   <Empty
                     image={emptyWork}
-                    imageStyle={{height: 230}}
+                    imageStyle={{ height: 230 }}
                     description="快选中左侧的目录畅享用例之旅吧~"
                   />
                 )}
@@ -906,7 +920,7 @@ const TestCaseDirectory = ({testcase, gconfig, project, user, loading, dispatch}
   );
 };
 
-export default connect(({testcase, gconfig, project, user, loading}) => ({
+export default connect(({ testcase, gconfig, project, user, loading }) => ({
   loading,
   gconfig,
   user,

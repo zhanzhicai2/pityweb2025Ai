@@ -1,0 +1,34 @@
+{
+  "session_id": "02cc794e-ede4-4910-a0b3-6a383fcaa4ad",
+  "transcript_path": "/Users/zhanzhicai/.claude/projects/-Users-zhanzhicai-Desktop-py-pity/02cc794e-ede4-4910-a0b3-6a383fcaa4ad.jsonl",
+  "cwd": "/Users/zhanzhicai/Desktop/py/pity/pityweb2025Ai",
+  "model": { "id": "MiniMax-M2.7", "display_name": "MiniMax-M2.7" },
+  "workspace": {
+    "current_dir": "/Users/zhanzhicai/Desktop/py/pity/pityweb2025Ai",
+    "project_dir": "/Users/zhanzhicai/Desktop/py/pity",
+    "added_dirs": []
+  },
+  "version": "2.1.77",
+  "output_style": { "name": "default" },
+  "cost": {
+    "total_cost_usd": 31.668611200000004,
+    "total_duration_ms": 497644200,
+    "total_api_duration_ms": 3679145,
+    "total_lines_added": 548,
+    "total_lines_removed": 470
+  },
+  "context_window": {
+    "total_input_tokens": 1485401,
+    "total_output_tokens": 96177,
+    "context_window_size": 200000,
+    "current_usage": {
+      "input_tokens": 336,
+      "output_tokens": 163,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 82726
+    },
+    "used_percentage": 42,
+    "remaining_percentage": 58
+  },
+  "exceeds_200k_tokens": false
+}

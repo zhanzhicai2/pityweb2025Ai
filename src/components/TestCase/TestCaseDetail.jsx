@@ -114,7 +114,7 @@ export default ({ caseId, userMap, setExecuteStatus, project, checkedKeys }) => 
         className={styles.inlineButton}
         type="primary"
         onClick={execute}
-        overlay={menu}
+        menu={{ menu }}
       >
         <PlayCircleOutlined /> 执行
       </Dropdown.Button>

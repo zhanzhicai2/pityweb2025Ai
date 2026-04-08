@@ -1,0 +1,249 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1775611102011,
+  "projectRoot": "/Users/zhanzhicai/Desktop/py/pity/pityweb2025Ai",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": ">=12.0.0",
+        "confidence": "high",
+        "markers": ["package.json"]
+      },
+      {
+        "name": "TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": ["tsconfig.json"]
+      },
+      {
+        "name": "JavaScript",
+        "version": null,
+        "confidence": "high",
+        "markers": ["jsconfig.json"]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "react",
+        "version": "18.0.0",
+        "category": "frontend"
+      },
+      {
+        "name": "react-dom",
+        "version": "18.0.0",
+        "category": "frontend"
+      },
+      {
+        "name": "express",
+        "version": "4.18.2",
+        "category": "backend"
+      },
+      {
+        "name": "jest",
+        "version": "29.2.2",
+        "category": "testing"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": "Node.js 12.0.0"
+  },
+  "build": {
+    "buildCommand": "npm run build",
+    "testCommand": "npm test",
+    "lintCommand": "npm run lint",
+    "devCommand": "npm run dev",
+    "scripts": {
+      "analyze": "cross-env ANALYZE=1 max build",
+      "build": "max build",
+      "deploy": "npm run build && npm run gh-pages",
+      "dev": "npm run start:dev",
+      "gh-pages": "gh-pages -d dist",
+      "i18n-remove": "pro i18n-remove --locale=zh-CN --write",
+      "postinstall": "max setup",
+      "jest": "jest",
+      "lint": "npm run lint:js && npm run lint:prettier && npm run tsc",
+      "lint-staged": "lint-staged",
+      "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx ",
+      "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src ",
+      "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
+      "lint:prettier": "prettier -c --write \"**/**.{js,jsx,tsx,ts,less,md,json}\" --end-of-line auto",
+      "openapi": "max openapi",
+      "prepare": "husky install",
+      "prettier": "prettier -c --write \"**/**.{js,jsx,tsx,ts,less,md,json}\"",
+      "preview": "npm run build && max preview --port 8000",
+      "record": "cross-env NODE_ENV=development REACT_APP_ENV=test max record --scene=login",
+      "serve": "umi-serve",
+      "start": "cross-env UMI_ENV=dev max dev",
+      "start:dev": "cross-env REACT_APP_ENV=dev MOCK=none UMI_ENV=dev max dev",
+      "start:no-mock": "cross-env MOCK=none UMI_ENV=dev max dev",
+      "start:pre": "cross-env REACT_APP_ENV=pre UMI_ENV=dev max dev",
+      "start:test": "cross-env REACT_APP_ENV=test MOCK=none UMI_ENV=dev max dev",
+      "test": "jest",
+      "test:coverage": "npm run jest -- --coverage",
+      "test:update": "npm run jest -- -u",
+      "tsc": "tsc --noEmit"
+    }
+  },
+  "conventions": {
+    "namingStyle": "camelCase",
+    "importStyle": "ES modules",
+    "testPattern": null,
+    "fileOrganization": "type-based"
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": ["public", "src", "tests"],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "config": {
+      "path": "config",
+      "purpose": "Configuration files",
+      "fileCount": 5,
+      "lastAccessed": 1775611101981,
+      "keyFiles": ["config.ts", "defaultSettings.ts", "oneapi.json", "proxy.ts", "routes.ts"]
+    },
+    "mock": {
+      "path": "mock",
+      "purpose": null,
+      "fileCount": 5,
+      "lastAccessed": 1775611101981,
+      "keyFiles": ["listTableList.ts", "notices.ts", "requestRecord.mock.js", "route.ts", "user.ts"]
+    },
+    "public": {
+      "path": "public",
+      "purpose": "Public files",
+      "fileCount": 10,
+      "lastAccessed": 1775611101986,
+      "keyFiles": ["CNAME", "api.svg", "assert.svg", "clean.svg", "data_driven.jpeg"]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 9,
+      "lastAccessed": 1775611101986,
+      "keyFiles": ["access.ts", "app.tsx", "global.less", "global.tsx", "loading.tsx"]
+    },
+    "tests": {
+      "path": "tests",
+      "purpose": "Test files",
+      "fileCount": 1,
+      "lastAccessed": 1775611101986,
+      "keyFiles": ["setupTests.jsx"]
+    },
+    "types": {
+      "path": "types",
+      "purpose": "Type definitions",
+      "fileCount": 1,
+      "lastAccessed": 1775611101987,
+      "keyFiles": ["index.d.ts"]
+    },
+    "src/assets": {
+      "path": "src/assets",
+      "purpose": "Static assets",
+      "fileCount": 9,
+      "lastAccessed": 1775611101988,
+      "keyFiles": ["LoadingFailed.svg", "NoData.svg", "NoPermission.svg"]
+    },
+    "src/components": {
+      "path": "src/components",
+      "purpose": "UI components",
+      "fileCount": 0,
+      "lastAccessed": 1775611101988,
+      "keyFiles": []
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "src/components/HeaderDropdown/index.tsx",
+      "accessCount": 7,
+      "lastAccessed": 1775612049163,
+      "type": "file"
+    },
+    {
+      "path": "src",
+      "accessCount": 6,
+      "lastAccessed": 1775611981737,
+      "type": "directory"
+    },
+    {
+      "path": "src/pages/ApiTest/TestCaseDirectory.jsx",
+      "accessCount": 5,
+      "lastAccessed": 1775611752182,
+      "type": "file"
+    },
+    {
+      "path": "src/consts/config.ts",
+      "accessCount": 3,
+      "lastAccessed": 1775611130451,
+      "type": "file"
+    },
+    {
+      "path": "src/components/NoticeIcon/index.jsx",
+      "accessCount": 3,
+      "lastAccessed": 1775611850155,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/ApiTest/TestCaseComponent.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1775611702325,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/ApiTest/TestCaseRecorder.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1775611717267,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/ApiTest/Project.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1775611723146,
+      "type": "file"
+    },
+    {
+      "path": "src/components/TestCase/Directory.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1775611781792,
+      "type": "file"
+    },
+    {
+      "path": "src/components/TestCase/TestCaseDetail.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1775611787283,
+      "type": "file"
+    },
+    {
+      "path": "src/components/Tree/SearchTree.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1775611792754,
+      "type": "file"
+    },
+    {
+      "path": "src/components/Postman/PostmanBody.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1775611798459,
+      "type": "file"
+    },
+    {
+      "path": "src/components/Postman/Postman.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1775611804018,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/account/center/components/Applications/index.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1775611809616,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

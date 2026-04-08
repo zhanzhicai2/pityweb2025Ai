@@ -550,7 +550,7 @@ const PostmanBody = ({
                 <Radio value={5}>GraphQL</Radio>
               </Radio.Group>
               {bodyType === 1 ? (
-                <Dropdown style={{ marginLeft: 8 }} overlay={menu} trigger={['click']}>
+                <Dropdown style={{ marginLeft: 8 }} menu={{ menu }} trigger={['click']}>
                   <a onClick={(e) => e.preventDefault()}>
                     {rawType} <DownOutlined />
                   </a>
