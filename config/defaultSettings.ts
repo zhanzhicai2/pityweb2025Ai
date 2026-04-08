@@ -12,23 +12,19 @@ const Settings: LayoutSettings & {
   backend?: boolean;
 } = {
   navTheme: 'light',
-  // 拂晓蓝
   colorPrimary: '#1677ff',
-  layout: 'side',
+  layout: 'mix',
   contentWidth: 'Fluid',
-  fixedHeader: false,
+  fixedHeader: true,
   fixSiderbar: true,
-  colorWeak: false,
-  title: '玩转接口测试',
   pwa: false,
   logo: '/logo.svg',
-  iconfontUrl: '//at.alicdn.com/t/font_915840_kom9s5w2t6k.js',
-  // apiUrl: 'localhost:8000',
-  // wssUrl: 'ws://localhost:8000',
   apiUrl: '127.0.0.1:7777',
   wssUrl: 'ws://127.0.0.1:7777',
   https: false,
   backend: true,
+  siderMenuType: 'sub',
+  splitMenus: false,
 };
 
 export default Settings;

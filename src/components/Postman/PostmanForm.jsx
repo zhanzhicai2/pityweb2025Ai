@@ -1,14 +1,14 @@
 import React from 'react';
-import {Card,} from 'antd';
-import {connect} from '@umijs/max';
-import PostmanBody from "@/components/Postman/PostmanBody";
+import { Card } from 'antd';
+import { connect } from '@umijs/max';
+import PostmanBody from '@/components/Postman/PostmanBody';
 
 const PostmanForm = (props) => {
   return (
-    <Card bordered={props.bordered}>
-      <PostmanBody {...props}/>
+    <Card variant={props.bordered ? 'bordered' : 'ghost'}>
+      <PostmanBody {...props} />
     </Card>
   );
 };
 
-export default connect(({gconfig}) => ({gconfig}))(PostmanForm);
+export default connect(({ gconfig }) => ({ gconfig }))(PostmanForm);

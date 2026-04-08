@@ -275,7 +275,7 @@ export default ({ loading, treeData, fetchData, projectData, userMap }) => {
       <Row style={{ marginTop: -8 }}>
         <Col span={8}>
           <Card
-            bodyStyle={{ padding: 12, minHeight: 800, maxHeight: 800, overflowY: 'auto' }}
+            styles={{ body: { padding: 12, minHeight: 800, maxHeight: 800, overflowY: 'auto' } }}
             style={{ border: 'none' }}
           >
             <ProfessionalTree
@@ -296,7 +296,7 @@ export default ({ loading, treeData, fetchData, projectData, userMap }) => {
         <Col span={16}>
           <Card
             style={{ marginTop: -8, borderRight: 'none', borderBottom: 'none', borderTop: 'none' }}
-            bodyStyle={{ padding: 12, minHeight: 800, maxHeight: 800, overflowY: 'auto' }}
+            styles={{ body: { padding: 12, minHeight: 800, maxHeight: 800, overflowY: 'auto' } }}
           >
             {RenderView(mode)}
           </Card>

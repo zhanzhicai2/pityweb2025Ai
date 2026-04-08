@@ -174,7 +174,7 @@ const Workspace = ({ user, dispatch }) => {
                 <strong>关注中的测试计划</strong> ({followPlan.length}个)
               </div>
             }
-            bodyStyle={{ minHeight: 400 }}
+            styles={{ body: { minHeight: 400 } }}
           >
             <Row gutter={8}>
               {followPlan.length === 0 ? (
@@ -206,7 +206,7 @@ const Workspace = ({ user, dispatch }) => {
                         <Row gutter={24}>
                           <Col span={8}>
                             <ChartCard
-                              bordered={false}
+                              variant="ghost"
                               title="最近一次评分"
                               action={
                                 <Tooltip title="通过率越高，评分越高哦~">
@@ -261,7 +261,7 @@ const Workspace = ({ user, dispatch }) => {
                           </Col>
                           <Col span={8}>
                             <ChartCard
-                              bordered={false}
+                              variant="ghost"
                               title={`${item.report[0].start_at}`}
                               action={
                                 <Tooltip title="最近一次执行通过率">
@@ -275,7 +275,7 @@ const Workspace = ({ user, dispatch }) => {
                           </Col>
                           <Col span={8}>
                             <ChartCard
-                              bordered={false}
+                              variant="ghost"
                               title="近7次通过率(%)"
                               action={
                                 <Tooltip title="最近7次通过率">

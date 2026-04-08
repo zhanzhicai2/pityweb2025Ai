@@ -244,7 +244,7 @@ const SqlOnline = ({
         <Col span={8} style={{ display: 'table-cell' }}>
           <Card
             title="数据库列表"
-            bodyStyle={{ height: leftHeight || 676, overflowY: 'auto' }}
+            styles={{ body: { height: leftHeight || 676, overflowY: 'auto' } }}
             size="small"
           >
             <DirectoryTree
@@ -267,7 +267,7 @@ const SqlOnline = ({
         </Col>
         <Col span={16} style={{ display: 'table-cell' }}>
           <Card
-            bodyStyle={{ height: cardHeight || 288, overflowY: 'auto', padding: 0 }}
+            styles={{ body: { height: cardHeight || 288, overflowY: 'auto', padding: 0 } }}
             title={
               currentDatabase !== null ? (
                 <span>
@@ -308,7 +308,9 @@ const SqlOnline = ({
           </Card>
           <Card
             style={{ marginTop: 12 }}
-            bodyStyle={{ height: tableHeight || 370, overflowY: 'auto', padding: '8px 24px' }}
+            styles={{
+              body: { height: tableHeight || 370, overflowY: 'auto', padding: '8px 24px' },
+            }}
           >
             <Tabs defaultActiveKey="1">
               <TabPane
@@ -331,7 +333,7 @@ const SqlOnline = ({
                     dataSource={testResults}
                     size="small"
                     scroll={{ x: sqlColumns.length > 8 ? 2000 : 1000, y: 190 }}
-                    bordered={true}
+                    variant="bordered"
                     pagination={pagination}
                     onChange={(pg) =>
                       setPagination({

@@ -259,18 +259,18 @@ export default [
       },
     ],
   },
-  {
-    path: '/ci',
-    icon: 'icon-CI',
-    name: '持续集成',
-    component: './Building',
-  },
-  {
-    path: '/precise',
-    icon: 'icon-jingzhun',
-    name: '精准测试',
-    component: './Building',
-  },
+  // {
+  //   path: '/ci',
+  //   icon: 'icon-CI',
+  //   name: '持续集成',
+  //   component: './Building',
+  // },
+  // {
+  //   path: '/precise',
+  //   icon: 'icon-jingzhun',
+  //   name: '精准测试',
+  //   component: './Building',
+  // },
   {
     path: '/datafactory',
     icon: 'icon-hebingxingzhuang',
