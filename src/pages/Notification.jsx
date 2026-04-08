@@ -61,7 +61,7 @@ const Notification = ({ user, dispatch }) => {
   };
 
   return (
-    <PageContainer breadcrumb={null} title="消息中心">
+    <PageContainer breadcrumb={null} title={false}>
       <Modal
         title={title}
         open={visible}

@@ -272,7 +272,7 @@ const GConfig = ({ gconfig, user, loading, dispatch }) => {
   };
 
   return (
-    <PageContainer title="全局变量" breadcrumb={null}>
+    <PageContainer title={false} breadcrumb={null}>
       <Card>
         <FormForModal
           fields={fields}

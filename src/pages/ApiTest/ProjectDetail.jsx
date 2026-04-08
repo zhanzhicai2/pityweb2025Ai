@@ -48,22 +48,7 @@ export default () => {
   }, []);
 
   return authority ? (
-    <PageContainer
-      breadcrumb={null}
-      title={
-        <PageHeader
-          className={styles.sitePageHeader}
-          onBack={() => {
-            window.history.back();
-          }}
-          title={
-            <span>
-              <Avatar src={projectData.avatar || CONFIG.PROJECT_AVATAR_URL} /> {projectData.name}
-            </span>
-          }
-        />
-      }
-    >
+    <PageContainer breadcrumb={null} title={false}>
       <Card styles={{ body: { padding: '8px 18px' } }}>
         <Tabs defaultActiveKey="1">
           <TabPane tab="成员列表" key="1">

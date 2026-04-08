@@ -329,7 +329,7 @@ const Postman = ({ loading: gloading, gconfig, dispatch }) => {
   };
 
   return (
-    <PageContainer title="在线HTTP测试工具" breadcrumb={null}>
+    <PageContainer title={false} breadcrumb={null}>
       <Card>
         <Row gutter={[8, 8]}>
           <Col span={18}>

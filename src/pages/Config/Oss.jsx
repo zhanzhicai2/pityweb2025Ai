@@ -132,7 +132,7 @@ const Oss = ({ loading, dispatch, gconfig, user }) => {
   }, []);
 
   return (
-    <PageContainer title="OSS文件管理" breadcrumb={null}>
+    <PageContainer title={false} breadcrumb={null}>
       <Card>
         <Modal
           width={600}

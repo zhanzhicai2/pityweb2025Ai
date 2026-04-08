@@ -18,6 +18,7 @@ const Settings: LayoutSettings & {
   fixedHeader: true,
   fixSiderbar: true,
   pwa: false,
+  title: '冲击波',
   logo: '/logo.svg',
   apiUrl: '127.0.0.1:7777',
   wssUrl: 'ws://127.0.0.1:7777',

@@ -162,6 +162,7 @@ const Workspace = ({ user, dispatch }) => {
 
   return (
     <PageContainer
+      title={false}
       content={getContent(currentUser)}
       breadcrumb={null}
       extraContent={<ExtraContent />}

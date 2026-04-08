@@ -161,16 +161,16 @@
   },
   "hotPaths": [
     {
+      "path": "src",
+      "accessCount": 17,
+      "lastAccessed": 1775619562406,
+      "type": "directory"
+    },
+    {
       "path": "src/app.tsx",
       "accessCount": 15,
       "lastAccessed": 1775615824763,
       "type": "file"
-    },
-    {
-      "path": "src",
-      "accessCount": 14,
-      "lastAccessed": 1775615705736,
-      "type": "directory"
     },
     {
       "path": "src/pages/ApiTest/TestCaseDirectory.jsx",
@@ -191,6 +191,42 @@
       "type": "file"
     },
     {
+      "path": "src/pages/ApiTest/ProjectDetail.jsx",
+      "accessCount": 7,
+      "lastAccessed": 1775619956382,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/ApiTest/TestCaseRecorder.jsx",
+      "accessCount": 6,
+      "lastAccessed": 1775619938193,
+      "type": "file"
+    },
+    {
+      "path": "config/defaultSettings.ts",
+      "accessCount": 5,
+      "lastAccessed": 1775616234309,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/Manager/UserList.jsx",
+      "accessCount": 5,
+      "lastAccessed": 1775619142435,
+      "type": "file"
+    },
+    {
+      "path": "src/components/Postman/Postman.jsx",
+      "accessCount": 5,
+      "lastAccessed": 1775619587206,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/Dashboard/Workspace.jsx",
+      "accessCount": 5,
+      "lastAccessed": 1775619870223,
+      "type": "file"
+    },
+    {
       "path": "src/pages/account/center/components/Applications/index.jsx",
       "accessCount": 4,
       "lastAccessed": 1775615475168,
@@ -203,15 +239,15 @@
       "type": "file"
     },
     {
-      "path": "src/components/Postman/Postman.jsx",
-      "accessCount": 4,
-      "lastAccessed": 1775615521500,
-      "type": "file"
-    },
-    {
       "path": "src/components/TestCase/Directory.jsx",
       "accessCount": 4,
       "lastAccessed": 1775615538150,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/Notification.jsx",
+      "accessCount": 4,
+      "lastAccessed": 1775619631059,
       "type": "file"
     },
     {
@@ -233,27 +269,27 @@
       "type": "file"
     },
     {
-      "path": "src/pages/ApiTest/ProjectDetail.jsx",
-      "accessCount": 3,
-      "lastAccessed": 1775615402014,
-      "type": "file"
-    },
-    {
       "path": "src/pages/datafactory/help.jsx",
       "accessCount": 3,
       "lastAccessed": 1775615564729,
       "type": "file"
     },
     {
-      "path": "src/pages/Dashboard/Workspace.jsx",
+      "path": "config/routes.ts",
       "accessCount": 3,
-      "lastAccessed": 1775615570566,
+      "lastAccessed": 1775617918372,
       "type": "file"
     },
     {
-      "path": "src/pages/ApiTest/TestCaseRecorder.jsx",
-      "accessCount": 2,
-      "lastAccessed": 1775611717267,
+      "path": "src/global.less",
+      "accessCount": 3,
+      "lastAccessed": 1775619320126,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/TableList/index.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1775619864592,
       "type": "file"
     },
     {
@@ -272,18 +308,6 @@
       "path": "src/components/Tree/SearchTree.jsx",
       "accessCount": 2,
       "lastAccessed": 1775611792754,
-      "type": "file"
-    },
-    {
-      "path": "config/defaultSettings.ts",
-      "accessCount": 2,
-      "lastAccessed": 1775612723760,
-      "type": "file"
-    },
-    {
-      "path": "src/pages/Notification.jsx",
-      "accessCount": 2,
-      "lastAccessed": 1775615363053,
       "type": "file"
     },
     {
@@ -335,15 +359,81 @@
       "type": "file"
     },
     {
-      "path": "config/routes.ts",
-      "accessCount": 1,
-      "lastAccessed": 1775612895680,
+      "path": "config/config.ts",
+      "accessCount": 2,
+      "lastAccessed": 1775616610687,
       "type": "file"
     },
     {
-      "path": "config/config.ts",
-      "accessCount": 1,
-      "lastAccessed": 1775612935342,
+      "path": "config",
+      "accessCount": 2,
+      "lastAccessed": 1775617906778,
+      "type": "directory"
+    },
+    {
+      "path": "src/pages/Tool/RedisOnline.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1775619637114,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/Statistics.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1775619642830,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/Config/Database.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1775619648771,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/Config/Redis.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1775619685380,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/Config/Environment.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1775619691205,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/Config/SystemConfig.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1775619697160,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/Config/Address.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1775619703652,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/Config/GConfig.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1775619740923,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/Config/UserList.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1775619746928,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/Config/Oss.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1775619753038,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/EnvironmentReact17.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1775619875882,
       "type": "file"
     },
     {
@@ -356,6 +446,18 @@
       "path": "src/components/Postman/FormData.jsx",
       "accessCount": 1,
       "lastAccessed": 1775615673821,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/Admin.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775619593018,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/ApiTest/TestPlan.jsx",
+      "accessCount": 1,
+      "lastAccessed": 1775619841815,
       "type": "file"
     }
   ],

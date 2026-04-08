@@ -176,7 +176,7 @@ const TableList: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
+    <PageContainer title={false}>
       <ProTable<API.RuleListItem, API.PageParams>
         headerTitle="查询表格"
         actionRef={actionRef}

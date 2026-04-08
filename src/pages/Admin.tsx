@@ -5,7 +5,7 @@ import React from 'react';
 
 const Admin: React.FC = () => {
   return (
-    <PageContainer content="此页面只有 admin 权限才能查看">
+    <PageContainer title={false}>
       <Card>
         <Alert
           message="更快更强的重型组件，已经发布。"

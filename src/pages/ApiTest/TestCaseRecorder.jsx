@@ -167,14 +167,7 @@ const TestCaseRecorder = ({ dispatch, project, recorder, testcase, loading }) =>
   );
 
   return (
-    <PageContainer
-      breadcrumb={null}
-      title={
-        <span className="ant-page-header-heading-title">
-          用例录制 <CameraOne theme="outline" size="18" fill="#7ed321" strokeLinecap="square" />{' '}
-        </span>
-      }
-    >
+    <PageContainer breadcrumb={null} title={false}>
       <Alert
         message="由于录制代理CPU负荷过高，暂时先关闭此功能～🍑"
         style={{ marginBottom: 16 }}
