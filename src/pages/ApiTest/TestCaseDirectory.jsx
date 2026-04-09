@@ -840,7 +840,7 @@ const TestCaseDirectory = ({ testcase, gconfig, project, user, loading, dispatch
                     </Form>
                     <Row gutter={8} style={{ marginTop: 4 }}>
                       <Col span={24}>
-                        <Dropdown menu={{ items: AddCaseMenu }} trigger="click">
+                        <Dropdown overlay={AddCaseMenu} trigger="click">
                           <Button type="primary">
                             <PlusOutlined /> 新建场景
                           </Button>
