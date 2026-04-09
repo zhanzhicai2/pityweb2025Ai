@@ -128,12 +128,15 @@ const TestCaseDirectory = ({ testcase, gconfig, project, user, loading, dispatch
         env,
       },
     });
+    console.log('res.code:', res.code, 'auth.response:', auth.response(res));
     if (auth.response(res)) {
       Modal.confirm({
         title: '用例正在后台执行, 去报告页面查看任务状态🔔',
         icon: <QuestionCircleOutlined />,
         onOk() {
-          history.push(`/#/record/list`);
+          // window.location.hash = '/record/list';
+          window.location.hash = '/record/list';
+          // history.push(`/#/record/list`);
         },
         onCancel() {},
       });
