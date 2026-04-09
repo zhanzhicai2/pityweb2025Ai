@@ -45,6 +45,64 @@ export default [
     ],
   },
   {
+    path: '/ai',
+    name: 'AI管理',
+    icon: 'Robot',
+    authority: ['superAdmin', 'admin'],
+    routes: [
+      {
+        path: '/ai/chat',
+        name: 'AI对话',
+        component: './AiChat',
+      },
+      {
+        path: '/ai/config',
+        name: 'LLM配置',
+        component: './LlmConfig',
+      },
+    ],
+  },
+  // {
+  //   path: '/ai-app',
+  //   name: 'AI智能化',
+  //   icon: 'Robot',
+  //   authority: ['superAdmin', 'admin'],
+  //   routes: [
+  //     {
+  //       path: '/ai-app/generate',
+  //       name: 'AI生成用例',
+  //       component: './Ai/GenerateCase',
+  //     },{
+  //       path: '/ai-app/batch',
+  //       name: '批量生成',
+  //       component: './Ai/BatchGenerate',
+  //     },
+  //     {
+  //       path: '/ai-app/enhance',
+  //       name: '增强断言',
+  //       component: './Ai/EnhanceAsserts',
+  //     },
+  //     {
+  //       path: '/ai-app/requirement',
+  //       name: '需求文档管理',
+  //       component: './Ai/Requirement',
+  //     },
+  //   ],
+  // },
+  // {
+  //   path: '/notification',
+  //   name: '通知管理',
+  //   icon: 'notification',
+  //   authority: ['superAdmin', 'admin'],
+  //   component: './Notification',
+  // },
+  // {
+  //   path: '/openapi',
+  //   name: 'OpenAPI导入',
+  //   icon: 'api',
+  //   component: './OpenAPI',
+  // },
+  {
     path: '/account/settings',
     name: '个人设置',
     component: './account/settings',
@@ -150,6 +208,12 @@ export default [
         path: '/apiTest/testplan',
         name: '测试计划',
         component: './ApiTest/TestPlan',
+      },
+      {
+        path: '/apiTest/openapi',
+        name: 'OpenAPI导入',
+        icon: 'api',
+        component: './OpenAPI',
       },
     ],
   },

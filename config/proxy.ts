@@ -61,6 +61,10 @@ export default {
       target: 'http://0.0.0.0:7777',
       changeOrigin: true,
     },
+    '/import/': {
+      target: 'http://0.0.0.0:7777',
+      changeOrigin: true,
+    },
     '/ai/': {
       target: 'http://0.0.0.0:7777',
       changeOrigin: true,

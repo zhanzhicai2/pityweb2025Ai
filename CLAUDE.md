@@ -55,6 +55,28 @@ npx tsc --noEmit         # 仅类型检查
 - `recorder.js` — 用例录制
 - `gconfig.js` — 全局配置
 
+### 获取项目列表
+
+**推荐方式**：使用 dva model 全局状态
+
+```javascript
+import { useModel } from '@umijs/max';
+
+const { projects } = useModel('project'); // 直接获取项目数组
+```
+
+**备选方式**：直接调用 service
+
+```javascript
+import { listProject } from '@/services/project';
+
+// 注意：listProject 返回的 res.data 是数组，不是 {list: [], total: ''} 对象
+const res = await listProject({ page: 1, size: 10000 });
+if (auth.response(res)) {
+  const projects = Array.isArray(res.data) ? res.data : [];
+}
+```
+
 ### 路由
 
 定义在 `config/routes.ts`。路由使用懒加载（字符串组件路径如 `'./ApiTest/TestCaseDirectory'`）。通过 `authority` 属性控制角色访问。详情/编辑页从菜单隐藏 (`hideInMenu: true`)。
