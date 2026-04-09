@@ -57,6 +57,20 @@ export default {
       target: 'http://0.0.0.0:7777',
       changeOrigin: true,
     },
+    '/llm/': {
+      target: 'http://0.0.0.0:7777',
+      changeOrigin: true,
+    },
+    '/ai/': {
+      target: 'http://0.0.0.0:7777',
+      changeOrigin: true,
+      configure: (proxy, options) => {
+        proxy.on('proxyRes', (proxyRes, req, res) => {
+          // SSE 需要关闭缓冲
+          res.setHeader('X-Accel-Buffering', 'no');
+        });
+      },
+    },
   },
   /**
    * @name 详细的代理配置
