@@ -57,15 +57,25 @@ npx tsc --noEmit         # 仅类型检查
 
 ### 获取项目列表
 
-**推荐方式**：使用 dva model 全局状态
+**推荐方式**：使用自定义 hooks（Phase X 新页面采用）
+
+```javascript
+import { useProject } from '@/utils/useProject';
+
+const { projects } = useProject(); // 内部自动调 API 加载数据
+```
+
+> 原因：`useModel('project')` 依赖 dva model 初始化时机，新页面用此方式可能导致 projects 为 undefined。`useProject` hook 直接调 service，不依赖 dva model 状态。
+
+**旧方式**：使用 dva model 全局状态
 
 ```javascript
 import { useModel } from '@umijs/max';
 
-const { projects } = useModel('project'); // 直接获取项目数组
+const { projects } = useModel('project'); // 需要 model 已初始化才能拿到数据
 ```
 
-**备选方式**：直接调用 service
+**直接调用 service**：备选方式
 
 ```javascript
 import { listProject } from '@/services/project';
