@@ -354,6 +354,11 @@ export default [
         name: '测试报告',
         component: './PhaseX/Report',
       },
+      {
+        path: '/phasex/execution',
+        name: '执行记录',
+        component: './PhaseX/Execution',
+      },
     ],
   },
   {
