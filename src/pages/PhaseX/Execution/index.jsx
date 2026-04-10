@@ -3,13 +3,13 @@ import { Card, Table, Tag, Typography, Select, Space, Button, Badge, Drawer } fr
 import React, { useEffect, useState } from 'react';
 import { listPhaseXExecution, getPhaseXExecution } from '@/services/phasex';
 import auth from '@/utils/auth';
-import { useModel } from '@umijs/max';
+import { useProject } from '@/utils/useProject';
 
 const { Text } = Typography;
 const { Option } = Select;
 
 const PhaseXExecutionPage = () => {
-  const { projects = [] } = useModel('project');
+  const { projects } = useProject();
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);

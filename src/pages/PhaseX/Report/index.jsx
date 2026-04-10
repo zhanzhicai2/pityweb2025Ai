@@ -3,13 +3,13 @@ import { Card, Table, Tag, Typography, Row, Col, Progress, Select, Space, Badge 
 import React, { useEffect, useState } from 'react';
 import { listPhaseXReport } from '@/services/phasex';
 import auth from '@/utils/auth';
-import { useModel } from '@umijs/max';
+import { useProject } from '@/utils/useProject';
 
 const { Text } = Typography;
 const { Option } = Select;
 
 const PhaseXReportPage = () => {
-  const { projects = [] } = useModel('project');
+  const { projects } = useProject();
   const [reports, setReports] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);

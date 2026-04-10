@@ -19,13 +19,13 @@ import { listScenario } from '@/services/scenario';
 import { listCase } from '@/services/case_v2';
 import PhaseXDrawer from './PhaseXDrawer';
 import auth from '@/utils/auth';
-import { useModel } from '@umijs/max';
+import { useProject } from '@/utils/useProject';
 
 const { Text } = Typography;
 const { Option } = Select;
 
 const PhaseXPage = () => {
-  const { projects = [] } = useModel('project');
+  const { projects } = useProject();
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);

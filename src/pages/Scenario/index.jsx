@@ -17,13 +17,13 @@ import { listScenario, deleteScenario } from '@/services/scenario';
 import ScenarioDrawer from './ScenarioDrawer';
 import ScenarioStepDrawer from './ScenarioStepDrawer';
 import auth from '@/utils/auth';
-import { useModel } from '@umijs/max';
+import { useProject } from '@/utils/useProject';
 
 const { Text } = Typography;
 const { Option } = Select;
 
 const ScenarioPage = () => {
-  const { projects = [] } = useModel('project');
+  const { projects } = useProject();
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
