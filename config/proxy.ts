@@ -65,6 +65,22 @@ export default {
       target: 'http://0.0.0.0:7777',
       changeOrigin: true,
     },
+    '/mock/': {
+      target: 'http://0.0.0.0:7777',
+      changeOrigin: true,
+    },
+    '/monitor/': {
+      target: 'http://0.0.0.0:7777',
+      changeOrigin: true,
+    },
+    '/case/v2/': {
+      target: 'http://0.0.0.0:7777',
+      changeOrigin: true,
+    },
+    '/phasex/': {
+      target: 'http://0.0.0.0:7777',
+      changeOrigin: true,
+    },
     '/ai/': {
       target: 'http://0.0.0.0:7777',
       changeOrigin: true,

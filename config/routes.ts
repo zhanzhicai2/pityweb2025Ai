@@ -60,6 +60,11 @@ export default [
         name: 'LLM配置',
         component: './LlmConfig',
       },
+      {
+        path: '/ai/task',
+        name: '用例生成',
+        component: './AiTask',
+      },
     ],
   },
   // {
@@ -296,13 +301,60 @@ export default [
         component: './Manager/UserList',
         authority: ['superAdmin'],
       },
+      {
+        path: '/system/monitor',
+        name: '系统监控',
+        component: './Monitor',
+        authority: ['superAdmin'],
+      },
     ],
   },
   {
     path: '/mock',
     icon: 'Api',
     name: 'Mock配置',
-    component: './Building',
+    component: './Mock',
+  },
+  {
+    path: '/caseV2',
+    icon: 'Solution',
+    name: '动态模板',
+    routes: [
+      {
+        path: '/caseV2/list',
+        name: '模板用例',
+        component: './CaseV2',
+      },
+    ],
+  },
+  {
+    path: '/scenario',
+    icon: 'ShareAlt',
+    name: '场景流程',
+    routes: [
+      {
+        path: '/scenario/list',
+        name: '场景管理',
+        component: './Scenario',
+      },
+    ],
+  },
+  {
+    path: '/phasex',
+    icon: 'PlayCircle',
+    name: 'Phase X测试',
+    routes: [
+      {
+        path: '/phasex/plan',
+        name: '测试计划',
+        component: './PhaseX',
+      },
+      {
+        path: '/phasex/report',
+        name: '测试报告',
+        component: './PhaseX/Report',
+      },
+    ],
   },
   {
     path: '/tool',
