@@ -9,7 +9,7 @@ const { Text } = Typography;
 const { Option } = Select;
 
 const PhaseXExecutionPage = () => {
-  const { projects } = useModel('project');
+  const { projects = [] } = useModel('project');
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
