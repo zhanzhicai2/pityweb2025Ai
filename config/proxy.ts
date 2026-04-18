@@ -73,6 +73,10 @@ export default {
       target: 'http://0.0.0.0:7777',
       changeOrigin: true,
     },
+    '/rag/': {
+      target: 'http://0.0.0.0:7777',
+      changeOrigin: true,
+    },
     '/case/v2/': {
       target: 'http://0.0.0.0:7777',
       changeOrigin: true,

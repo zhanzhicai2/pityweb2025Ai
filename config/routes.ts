@@ -65,6 +65,11 @@ export default [
         name: '用例生成',
         component: './AiTask',
       },
+      {
+        path: '/ai/knowledge',
+        name: '知识库',
+        component: './KnowledgeBase',
+      },
     ],
   },
   // {
