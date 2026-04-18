@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { InboxOutlined, Modal, Upload, message } from 'antd';
+import { Modal, Upload, message } from 'antd';
+import { InboxOutlined } from '@ant-design/icons';
 import { uploadDocument } from '../services';
 import auth from '@/utils/auth';
-
-const { Dragger } = Upload;
 
 export default function DocumentUpload({ visible, currentKB, onSuccess, onCancel }) {
   const [fileList, setFileList] = useState([]);
@@ -70,19 +69,31 @@ export default function DocumentUpload({ visible, currentKB, onSuccess, onCancel
       width={600}
       destroyOnClose
     >
-      <Dragger
+      <Upload
         multiple
         accept=".pdf,.docx,.md,.txt"
         fileList={fileList}
         beforeUpload={beforeUpload}
         onRemove={handleRemove}
+        showUploadList={{ showPreviewIcon: false, showRemoveIcon: true }}
       >
-        <p style={{ fontSize: 48, color: '#1677ff', marginBottom: 8 }}>
-          <InboxOutlined />
-        </p>
-        <p>点击或拖拽文件到此区域上传</p>
-        <p style={{ color: '#999', fontSize: 12 }}>支持 PDF、DOCX、Markdown、TXT 格式</p>
-      </Dragger>
+        <div
+          style={{
+            padding: '40px 20px',
+            textAlign: 'center',
+            border: '1px dashed #d9d9d9',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            background: '#fafafa',
+          }}
+        >
+          <p style={{ fontSize: '48px', color: '#1677ff', marginBottom: 8 }}>
+            <InboxOutlined />
+          </p>
+          <p>点击或拖拽文件到此区域上传</p>
+          <p style={{ color: '#999', fontSize: 12 }}>支持 PDF、DOCX、Markdown、TXT 格式</p>
+        </div>
+      </Upload>
     </Modal>
   );
 }

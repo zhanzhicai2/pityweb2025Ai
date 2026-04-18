@@ -1,62 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Dropdown, Empty, Input, List } from 'antd';
+import { Avatar, Button, Col, Dropdown, Input, Row, Select, Space } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined } from '@ant-design/icons';
-
-export default function KnowledgeBaseList({
-  list,
-  currentId,
-  loading,
-  onSelect,
-  onEdit,
-  onDelete,
-  onCreate,
-}) {
-  const [searchText, setSearchText] = useState('');
-
-  const filteredList = list.filter((item) =>
-    item.name?.toLowerCase().includes(searchText.toLowerCase()),
-  );
-
-  return (
-    <div style={{ padding: 12 }}>
-      <Input.Search
-        placeholder="搜索知识库"
-        value={searchText}
-        onChange={(e) => setSearchText(e.target.value)}
-        style={{ marginBottom: 8 }}
-        allowClear
-      />
-      <Button
-        type="primary"
-        icon={<PlusOutlined />}
-        block
-        onClick={onCreate}
-        style={{ marginBottom: 12 }}
-      >
-        新建知识库
-      </Button>
-
-      {filteredList.length === 0 ? (
-        <Empty description="暂无知识库" image={Empty.PRESENTED_IMAGE_SIMPLE} />
-      ) : (
-        <List
-          loading={loading}
-          dataSource={filteredList}
-          renderItem={(item) => (
-            <KnowledgeBaseItem
-              key={item.id}
-              item={item}
-              active={item.id === currentId}
-              onSelect={onSelect}
-              onEdit={onEdit}
-              onDelete={onDelete}
-            />
-          )}
-        />
-      )}
-    </div>
-  );
-}
+import CONFIG from '@/consts/config';
 
 function KnowledgeBaseItem({ item, active, onSelect, onEdit, onDelete }) {
   const [hovered, setHovered] = useState(false);
@@ -106,9 +51,6 @@ function KnowledgeBaseItem({ item, active, onSelect, onEdit, onDelete }) {
         >
           {item.name}
         </div>
-        <div style={{ fontSize: 12, color: '#999', marginTop: 2 }}>
-          {item.document_count || 0} 篇文档
-        </div>
       </div>
       {(hovered || active) && (
         <Dropdown menu={{ items: menuItems }} trigger={['click']}>
@@ -118,6 +60,89 @@ function KnowledgeBaseItem({ item, active, onSelect, onEdit, onDelete }) {
           />
         </Dropdown>
       )}
+    </div>
+  );
+}
+
+export default function KnowledgeBaseList({
+  list,
+  currentId,
+  loading,
+  projects,
+  currentProjectId,
+  onProjectChange,
+  onSelect,
+  onEdit,
+  onDelete,
+  onCreate,
+}) {
+  const [searchText, setSearchText] = useState('');
+
+  const filteredList = list.filter((item) =>
+    item.name?.toLowerCase().includes(searchText.toLowerCase()),
+  );
+
+  return (
+    <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      {/* 第一行：项目头像 + 项目下拉 + 配置 */}
+      <div style={{ padding: '1px 6px', borderBottom: '1px solid #f0f0f0' }}>
+        <Row gutter={4} align="middle">
+          <Col flex="none">
+            <Avatar size={38} src={CONFIG.PROJECT_AVATAR_URL} />
+            <Select
+              value={currentProjectId}
+              onChange={onProjectChange}
+              style={{ width: 'auto', maxWidth: 130, minWidth: 80 }}
+              placeholder="选择项目"
+            >
+              {projects?.map((p) => (
+                <Select.Option key={p.id} value={p.id}>
+                  {p.name}
+                </Select.Option>
+              ))}
+            </Select>
+          </Col>
+          <Col flex="none" span={4}>
+            <Button disabled style={{}}>
+              配置
+            </Button>
+          </Col>
+        </Row>
+      </div>
+
+      {/* 第二行：搜索 + 新建按钮 */}
+      <div style={{ padding: '12px 16px', borderBottom: '1px solid #f0f0f0' }}>
+        <Space size="small" style={{ width: '100%' }}>
+          <Input.Search
+            placeholder="搜索知识库"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            style={{ flex: 1 }}
+            allowClear
+          />
+          <Button type="primary" icon={<PlusOutlined />} onClick={onCreate} />
+        </Space>
+      </div>
+
+      {/* 第三行：知识库列表 */}
+      <div style={{ flex: 1, overflow: 'auto', padding: '12px 16px' }}>
+        {filteredList.length > 0 ? (
+          filteredList.map((item) => (
+            <KnowledgeBaseItem
+              key={item.id}
+              item={item}
+              active={item.id === currentId}
+              onSelect={onSelect}
+              onEdit={onEdit}
+              onDelete={onDelete}
+            />
+          ))
+        ) : (
+          <div style={{ textAlign: 'center', padding: '40px 0', color: '#999' }}>
+            还没有知识库，<a onClick={onCreate}>点击创建</a>个吧~
+          </div>
+        )}
+      </div>
     </div>
   );
 }

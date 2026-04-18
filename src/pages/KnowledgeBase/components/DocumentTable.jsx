@@ -1,6 +1,12 @@
 import React from 'react';
-import { Badge, Button, Checkbox, Empty, Input, Popconfirm, Space, Table, Tag } from 'antd';
-import { UploadOutlined, ReloadOutlined, SearchOutlined, UndoOutlined } from '@ant-design/icons';
+import { Badge, Button, Empty, Input, Popconfirm, Space, Table, Tag } from 'antd';
+import {
+  UploadOutlined,
+  ReloadOutlined,
+  SearchOutlined,
+  UndoOutlined,
+  SettingOutlined,
+} from '@ant-design/icons';
 import moment from 'moment';
 
 const FILE_TYPE_COLORS = {
@@ -30,9 +36,7 @@ export default function DocumentTable({
   loading,
   stats,
   searchKeyword,
-  searchAll,
   onSearchKeywordChange,
-  onSearchAllChange,
   onSearch,
   onReset,
   onUpload,
@@ -120,56 +124,39 @@ export default function DocumentTable({
 
   return (
     <div style={{ padding: 16 }}>
-      {/* 知识库信息栏 */}
-      <div style={{ marginBottom: 12, borderBottom: '1px solid #f0f0f0', paddingBottom: 12 }}>
-        <h3 style={{ margin: 0 }}>{currentKB.name}</h3>
-        {currentKB.description && (
-          <div style={{ color: '#999', fontSize: 13, marginTop: 4 }}>{currentKB.description}</div>
-        )}
-        <div style={{ marginTop: 8 }}>
-          <Space>
-            <Tag>文档: {stats.total}</Tag>
-            <Tag color="green">已处理: {stats.ready}</Tag>
-            {stats.error > 0 && <Tag color="red">失败: {stats.error}</Tag>}
-          </Space>
-        </div>
-      </div>
-
-      {/* 操作栏 */}
+      {/* 操作栏 - 匹配草图布局 */}
       <div
         style={{
           display: 'flex',
           justifyContent: 'space-between',
-          marginBottom: 12,
+          alignItems: 'center',
+          marginBottom: 16,
           flexWrap: 'wrap',
-          gap: 8,
+          gap: 12,
         }}
       >
-        <Space>
+        <Space size="middle">
           <Input.Search
             placeholder="搜索文档关键词"
             value={searchKeyword}
             onChange={(e) => onSearchKeywordChange(e.target.value)}
             onSearch={() => onSearch(searchKeyword)}
-            style={{ width: 220 }}
+            style={{ width: 260 }}
             allowClear
           />
-          <Checkbox checked={searchAll} onChange={(e) => onSearchAllChange(e.target.checked)}>
-            搜索全部知识库
-          </Checkbox>
-        </Space>
-        <Space>
-          <Button icon={<UploadOutlined />} onClick={onUpload}>
-            上传文档
-          </Button>
-          <Button icon={<ReloadOutlined />} onClick={onRefresh}>
-            刷新
-          </Button>
-          <Button type="primary" icon={<SearchOutlined />} onClick={() => onSearch(searchKeyword)}>
+          <Button icon={<SearchOutlined />} onClick={() => onSearch(searchKeyword)}>
             查询
           </Button>
           <Button icon={<UndoOutlined />} onClick={onReset}>
             重置
+          </Button>
+        </Space>
+        <Space size="middle">
+          <Button icon={<SettingOutlined />} onClick={onRefresh}>
+            刷新
+          </Button>
+          <Button type="primary" icon={<UploadOutlined />} onClick={onUpload}>
+            上传文档
           </Button>
         </Space>
       </div>
@@ -183,6 +170,7 @@ export default function DocumentTable({
         size="small"
         bordered
         pagination={{ pageSize: 20, showTotal: (t) => `共 ${t} 条` }}
+        locale={{ emptyText: '还没有上传文档或者在项目中创建知识库' }}
       />
     </div>
   );
