@@ -123,7 +123,7 @@ export default function DocumentTable({
   ];
 
   return (
-    <div style={{ padding: 16 }}>
+    <div>
       {/* 操作栏 */}
       <div
         style={{
@@ -132,7 +132,7 @@ export default function DocumentTable({
           alignItems: 'center',
           marginBottom: 12,
           flexWrap: 'wrap',
-          gap: 12,
+          // gap: 12,
         }}
       >
         <Space size="middle">
