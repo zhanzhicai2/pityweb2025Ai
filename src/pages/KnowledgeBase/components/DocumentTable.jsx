@@ -1,5 +1,5 @@
 import React from 'react';
-import { Badge, Button, Empty, Input, Popconfirm, Space, Table, Tag } from 'antd';
+import { Badge, Button, Empty, Input, Popconfirm, Space, Table, Tag, Tooltip } from 'antd';
 import {
   UploadOutlined,
   ReloadOutlined,
@@ -19,7 +19,7 @@ const FILE_TYPE_COLORS = {
 const STATUS_MAP = {
   pending: { text: '待处理', status: 'warning' },
   processing: { text: '处理中', status: 'processing' },
-  ready: { text: '就绪', status: 'success' },
+  ready: { text: '已完成', status: 'success' },
   error: { text: '错误', status: 'error' },
 };
 
@@ -124,13 +124,13 @@ export default function DocumentTable({
 
   return (
     <div style={{ padding: 16 }}>
-      {/* 操作栏 - 匹配草图布局 */}
+      {/* 操作栏 */}
       <div
         style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginBottom: 16,
+          marginBottom: 12,
           flexWrap: 'wrap',
           gap: 12,
         }}
@@ -159,6 +159,54 @@ export default function DocumentTable({
             上传文档
           </Button>
         </Space>
+      </div>
+
+      {/* 描述和状态统计 */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 16,
+          marginBottom: 12,
+          padding: '8px 12px',
+          background: '#fafafa',
+          borderRadius: 4,
+          flexWrap: 'wrap',
+        }}
+      >
+        {currentKB?.description ? (
+          <Tooltip title={currentKB.description}>
+            <span
+              style={{
+                flex: 1,
+                minWidth: 200,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              描述：{currentKB.description}
+            </span>
+          </Tooltip>
+        ) : (
+          <span style={{ color: '#999' }}>暂无描述</span>
+        )}
+        <span style={{ color: '#d9d9d9' }}>|</span>
+        <span>📄 {stats?.total || 0}</span>
+        <Badge status="success" />
+        <span>已完成 {stats?.ready || 0}</span>
+        <Badge status="warning" />
+        <span>
+          待处理{' '}
+          {(stats?.total || 0) -
+            (stats?.ready || 0) -
+            (stats?.processing || 0) -
+            (stats?.error || 0)}
+        </span>
+        <Badge status="processing" />
+        <span>处理中 {stats?.processing || 0}</span>
+        <Badge status="error" />
+        <span>错误 {stats?.error || 0}</span>
       </div>
 
       {/* 文档表格 */}

@@ -23,8 +23,9 @@ export default function useKnowledgeBase(projectId) {
       if (auth.response(res)) {
         const data = res.data || [];
         setList(data);
-        if (currentId && !data.find((item) => item.id === currentId)) {
-          setCurrentId(null);
+        // 自动选择第一个知识库
+        if (data.length > 0) {
+          setCurrentId(data[0].id);
         }
       }
     } catch (e) {
@@ -32,9 +33,11 @@ export default function useKnowledgeBase(projectId) {
     } finally {
       setLoading(false);
     }
-  }, [projectId, currentId]);
+  }, [projectId]);
 
   useEffect(() => {
+    // 切换项目时重置当前选中的知识库
+    setCurrentId(null);
     fetchList();
   }, [projectId]);
 
