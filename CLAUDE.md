@@ -210,6 +210,12 @@ Dropdown 组件的 `menu` prop 在 v5 中期望 config 对象，传递 React 组
 
 // ❌ 错误
 <Dropdown menu={<Menu>...</Menu>}>
+
+// ✅ 正确
+<PageContainer title={false} breadcrumb={null}>
+
+// ❌ 错误
+<PageContainer  breadcrumb={{}}>
 ```
 
 ### 前端显示原则
@@ -244,13 +250,18 @@ const value = editor.aceEditor.editor.getSelectedText(); // 可能报错
 4. 后端 FastAPI 应用的根目录在 `../backend/`。
 5. 路由 icon 使用 Ant Design Icon 名称（如 `dashboard`、`api`、`tool`）。
 
+## 开发阶段
+
+- [x] Phase 1-5: 后端全部完成
+- [ ] Phase 11: 前端集成 AI（进行中）
+
 ## Phase 开发流程
 
 每个 Phase 开发遵循以下流程：
 
 ### 开始 Phase
 
-1. 在 `/Users/zhanzhicai/Desktop/Obsidian_one/AI学习笔记/pity/frontend` 创建 Phase 计划文档
+1. 在 `/Users/zhanzhicai/Desktop/Obsidian_one/AI学习笔记/pity/frontend/pityweb2025Ai` 创建 Phase 计划文档
 2. 文档命名格式：`PhaseX_功能名称实施记录.md`
 
 ### 开发过程中
