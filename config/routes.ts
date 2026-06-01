@@ -133,14 +133,25 @@ export default [
   {
     path: '/project',
     name: '项目管理',
-    icon: ' P',
-    component: './ApiTest/Project',
-  },
-  {
-    path: '/project/:id',
-    hideInMenu: true,
-    name: '项目详情',
-    component: './ApiTest/ProjectDetail',
+    icon: 'P',
+    routes: [
+      {
+        path: '/project/list',
+        name: '项目列表',
+        component: './ApiTest/Project',
+      },
+      {
+        path: '/project/requirement',
+        name: '需求文档',
+        component: './Requirement',
+      },
+      {
+        path: '/project/:id',
+        hideInMenu: true,
+        name: '项目详情',
+        component: './ApiTest/ProjectDetail',
+      },
+    ],
   },
   // {
   //   path: '/uiTest',

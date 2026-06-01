@@ -16,7 +16,6 @@ export default {
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },
-    // 代理所有后端API请求
     '/auth/': {
       target: 'http://0.0.0.0:7777',
       changeOrigin: true,
@@ -85,23 +84,21 @@ export default {
       target: 'http://0.0.0.0:7777',
       changeOrigin: true,
     },
+    '/requirement/': {
+      target: 'http://0.0.0.0:7777',
+      changeOrigin: true,
+    },
     '/ai/': {
       target: 'http://0.0.0.0:7777',
       changeOrigin: true,
-      configure: (proxy, options) => {
+      configure: (proxy) => {
         proxy.on('proxyRes', (proxyRes, req, res) => {
-          // SSE 需要关闭缓冲
           res.setHeader('X-Accel-Buffering', 'no');
         });
       },
     },
   },
-  /**
-   * @name 详细的代理配置
-   * @doc https://github.com/chimurai/http-proxy-middleware
-   */
   test: {
-    // localhost:8000/api/** -> https://preview.pro.ant.design/api/**
     '/api/': {
       target: 'https://proapi.azurewebsites.net',
       changeOrigin: true,

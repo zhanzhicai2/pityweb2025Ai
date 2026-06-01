@@ -18,6 +18,7 @@ import {
 import {
   AliwangwangOutlined,
   DeleteTwoTone,
+  EllipsisOutlined,
   ExclamationCircleOutlined,
   QuestionCircleOutlined,
   SearchOutlined,
@@ -183,7 +184,7 @@ const Project = ({ dispatch, project, loading }) => {
             e.stopPropagation();
           }}
         >
-          <IconFont type="icon-more1" style={{ cursor: 'pointer' }} />
+          <EllipsisOutlined style={{ cursor: 'pointer' }} />
         </Dropdown>
       </span>
     </div>

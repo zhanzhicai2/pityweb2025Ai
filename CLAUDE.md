@@ -236,11 +236,38 @@ const value = editor?.aceEditor?.editor?.getSelectedText();
 
 // ❌ 不使用可选链
 const value = editor.aceEditor.editor.getSelectedText(); // 可能报错
+
+// ❌ 错误使用
+useEffect(() => {
+  fetchData();
+}, [fetchData]);
+
+// 你需要立即判断：
+// 1. fetchData 是否用 useCallback 包裹了？
+// 2. 如果没有，这会导致无限请求循环
+// 3. 这是 AI 最常犯的 React 错误之一
+// ✅ 使用可选链
+const fetchData = useCallback(async () => {
+  const res = await api.getData(params);
+  setData(res);
+}, [params]);
+useEffect(() => {
+  fetchData();
+}, [fetchData]);
 ```
 
 ### 问题解决原则
 
 发现问题后，先解释清楚**原因**，再给出**解决方案**，让用户理解问题所在。
+
+### 常见问题排查
+
+| 问题 | 原因 | 解决方案 |
+| --- | --- | --- |
+| `缺少参数: token` | UmiJS 代理路径错误或 `pityToken` 未存入 localStorage | 检查 `config/proxy.ts` 是否包含对应前缀，确认用户已登录 |
+| `缺少参数: requirement_id`（文件上传） | `auth.headers()` 默认加 `Content-Type: application/json`，FastAPI 无法解析 multipart | 改用 `auth.headers(false)` 跳过 JSON content-type |
+| 后端返回 `code: 0` 但前端数据为空 | 后端返回 `data: []`，前端可能用 `res.data?.list` 取值 | 按后端实际返回结构取值，本项目后端直接返回 `data` 数组 |
+| 左侧列表不更新 | `currentId` 未重置或 `fetchList` 依赖项遗漏 | 切换项目时 `setCurrentId(null)` 并清空文件列表 |
 
 ## 重要规则
 
@@ -254,6 +281,55 @@ const value = editor.aceEditor.editor.getSelectedText(); // 可能报错
 
 - [x] Phase 1-5: 后端全部完成
 - [ ] Phase 11: 前端集成 AI（进行中）
+
+## 工作方式
+
+### 模式选择
+
+| 模式         | 命令                 | 说明                                    |
+| ------------ | -------------------- | --------------------------------------- |
+| **严格模式** | "pity 前端：" + 任务 | 触发 pity-frontend-patterns，按规范执行 |
+| **直接模式** | "直接模式" + 任务    | 不触发技能，自由发挥                    |
+
+### 严格模式
+
+```
+"pity 前端：帮我创建用户列表页面"
+"Pity frontend：用 TDD 写前端测试"
+"pity React 组件开发"
+```
+
+严格模式下**必须包含 "pity" 关键字**才会触发 `pity-frontend-patterns`：
+
+- Ant Design Pro Components 模式
+- umi-request + auth.headers() 请求模式
+- dva + hooks 混合状态管理
+- 可选链 `?.` 原则
+
+### 直接模式
+
+```
+"直接模式：帮我看看这个组件"
+"直接模式：快速修复这个样式"
+```
+
+不触发技能，快速响应。
+
+> ⚠️ **触发条件**：必须说 "pity 前端"、"Pity frontend"、"pity React" 等包含 "pity"、"前端"关键字才会激活专属技能
+
+### AI 开发工作流
+
+本项目使用 **Superpowers + gstack** 双技能套件组合工作流，详细说明见父项目 `../CLAUDE.md`：
+
+- `Superpowers:brainstorming` — 构思
+- `Superpowers:writing-plans` — 写计划
+- `gstack:/autoplan` — 多视角审核
+- `Superpowers:subagent-driven-development` — 子智能体开发
+- `Superpowers:test-driven-development` — TDD 测试（Jest）
+- `gstack:/qa` — 真实浏览器端到端验证（Playwright）
+- `gstack:/review` — 代码审查
+- `gstack:/ship` — 发布流水线
+- `gstack:/canary` — 上线后监控
 
 ## Phase 开发流程
 
